@@ -1,14 +1,14 @@
 # Getting Start
 
 ## 1. Setting Up `.env` Files
-- Go to directory `archeolojiMain`.
+- Go to directory `archaeologyMain`.
 - Create `.env`
 ```sh
 SECRET_KEY = "YourSpeacialKey"
 ```
 ## 2. Setting up Docker & Migrations & Create Super User
 
-- You must the be directory `archeolojiMain`
+- You must the be directory `archaeologyMain`
 
 ```sh
 docker-compose build
