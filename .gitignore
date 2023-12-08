@@ -1,0 +1,5 @@
+.env
+archeolojiMain/data/
+archeolojiMain/Uploads/
+archeolojiMain/archeolojiMain/__pycache__/
+archeolojiMain/archeolojyFirst/migrations/
