@@ -1,0 +1,52 @@
+/* Login Screen Start*/
+
+.head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-card {
+  padding: 30px;
+  background: rgb(10, 61, 62);
+  border-radius: 15px 15px;
+  width: 450px;
+}
+
+/* Login Screen End */
+
+/* 404 Page Start */
+.page_404 img {
+  width: 100%;
+}
+
+.four_zero_four_bg {
+  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+  height: 400px;
+  background-position: center;
+  border-radius: 15px 15px;
+}
+
+.four_zero_four_bg h1 {
+  font-size: 80px;
+}
+
+.four_zero_four_bg h3 {
+  font-size: 80px;
+}
+
+.link_404 {
+  color: #fff !important;
+  padding: 10px 20px;
+  background: #39ac31;
+  margin: 20px 0;
+  display: inline-block;
+  border-radius: 15px 15px;
+  text-decoration: none;
+}
+
+.contant_box_404 {
+  margin-top: -50px;
+}
+/* 404 Page End */
