@@ -28,7 +28,7 @@ def get_index(request: HttpRequest) -> RedirectOrResponse:
                 login(request, userLogin)
 
                 # Message Success
-                messages.success(request, f'"Login Correct! Welcome {request.user.username}!"')
+                messages.success(request, f'Login Correct! Welcome {request.user.username}!')
                 return redirect('dashboard')
             else:
 
