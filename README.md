@@ -11,8 +11,16 @@ SECRET_KEY = "YourSpeacialKey"
 - Setup the virtualenv!
   - `pip install virtualenv`
 - Go to directory `archaeologyMain`
-  - `virtualenv animated-octo-winner`
-  - `source bin/activate`
+```sh
+    virtualenv animated-octo-winner
+```
+  - Run the virtualenv
+```sh
+source bin/activate
+```
+- Now your are in virtualenv 🚀
+- If you want the deactivate virtualenv
+  - Write the console `deactivate`
 
 ## 3. Setting up Docker & Migrations & Create Super User
 
