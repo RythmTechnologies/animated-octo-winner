@@ -88,14 +88,14 @@
                     <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> Yönetim Paneli</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
+            <form class="d-flex align-items-center" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success d-inline-flex align-items-center ms-1 me-1" id="darkModeToggle"><i class="fa-solid fa-moon"></i> / 
+                <i class="fa-solid fa-sun"></i></button>
+        
             </form>
-            <div class="ms-1">
-                <button class="btn btn-outline-success" id="darkModeToggle"><i class="fa-solid fa-moon"></i> / <i
-                        class="fa-solid fa-sun"></i></button>
-            </div>
+      
 
 
             {% if request.user.is_authenticated %}
