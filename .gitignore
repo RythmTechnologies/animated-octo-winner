@@ -1,6 +1,4 @@
 .env
 archaeologyMain/data/
 archaeologyMain/Uploads/
-bin/
-lib/
-pyvenv.cfg
+venv/
