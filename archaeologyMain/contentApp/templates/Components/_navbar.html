@@ -1,0 +1,110 @@
+<nav class="navbar navbar-expand-lg bg-dark-subtle">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Tavşanlı Höyük 2023</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/dashboard' %}
+              active
+            {% endif %}" aria-current="page" href="#"><i class="fa-solid fa-house"></i>
+                        Anasayfa</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if request.path == '' %}
+              active
+            {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Buluntu</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#"> Buluntu Ekle</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Buluntu Listele</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Envanter Listele</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Etütlük Listele</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Analiz Listele</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if request.path == '' %}
+              active
+            {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Rapor</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#"> Rapor Ekle</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Rapor Listele</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if request.path == '' %}
+              active
+            {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Evrak Yönetimi</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#"> Evrak Ekle</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Evrak Listele</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if request.path == '' %}
+              active
+            {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Demirbaş</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#"> Demirbaş Ekle</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Demirbaş Listele</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if request.path == '' %}
+              active
+            {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> İstatistik</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#"> İstatistik Oluştur</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> Yönetim Paneli</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <div class="ms-1">
+                <button class="btn btn-outline-success" id="darkModeToggle"><i class="fa-solid fa-moon"></i> / <i
+                        class="fa-solid fa-sun"></i></button>
+            </div>
+
+
+            {% if request.user.is_authenticated %}
+
+            <div class="ms-1">
+                <a href="#"><button class="btn btn-outline-danger">Çıkış</button></a>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</nav>

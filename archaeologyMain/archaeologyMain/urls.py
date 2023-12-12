@@ -18,13 +18,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include, re_path
 from contentApp.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', get_index, name='homepage'),
-
-    
+    path('site/', include('contentApp.urls')),
+    re_path(r'^.*/$', get_notFound, name='404'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block site-title %}
+404 Not Found
+{% endblock site-title %}
+
+
+{% block site-content %}
+<div class="container">
+    <div class="row justify-content-center">
+            <div class="col-md-9 m-auto mt-5">
+                <div class="col-md-6 text-center m-auto">
+                    <div class="four_zero_four_bg">
+                        <h1 class="text-center">404</h1>
+
+
+                    </div>
+
+                    <div class="contant_box_404">
+                        <h3 class="h2">
+                            Look like you're lost
+                        </h3>
+
+                        <p>the page you are looking for not avaible!</p>
+
+                        <a href="{% url 'dashboard' %}" class="link_404">Go to Home</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock site-content %}
