@@ -19,10 +19,19 @@
             {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Buluntu</a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" href="#"> Menu Item</a>
+                            <a class="dropdown-item" href="#"> Buluntu Ekle</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#"> Menu Item</a>
+                            <a class="dropdown-item" href="#"> Buluntu Listele</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Envanter Listele</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Etütlük Listele</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"> Analiz Listele</a>
                         </li>
                     </ul>
                 </li>
@@ -76,9 +85,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == '' %}
-                active
-            {% endif %}" href="#"><i class="fa-solid fa-calculator"></i> Yönetim Paneli</a>
+                    <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> Yönetim Paneli</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
