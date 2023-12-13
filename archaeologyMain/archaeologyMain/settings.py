@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'userApp',
     'contentApp',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,14 @@ TEMPLATES = [
         },
     },
 ]
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [
+            {'name': 'codesnippet', 'items': ['CodeSnippet']},
+        ],
+    },
+}
 
 WSGI_APPLICATION = 'archaeologyMain.wsgi.application'
 
