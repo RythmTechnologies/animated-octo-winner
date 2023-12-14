@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mb-2 mb-lg-0" id="ul-items">
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/dashboard' %}
               active
@@ -85,16 +85,25 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> Yönetim Paneli</a>
+                    <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> <span>Yönetim Paneli</span>  </a>
                 </li>
             </ul>
-            <form class="d-flex align-items-center" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-                <button class="btn btn-outline-success d-inline-flex align-items-center ms-1 me-1" id="darkModeToggle"><i class="fa-solid fa-moon"></i> / 
+            <form class="d-flex align-items-center" role="search" style="flex: 1;">
+
+
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Ara" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                  </div>
+              
+            
+                <button class="btn btn-outline-success d-inline-flex align-items-center ms-1 me-1" id="darkModeToggle"><i class="fa-solid fa-moon"></i>
+                    <span class="indepent"> / </span>
                 <i class="fa-solid fa-sun"></i></button>
         
-            </form>
+
       
 
 
@@ -104,7 +113,11 @@
                 <a href="#"><button class="btn btn-outline-danger">Çıkış</button></a>
             </div>
             {% endif %}
+            
+            </form>
+
 
         </div>
     </div>
 </nav>
+

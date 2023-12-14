@@ -50,3 +50,18 @@
   margin-top: -50px;
 }
 /* 404 Page End */
+
+
+/* nav */
+#ul-items li.nav-item a {
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+.indepent {
+  width: 15px;
+  font-weight: 700;
+}
