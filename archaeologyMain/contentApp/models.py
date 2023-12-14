@@ -42,7 +42,7 @@ class CompanyInfo(models.Model):
 
     def __str__(self) -> str:
         return self.companyName
-    
+
 
 # Demirbaş Bilgi Modelidir
 class FixtureInfo(models.Model):
@@ -57,21 +57,25 @@ class FixtureInfo(models.Model):
     def __str__(self) -> str:
         return self.fixture
 
-#Buluntu Yeri Açma Rapor İçin
+
+# Buluntu Yeri Açma Rapor İçin
 class BuluntuYeri(models.Model):
     name = models.CharField(("Buluntu Yeri"), max_length=150)
 
     def __str__(self) -> str:
         return self.name
 
-#Acma Rapor
+
+# Acma Rapor
 class AcmaRapor(models.Model):
-    user = models.ForeignKey(SiteUser, verbose_name=("Veri Giren"), on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        SiteUser, verbose_name=("Veri Giren"), on_delete=models.CASCADE
+    )
     daily = models.BooleanField(("Günlük"), default=False)
     weekly = models.BooleanField(("Haftalık"), default=False)
-    fifteenday = models.BooleanField(("15 Günlük"), default = False)
+    fifteenday = models.BooleanField(("15 Günlük"), default=False)
     monthly = models.BooleanField(("Aylık"), default=True)
-    closing = models.BooleanField(("Kapanış"), default = True)
+    closing = models.BooleanField(("Kapanış"), default=True)
     placebuluntu = models.ManyToManyField(BuluntuYeri, verbose_name=("Buluntu Yeri"))
     rapordate = models.DateField(("Rapor Tarihi"), auto_now=False, auto_now_add=False)
     title = models.CharField(("Başlık"), max_length=150)
@@ -80,16 +84,21 @@ class AcmaRapor(models.Model):
     def __str__(self) -> str:
         return self.title
 
+
 class AcmaRaporDetail(models.Model):
-    rapor = models.OneToOneField(AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE)
+    rapor = models.OneToOneField(
+        AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE
+    )
     rapordetail = RichTextField(("Rapor Detay"))
 
     def __str__(self) -> str:
         return self.rapor
-    
+
 
 class AcmaRaporFileUpload(models.Model):
-    rapor = models.OneToOneField(AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE)
+    rapor = models.OneToOneField(
+        AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE
+    )
     file = models.FileField(("Evrak Yükleme"), upload_to="raporfiles", max_length=100)
 
     def __str__(self) -> str:
@@ -97,37 +106,59 @@ class AcmaRaporFileUpload(models.Model):
 
 
 class DocumentCreateModel(models.Model):
-    incomingdoc = models.BooleanField(("Gelen Evrak"), default = False)
-    outgoingdoc = models.BooleanField(("Giden Evrak"), default = False)
-    amount = models.BooleanField(("Tutanak"), default = False)
-    high = models.BooleanField(("Yüksek"), default = False)
-    middle = models.BooleanField(("Orta"), default = False)
-    low = models.BooleanField(("Düşük"), default = False)
+    incomingdoc = models.BooleanField(("Gelen Evrak"), default=False)
+    outgoingdoc = models.BooleanField(("Giden Evrak"), default=False)
+    amount = models.BooleanField(("Tutanak"), default=False)
+    high = models.BooleanField(("Yüksek"), default=False)
+    middle = models.BooleanField(("Orta"), default=False)
+    low = models.BooleanField(("Düşük"), default=False)
     docno = models.CharField(("Evrak No"), max_length=150)
     docdate = models.DateField(("Evrak Tarihi"), auto_now=False, auto_now_add=False)
     doccount = models.IntegerField(("Evrak Sayisi"))
     relevantunit = models.CharField(("İlgili Birim"), max_length=150)
     relevantinstitution = models.CharField(("İlgili Kurum"), max_length=150)
     docsubject = models.CharField(("Evrak Konusu"), max_length=150)
-    user = models.OneToOneField(SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
+    )
 
     def __str__(self) -> str:
         return self.docsubject
-    
+
+
 class DocumentUploadModel(models.Model):
-    document = models.OneToOneField(DocumentCreateModel, verbose_name=("İlgili Döküman"), on_delete=models.CASCADE)
+    document = models.OneToOneField(
+        DocumentCreateModel, verbose_name=("İlgili Döküman"), on_delete=models.CASCADE
+    )
     files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
 
     def __str__(self) -> str:
         return self.document
 
+
 class RaporDetail(models.Model):
-    document = models.OneToOneField(DocumentCreateModel, verbose_name=("İlgili Döküman"), on_delete=models.CASCADE)
+    document = models.OneToOneField(
+        DocumentCreateModel, verbose_name=("İlgili Döküman"), on_delete=models.CASCADE
+    )
     detail = RichTextField(("Rapor Detay"))
-    
+
     def __str__(self) -> str:
         return self.document
-    
+
+
+# Demirbaş Bilgi Modelidir
+class FixtureInfo(models.Model):
+    fixture = models.ForeignKey(
+        Fixture, verbose_name=("Demirbaş"), on_delete=models.CASCADE
+    )
+    fixtureFile = models.FileField(
+        ("Demirbaş Alım Belgesi"), upload_to="fixture", max_length=100
+    )
+    fixtureDescription = RichTextField(("Demirbaş Açıklama"), max_length=900)
+
+    def __str__(self) -> str:
+        return self.fixture
+
 
 """
 Aşağıdaki modeller buluntu kayıt form genel bilgiler'i kapsar
