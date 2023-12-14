@@ -42,6 +42,45 @@ class CompanyInfo(models.Model):
 
     def __str__(self) -> str:
         return self.companyName
+    
+
+#Buluntu Yeri Açma Rapor İçin
+class BuluntuYeri(models.Model):
+    name = models.CharField(("Buluntu Yeri"), max_length=150)
+
+    def __str__(self) -> str:
+        return self.name
+
+#Acma Rapor
+class AcmaRapor(models.Model):
+    user = models.ForeignKey(SiteUser, verbose_name=("Veri Giren"), on_delete=models.CASCADE)
+    daily = models.BooleanField(("Günlük"), default=False)
+    weekly = models.BooleanField(("Haftalık"), default=False)
+    fifteenday = models.BooleanField(("15 Günlük"), default = False)
+    monthly = models.BooleanField(("Aylık"), default=True)
+    closing = models.BooleanField(("Kapanış"), default = True)
+    placebuluntu = models.ManyToManyField(BuluntuYeri, verbose_name=("Buluntu Yeri"))
+    rapordate = models.DateField(("Rapor Tarihi"), auto_now=False, auto_now_add=False)
+    title = models.CharField(("Başlık"), max_length=150)
+    owner = models.CharField(("Formu Dolduran"), max_length=150)
+
+    def __str__(self) -> str:
+        return self.title
+
+class AcmaRaporDetail(models.Model):
+    rapor = models.OneToOneField(AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE)
+    rapordetail = RichTextField(("Rapor Detay"))
+
+    def __str__(self) -> str:
+        return self.rapor
+    
+
+class AcmaRaporFileUpload(models.Model):
+    rapor = models.OneToOneField(AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE)
+    file = models.FileField(("Evrak Yükleme"), upload_to="raporfiles", max_length=100)
+
+    def __str__(self) -> str:
+        return self.rapor
 
 
 # Demirbaş Bilgi Modelidir
