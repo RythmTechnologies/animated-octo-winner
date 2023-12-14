@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'userApp',
     'contentApp',
     'ckeditor',
+    'colorfield'
 ]
 
 MIDDLEWARE = [
@@ -73,13 +74,13 @@ TEMPLATES = [
     },
 ]
 
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': [
-            {'name': 'codesnippet', 'items': ['CodeSnippet']},
-        ],
-    },
-}
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': [
+#             {'name': 'codesnippet', 'items': ['CodeSnippet']},
+#         ],
+#     },
+# }
 
 WSGI_APPLICATION = 'archaeologyMain.wsgi.application'
 
@@ -137,6 +138,9 @@ AUTH_USER_MODEL = "userApp.SiteUser"
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+
 MEDIA_URL = 'Uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Uploads/')
 

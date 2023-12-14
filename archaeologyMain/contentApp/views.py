@@ -52,6 +52,13 @@ def get_dashboard(request: HttpRequest) -> HttpResponse:
 # Dashboard End
 
 
+# add buluntu starts
+def set_buluntu(request: HttpRequest) -> HttpResponse:
+    return render(request, 'Buluntu/create.html')
+
+
+# ends
+
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:
     return render(request, '404page.html')
