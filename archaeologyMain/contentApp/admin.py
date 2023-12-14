@@ -5,3 +5,7 @@ from .models import *
 admin.site.register(Fixture)
 admin.site.register(CompanyInfo)
 admin.site.register(FixtureInfo)
+admin.site.register(SetGeneralBuluntu)
+admin.site.register(BuluntuAlani)
+admin.site.register(BuluntuTypes)
+admin.site.register(BuluntuPeriod)
