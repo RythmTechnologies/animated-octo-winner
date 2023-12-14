@@ -22,7 +22,10 @@
 
 <body>
 
-    {% include "Components/_navbar.html" %}
+    {% if not request.path == '/' %}
+            {% include "Components/_navbar.html" %}
+    {% endif %}
+
 
 
     {% block site-content %}
