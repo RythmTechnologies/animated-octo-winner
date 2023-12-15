@@ -98,13 +98,8 @@
                     </button>
                   </div>
 
-
                 <button class="btn btn-outline-success d-inline-flex align-items-center ms-1 me-1" id="darkModeToggle"><i class="fa-solid fa-moon"></i>
                     <span class="indepent"> / </span> <i class="fa-solid fa-sun"></i></button>
-        
-            </form>
-      
-
 
             {% if request.user.is_authenticated %}
 
@@ -112,7 +107,11 @@
                 <a href="#"><button class="btn btn-outline-danger">Çıkış</button></a>
             </div>
             {% endif %}
+            
+            </form>
+
 
         </div>
     </div>
 </nav>
+
