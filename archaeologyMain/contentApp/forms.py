@@ -9,7 +9,8 @@ class FixtureForm(forms.ModelForm):
 
     class Meta:
         model = Fixture
-        fields = ["name","marka","model","piece","unitprice","taxrate","totalprice","typeofaddition","dateofaddition","where","custodian","barcode"]
+        fields = "__all__"
+        exclude = ['user']
         widgets = {
             'dateofaddition': CustomDateInput(),
         }
@@ -24,3 +25,16 @@ class FixtureForm(forms.ModelForm):
             
             # Alan adına göre etiket ekler
             field.widget.attrs['placeholder'] = field.label
+
+
+
+# set general buluntu form field
+
+class GeneralBuluntuForm(forms.ModelForm):
+
+    class Meta:
+        model = SetGeneralBuluntu
+        fields = "__all__"
+        exclude  = ['user']
+
+# ends

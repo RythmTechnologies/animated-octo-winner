@@ -5,4 +5,196 @@
 {% block site-content %}
   
 <h1>TET.</h1>
+
+
+
+
+
+    <!-- <div class="col-md-6">
+
+  
+        <form id="submit-buluntu" action="">
+            {{form}}
+        </form>
+
+    </div> -->
+
+    <div class="card p-3">
+    <form class="row">
+        <div class="col-md-6">
+          <label for="id_year" class="form-label">Tavşanlı Hoyuk Yıl Bilgisi</label>
+          {{form.year}}
+        </div>
+
+        <div class="col-md-6">
+          <label for="inputPassword4" class="form-label">Buluntu Tarihi</label>
+          {{form.date}}
+        </div>
+
+        <div class="col-md-2">
+          <label for="id_plankareX" class="form-label">Plankare X</label>
+          {{form.plankareX}}
+
+        </div>
+
+        
+        <div class="col-md-2">
+            <label for="id_plankareY" class="form-label">Plankare Y</label>
+            {{form.plankareY}}
+  
+          </div>
+
+
+          
+        <div class="col-md-2">
+            <label for="id_no" class="form-label">Buluntu No Sonuç</label>
+            {{form.no}}
+          </div>
+
+
+          <div class="col-md-3">
+            <label for="id_gridX" class="form-label">Grid X</label>
+            {{form.gridX}}
+  
+          </div>
+
+          <div class="col-md-3">
+            <label for="id_gridY" class="form-label">Grid Y</label>
+            {{form.gridY}}
+  
+          </div>
+
+
+          <div class="col-md-3">
+            <label for="id_nivo" class="form-label">Açılış Nivosu</label>
+            {{form.nivo}}
+  
+          </div>
+  
+          
+          <div class="col-md-3">
+              <label for="id_nivo_h" class="form-label">Açılış Nivosu H</label>
+              {{form.nivo_h}}
+    
+            </div>
+  
+  
+            
+          <div class="col-md-3">
+              <label for="id_shut_nivo" class="form-label">Kapanış Nivosu</label>
+              {{form.shut_nivo}}
+            </div>
+  
+  
+            <div class="col-md-3">
+              <label for="id_shut_nivo_h" class="form-label">Kapanış Nivosu H</label>
+              {{form.shut_nivo_h}}
+    
+            </div>
+  
+
+            <div class="row justify-content-around">
+
+            <div class="col-md-3">
+                <label for="id_kor_x" class="form-label">Kordinat X</label>
+                {{form.kor_x}}
+      
+            </div>
+
+
+            <div class="col-md-3">
+                <label for="id_kor_y" class="form-label">Kordinat Y</label>
+                {{form.kor_y}}
+            </div>
+
+            <div class="col-md-3">
+                <label for="id_kor_h" class="form-label">Kordinat H</label>
+                {{form.kor_h}}
+            </div>
+        
+          </div>
+
+       
+    
+         <div class="col-md-6">
+                <label for="id_area" class="form-label">Buluntu Kova Alanı</label>
+                {{form.area}}
+          </div>
+
+     
+          <div class="col-md-6">
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <label for="id_colour" class="form-label">Renk</label>
+                    {{form.colour}}
+                </div>
+
+                <div class="col-md-3">
+                    <label for="id_palet" class="form-label">Renk Paleti</label>
+                    <input id="id_palet" class="form-control" type="color">
+                  </div>
+            </div>
+            
+          </div>
+    
+         
+
+
+   
+     
+
+          <div class="col-md-3">
+            <label for="id_layer_count" class="form-label">Tabaka Sayı</label>
+            {{form.layer_count}}
+          </div>
+
+          <div class="col-md-3">
+            <label for="id_layer_letter" class="form-label">Tabaka Harf</label>
+            {{form.layer_letter}}
+          </div>
+
+
+          <div class="col-md-3">
+            <label for="id_phase" class="form-label">Evre</label>
+            {{form.phase}}
+          </div>
+
+
+          <div class="col-md-3">
+            <label for="id_period" class="form-label">Dönem</label>
+            {{form.period}}
+          </div>
+      </form>
+
+    </div>
+
+
+
+
+<script>
+
+    window.onload = function() {
+
+        document.querySelectorAll('#submit-buluntu,input,textarea,select,option').forEach(function(element){
+            
+            if (element.id === "id_date") {
+
+                element.type = "date"
+            }
+
+            if (element.id === "id_no") {
+
+                element.disabled = true
+            }
+            
+            element.classList.add('form-control')
+            element.classList.add('mb-3')
+        })
+
+    }
+
+</script>
+
 {% endblock site-content %}

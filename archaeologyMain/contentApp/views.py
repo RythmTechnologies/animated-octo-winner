@@ -58,7 +58,10 @@ def get_dashboard(request: HttpRequest) -> HttpResponse:
 
 # add buluntu starts
 def set_buluntu(request: HttpRequest) -> HttpResponse:
-    return render(request, 'Buluntu/create.html')
+    context = {}
+    context['form'] = GeneralBuluntuForm
+
+    return render(request, 'Buluntu/create.html', context)
 # ends
 
 # Demirbas Add Start
