@@ -6,6 +6,10 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
+#Formlar
+from .forms import *
+from userApp.models import *
+
 #For TypeHint
 import typing as t
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
@@ -55,9 +59,31 @@ def get_dashboard(request: HttpRequest) -> HttpResponse:
 # add buluntu starts
 def set_buluntu(request: HttpRequest) -> HttpResponse:
     return render(request, 'Buluntu/create.html')
-
-
 # ends
+
+# Demirbas Add Start
+@login_required(login_url='homepage')
+def set_fixture(request: HttpRequest) -> HttpResponse:
+
+    context = {}
+    creater = SiteUser.objects.filter(id = request.user.id).first()
+    serverForm = FixtureForm()
+    context['form'] = serverForm
+
+    if request.method == 'POST':
+        form = FixtureForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.user = creater
+            form.save()
+            messages.success(request, 'Demirbaş Başarıyla Eklenmiştir!')
+            return redirect('set-fixture')
+        else:
+            messages.error(request, "Lütfen Form'u Eksiksiz Doldurunuz!")
+            return redirect('set-fixture')
+
+    return render(request, 'Fixture/create.html', context)
+# Demirbas Add end
 
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:

@@ -20,7 +20,7 @@ class Fixture(models.Model):
     taxrate = models.DecimalField(("Vergi Oranı"), max_digits=5, decimal_places=2)
     totalprice = models.DecimalField(("Toplam Fiyat"), max_digits=15, decimal_places=2)
     typeofaddition = models.CharField(("Alış Şekli"), max_length=150)
-    dateofaddition = models.DateField(("Alım Tarihi"), auto_now_add=True)
+    dateofaddition = models.DateField(("Alım Tarihi"), auto_now_add=False)
     where = models.CharField(("Bulunduğu Yer"), max_length=150)
     custodian = models.CharField(("Zimmetli Kişi"), max_length=150)
     barcode = models.CharField(("Barkod Numarası"), max_length=150)

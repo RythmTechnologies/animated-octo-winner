@@ -67,7 +67,7 @@
             {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Demirbaş</a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" href="#"> Demirbaş Ekle</a>
+                            <a class="dropdown-item" href="{% url 'set-fixture' %}"> Demirbaş Ekle</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="#"> Demirbaş Listele</a>
@@ -85,7 +85,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> <span>Yönetim Paneli</span>  </a>
+                    <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> <span>Yönetim Paneli</span> </a>
                 </li>
             </ul>
             <form class="d-flex align-items-center" role="search" style="flex: 1;">
@@ -97,15 +97,9 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                   </div>
-              
-            
+
                 <button class="btn btn-outline-success d-inline-flex align-items-center ms-1 me-1" id="darkModeToggle"><i class="fa-solid fa-moon"></i>
-                    <span class="indepent"> / </span>
-                <i class="fa-solid fa-sun"></i></button>
-        
-
-      
-
+                    <span class="indepent"> / </span> <i class="fa-solid fa-sun"></i></button>
 
             {% if request.user.is_authenticated %}
 
