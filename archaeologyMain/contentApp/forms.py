@@ -1,11 +1,16 @@
 from django import forms
 from django.forms import DateInput
+from ckeditor.widgets import CKEditorWidget
 from .models import *
 
 class CustomDateInput(DateInput):
     input_type = 'date'
 
+
+# CKEDITOR BAKILACAK!
 class FixtureForm(forms.ModelForm):
+    
+    fixtureDescription = forms.CharField(widget=CKEditorWidget())
 
     class Meta:
         model = Fixture
@@ -25,6 +30,14 @@ class FixtureForm(forms.ModelForm):
             
             # Alan adına göre etiket ekler
             field.widget.attrs['placeholder'] = field.label
+
+            if field_name == "totalprice":
+                field.widget.attrs['input_type'] = 'number'
+                field.widget.attrs['disabled'] = True
+
+            if field_name == "companyAddress":
+                field.widget.attrs['style'] = "height: 124px;"
+
 
 
 
