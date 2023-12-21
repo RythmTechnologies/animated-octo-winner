@@ -6,9 +6,16 @@ from userApp.models import SiteUser
 
 import datetime, string
 
+class FixtureGainType(models.Model):
+    input = models.CharField(("Alış Type"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.input
+
 
 # Demirbaş modelidir
 class Fixture(models.Model):
+
     user = models.ForeignKey(
         SiteUser, verbose_name=("Kullanıcı"), on_delete=models.CASCADE
     )
@@ -19,44 +26,23 @@ class Fixture(models.Model):
     unitprice = models.DecimalField(("Birim Fiyatı"), max_digits=15, decimal_places=2)
     taxrate = models.DecimalField(("Vergi Oranı"), max_digits=5, decimal_places=2)
     totalprice = models.DecimalField(("Toplam Fiyat"), max_digits=15, decimal_places=2)
-    typeofaddition = models.CharField(("Alış Şekli"), max_length=150)
+    typeofaddition = models.OneToOneField(FixtureGainType, verbose_name=("Alış Şekli"), on_delete=models.CASCADE)
     dateofaddition = models.DateField(("Alım Tarihi"), auto_now_add=False)
     where = models.CharField(("Bulunduğu Yer"), max_length=150)
     custodian = models.CharField(("Zimmetli Kişi"), max_length=150)
     barcode = models.CharField(("Barkod Numarası"), max_length=150)
-
-    def __str__(self) -> str:
-        return self.name
-
-
-# Demirbaş Firma Modelidir
-class CompanyInfo(models.Model):
-    fixture = models.ForeignKey(
-        Fixture, verbose_name=("Demirbaş"), on_delete=models.CASCADE
-    )
     companyName = models.CharField(("Firma Adı"), max_length=150)
     companyOfficial = models.CharField(("Firma Yetkilisi"), max_length=150)
     companyPhone = models.CharField(("Firma Telefon"), max_length=150)
     companyEmail = models.EmailField(("Firma E-Mail"), max_length=254)
     companyAddress = models.TextField(("Firma Adresi"))
-
-    def __str__(self) -> str:
-        return self.companyName
-
-
-# Demirbaş Bilgi Modelidir
-class FixtureInfo(models.Model):
-    fixture = models.ForeignKey(
-        Fixture, verbose_name=("Demirbaş"), on_delete=models.CASCADE
-    )
     fixtureFile = models.FileField(
         ("Demirbaş Alım Belgesi"), upload_to="fixture", max_length=100
     )
     fixtureDescription = RichTextField(("Demirbaş Açıklama"), max_length=900)
 
     def __str__(self) -> str:
-        return self.fixture
-
+        return self.name
 
 # Buluntu Yeri Açma Rapor İçin
 class BuluntuYeri(models.Model):
@@ -80,29 +66,11 @@ class AcmaRapor(models.Model):
     rapordate = models.DateField(("Rapor Tarihi"), auto_now=False, auto_now_add=False)
     title = models.CharField(("Başlık"), max_length=150)
     owner = models.CharField(("Formu Dolduran"), max_length=150)
-
-    def __str__(self) -> str:
-        return self.title
-
-
-class AcmaRaporDetail(models.Model):
-    rapor = models.OneToOneField(
-        AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE
-    )
     rapordetail = RichTextField(("Rapor Detay"))
-
-    def __str__(self) -> str:
-        return self.rapor
-
-
-class AcmaRaporFileUpload(models.Model):
-    rapor = models.OneToOneField(
-        AcmaRapor, verbose_name=("Acma Rapor"), on_delete=models.CASCADE
-    )
     file = models.FileField(("Evrak Yükleme"), upload_to="raporfiles", max_length=100)
 
     def __str__(self) -> str:
-        return self.rapor
+        return self.title
 
 
 class DocumentCreateModel(models.Model):
@@ -121,43 +89,12 @@ class DocumentCreateModel(models.Model):
     user = models.OneToOneField(
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
+    files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
+    detail = RichTextField(("Rapor Detay"))
 
     def __str__(self) -> str:
         return self.docsubject
 
-
-class DocumentUploadModel(models.Model):
-    document = models.OneToOneField(
-        DocumentCreateModel, verbose_name=("İlgili Döküman"), on_delete=models.CASCADE
-    )
-    files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
-
-    def __str__(self) -> str:
-        return self.document
-
-
-class RaporDetail(models.Model):
-    document = models.OneToOneField(
-        DocumentCreateModel, verbose_name=("İlgili Döküman"), on_delete=models.CASCADE
-    )
-    detail = RichTextField(("Rapor Detay"))
-
-    def __str__(self) -> str:
-        return self.document
-
-
-# Demirbaş Bilgi Modelidir
-class FixtureInfo(models.Model):
-    fixture = models.ForeignKey(
-        Fixture, verbose_name=("Demirbaş"), on_delete=models.CASCADE
-    )
-    fixtureFile = models.FileField(
-        ("Demirbaş Alım Belgesi"), upload_to="fixture", max_length=100
-    )
-    fixtureDescription = RichTextField(("Demirbaş Açıklama"), max_length=900)
-
-    def __str__(self) -> str:
-        return self.fixture
 
 
 """

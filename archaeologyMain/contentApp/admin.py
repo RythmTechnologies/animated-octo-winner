@@ -3,15 +3,10 @@ from .models import *
 # Register your models here.
 
 admin.site.register(Fixture)
-admin.site.register(CompanyInfo)
-admin.site.register(FixtureInfo)
 admin.site.register(SetGeneralBuluntu)
 admin.site.register(BuluntuAlani)
 admin.site.register(BuluntuTypes)
 admin.site.register(BuluntuPeriod)
 admin.site.register(AcmaRapor)
-admin.site.register(AcmaRaporDetail)
-admin.site.register(AcmaRaporFileUpload)
 admin.site.register(DocumentCreateModel)
-admin.site.register(DocumentUploadModel)
-admin.site.register(RaporDetail)
+admin.site.register(FixtureGainType)
