@@ -65,3 +65,21 @@
   width: 15px;
   font-weight: 700;
 }
+
+.dropdown-menu[data-bs-popper] {
+
+  left: -80px;
+}
+
+
+nav .search-bar {
+
+  min-width: 207px;
+  max-width: 50%;
+}
+
+
+nav .container-fluid {
+
+  flex-wrap: wrap !important;
+}
