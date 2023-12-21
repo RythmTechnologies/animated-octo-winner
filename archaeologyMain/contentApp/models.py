@@ -209,7 +209,7 @@ BuluntuTypes => Keramik, Kemik, taş, kücüktas vs.
 
 
 class BuluntuTypes(models.Model):
-    buluntu = models.CharField(("Buluntu Türü"), max_length=30)
+    buluntu = models.CharField(("Buluntu Türü"), max_length=30, unique=True)
 
     def __str__(self) -> str:
         return self.buluntu
@@ -257,13 +257,18 @@ class SetGeneralBuluntu(models.Model):
     )
     plankareY = models.IntegerField(("Plankare Y"), choices=number_choices, default=1)
 
+    plankareNo = models.CharField(("Plankare No"), max_length=50, null = True)
+
     gridX = models.CharField(("Grid X"), max_length=50)
     gridY = models.CharField(("Grid Y"), max_length=50)
+
     no = models.IntegerField(("Buluntu No"))
+    noResult = models.CharField(("Buluntu No Sonuç"), max_length=50, null=True)
     secondaryNo = models.IntegerField(("Küçük Buluntu No"))
+   
 
     type = models.ForeignKey(
-        "contentApp.BuluntuTypes", verbose_name=("Tür"), on_delete=models.CASCADE
+        BuluntuTypes, to_field="buluntu", verbose_name=("Tür"), on_delete=models.CASCADE
     )
 
     nivo = models.CharField(("Açılış Nivosu"), max_length=50)

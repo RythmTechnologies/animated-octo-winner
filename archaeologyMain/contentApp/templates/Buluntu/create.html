@@ -4,23 +4,20 @@
 
 {% block site-content %}
   
-<h1>TET.</h1>
+   
+
+    <div class="mt-3" style="width: 90%; margin: auto;">
+        
 
 
+    <div class="card">
 
+      <div class="card-header">
+        Buluntu Kayıt Formu Genel Bilgiler
+      </div>
 
-
-    <!-- <div class="col-md-6">
-
-  
-        <form id="submit-buluntu" action="">
-            {{form}}
-        </form>
-
-    </div> -->
-
-    <div class="card p-3">
-    <form class="row">
+    <form class="row p-3">
+      
         <div class="col-md-6">
           <label for="id_year" class="form-label">Tavşanlı Hoyuk Yıl Bilgisi</label>
           {{form.year}}
@@ -47,8 +44,8 @@
 
           
         <div class="col-md-2">
-            <label for="id_no" class="form-label">Buluntu No Sonuç</label>
-            {{form.no}}
+            <label for="id_plankareNo" class="form-label">Plankare No Sonuç</label>
+            {{form.plankareNo}}
           </div>
 
 
@@ -62,6 +59,32 @@
             <label for="id_gridY" class="form-label">Grid Y</label>
             {{form.gridY}}
   
+          </div>
+
+
+          <div class="row">
+
+            <div class="col-md-3">
+              <label for="id_no" class="form-label">Buluntu No</label>
+              {{form.no}}
+            </div>
+
+            <div class="col-md-3">
+              <label for="id_secondaryNo" class="form-label">Küçük Buluntu No</label>
+              {{form.secondaryNo}}
+            </div>
+
+            <div class="col-md-3">
+              <label for="id_noResult" class="form-label">Buluntu No Sonuç</label>
+              {{form.noResult}}
+            </div>
+            
+
+            <div class="col-md-3">
+              <label for="id_type" class="form-label">Buluntu Türü</label>
+              {{form.type}}
+            </div>
+            
           </div>
 
 
@@ -119,6 +142,11 @@
          <div class="col-md-6">
                 <label for="id_area" class="form-label">Buluntu Kova Alanı</label>
                 {{form.area}}
+
+                <div class="text-center mb-3">
+                    <span class="text-muted">Çoklu seçim yapmak için CTRL + Sol tık yapın.</span>
+                </div>
+            
           </div>
 
      
@@ -139,12 +167,6 @@
             
           </div>
     
-         
-
-
-   
-     
-
           <div class="col-md-3">
             <label for="id_layer_count" class="form-label">Tabaka Sayı</label>
             {{form.layer_count}}
@@ -173,6 +195,9 @@
 
 
 
+</div>
+
+
 <script>
 
     window.onload = function() {
@@ -184,7 +209,7 @@
                 element.type = "date"
             }
 
-            if (element.id === "id_no") {
+            if (["id_plankareNo", 'id_noResult'].includes(element.id)) {
 
                 element.disabled = true
             }
@@ -193,7 +218,99 @@
             element.classList.add('mb-3')
         })
 
-    }
+
+        // plankareler alanı
+        const plankareX = document.getElementById('id_plankareX')
+        const plankareY = document.getElementById('id_plankareY')
+        const plankareNo = document.getElementById('id_plankareNo')
+
+        // buluntu alanı
+        const buluntuNo = document.getElementById('id_no')
+        const buluntuNoSonuc = document.getElementById('id_noResult')
+        const kucukBuluntuNo = document.getElementById('id_secondaryNo')
+        const buluntuTur = document.getElementById('id_type')
+
+        plankareX.addEventListener("change", function(e) {
+
+            let output = `${e.target.value} ${plankareY.value}`
+            let buluntuNoOutput;
+
+            plankareNo.value = output
+
+            buluntuNoOutput = `${output} ${buluntuNo.value} / `
+
+            if (kucukBuluntuNo.value) {
+                 buluntuNoOutput += kucukBuluntuNo.value
+            }
+
+            buluntuNoSonuc.value = buluntuNoOutput
+        })
+  
+
+        plankareY.addEventListener("change", function(e) {
+
+
+            let output = `${plankareX.value} ${e.target.value}`
+            let buluntuNoOutput;
+
+
+            plankareNo.value = output
+
+            buluntuNoOutput = `${output} ${buluntuNo.value} / `
+
+            if (kucukBuluntuNo.value) {
+                 buluntuNoOutput += kucukBuluntuNo.value
+            }
+
+            buluntuNoSonuc.value = buluntuNoOutput
+        
+        })
+
+
+        // plankareler alanı biter
+        
+
+
+        buluntuNo.addEventListener('change', function(e) {
+
+              buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value}  ${e.target.value} /`
+        })
+
+
+        kucukBuluntuNo.addEventListener('change', function(e) {
+
+          buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${e.target.value}`
+          
+        })
+
+
+        buluntuTur.addEventListener('change', function(e) {
+            console.log("event buluntu tur:", e.target.value.toLowerCase())
+            let output;
+            switch(e.target.value.toLowerCase()) {
+
+                case "keramik":
+                case "küçük buluntu":
+
+                  output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${kucukBuluntuNo.value}`
+                  break;
+
+                case "kemik":
+                  output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}b / ${kucukBuluntuNo.value}`
+                  break;
+           
+                case "taş":
+                  output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}c / ${kucukBuluntuNo.value}`
+                  break;
+                
+            }
+
+            buluntuNoSonuc.value = output
+    
+        })
+    
+      }
+
 
 </script>
 

@@ -1,18 +1,43 @@
 <nav class="navbar navbar-expand-lg bg-dark-subtle">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Tavşanlı Höyük 2023</a>
+        
+        <a class="navbar-brand" href="{% url 'dashboard' %}">Tavşanlı Höyük 2023</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mb-2 mb-lg-0" id="ul-items">
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/dashboard' %}
-              active
-            {% endif %}" aria-current="page" href="#"><i class="fa-solid fa-house"></i>
-                        Anasayfa</a>
+            
+            <ul class="w-100 navbar-nav mb-2 mt-2 m-xxl-0 justify-content-around" id="ul-items">
+
+                <li class="nav-item mt-3 mb-3 m-lg-0">
+
+                    <form action="">
+
+                        
+                    <div class="input-group search-bar">
+
+                        <input type="search" name="ara" class="form-control" style="margin-bottom: 0 !important;">
+                        <button class="btn btn-outline-secondary" type="submit">Ara</button>
+                        
+                    </div>
+               
+                     </form>
+
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link 
+                     {% if request.path == '/dashboard' %}
+                      active
+                    {% endif %}" aria-current="page" href="{% url 'dashboard' %}"><i class="fa-solid fa-house"></i>
+                    Anasayfa
+                    </a>
+                </li>
+
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == '' %}
               active
@@ -35,6 +60,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == '' %}
               active
@@ -48,6 +74,8 @@
                         </li>
                     </ul>
                 </li>
+
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == '' %}
               active
@@ -61,10 +89,12 @@
                         </li>
                     </ul>
                 </li>
+
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == '' %}
-              active
-            {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Demirbaş</a>
+                         active
+                    {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Demirbaş</a>
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item" href="{% url 'set-fixture' %}"> Demirbaş Ekle</a>
@@ -74,44 +104,47 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == '' %}
-              active
-            {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> İstatistik</a>
+                        active
+                    {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> İstatistik</a>
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item" href="#"> İstatistik Oluştur</a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin"><i class="fa-solid fa-calculator"></i> <span>Yönetim Paneli</span> </a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Oturum</a>
+                    
+                    <ul class="dropdown-menu">
+
+                        {% if request.user.is_superuser %}
+                        <li>
+                            <a class="dropdown-item" href="/admin"><i class="fa-solid fa-calculator"></i> <span>Yönetim Paneli</span> </a>
+                        </li>
+                        {% endif %}
+
+                        {% if request.user.is_authenticated %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="#">Çıkış Yap</a>
+                        </li>
+                        {% endif %}
+                    </ul>
                 </li>
-            </ul>
-            <form class="d-flex align-items-center" role="search" style="flex: 1;">
 
 
-                <div class="input-group">
-                    <input class="form-control" type="search" placeholder="Ara" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                  </div>
 
-                <button class="btn btn-outline-success d-inline-flex align-items-center ms-1 me-1" id="darkModeToggle"><i class="fa-solid fa-moon"></i>
-                    <span class="indepent"> / </span> <i class="fa-solid fa-sun"></i></button>
-
-            {% if request.user.is_authenticated %}
-
-            <div class="ms-1">
-                <a href="#"><button class="btn btn-outline-danger">Çıkış</button></a>
-            </div>
-            {% endif %}
             
-            </form>
 
+            </ul>
 
+            
         </div>
-    </div>
-</nav>
 
+    </div>
+
+</nav>
