@@ -61,6 +61,7 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
     context = {}
     context['form'] = GeneralBuluntuForm
     context['instruactionForm'] = GeneralInstructionsForm
+    context['imageForm'] = BuluntuImagesForm
 
     return render(request, 'Buluntu/create.html', context)
 # ends
