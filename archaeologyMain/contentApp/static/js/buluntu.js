@@ -28,83 +28,95 @@ window.onload = function () {
     const kucukBuluntuNo = document.getElementById('id_secondaryNo')
     const buluntuTur = document.getElementById('id_type')
 
-    plankareX.addEventListener("change", function (e) {
+    if (plankareX) {
+        plankareX.addEventListener("change", function (e) {
 
-        let output = `${e.target.value} ${plankareY.value}`
-        let buluntuNoOutput;
+            let output = `${e.target.value} ${plankareY.value}`
+            let buluntuNoOutput;
 
-        plankareNo.value = output
+            plankareNo.value = output
 
-        buluntuNoOutput = `${output} ${buluntuNo.value} / `
+            buluntuNoOutput = `${output} ${buluntuNo.value} / `
 
-        if (kucukBuluntuNo.value) {
-            buluntuNoOutput += kucukBuluntuNo.value
-        }
+            if (kucukBuluntuNo.value) {
+                buluntuNoOutput += kucukBuluntuNo.value
+            }
 
-        buluntuNoSonuc.value = buluntuNoOutput
-    })
+            buluntuNoSonuc.value = buluntuNoOutput
+        })
+    }
 
-
-    plankareY.addEventListener("change", function (e) {
-
-
-        let output = `${plankareX.value} ${e.target.value}`
-        let buluntuNoOutput;
+    if (plankareY) {
+        plankareY.addEventListener("change", function (e) {
 
 
-        plankareNo.value = output
+            let output = `${plankareX.value} ${e.target.value}`
+            let buluntuNoOutput;
 
-        buluntuNoOutput = `${output} ${buluntuNo.value} / `
 
-        if (kucukBuluntuNo.value) {
-            buluntuNoOutput += kucukBuluntuNo.value
-        }
+            plankareNo.value = output
 
-        buluntuNoSonuc.value = buluntuNoOutput
+            buluntuNoOutput = `${output} ${buluntuNo.value} / `
 
-    })
+            if (kucukBuluntuNo.value) {
+                buluntuNoOutput += kucukBuluntuNo.value
+            }
+
+            buluntuNoSonuc.value = buluntuNoOutput
+
+        })
+    }
+
+
+
 
 
     // plankareler alanı biter
 
+    if (buluntuNo) {
+        buluntuNo.addEventListener('change', function (e) {
+
+            buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value}  ${e.target.value} /`
+        })
+    }
 
 
-    buluntuNo.addEventListener('change', function (e) {
+    if (kucukBuluntuNo) {
+        kucukBuluntuNo.addEventListener('change', function (e) {
 
-        buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value}  ${e.target.value} /`
-    })
+            buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${e.target.value}`
 
-
-    kucukBuluntuNo.addEventListener('change', function (e) {
-
-        buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${e.target.value}`
-
-    })
+        })
+    }
 
 
-    buluntuTur.addEventListener('change', function (e) {
-        console.log("event buluntu tur:", e.target.value.toLowerCase())
-        let output;
-        switch (e.target.value.toLowerCase()) {
 
-            case "keramik":
-            case "küçük buluntu":
+    if (buluntuTur) {
+        buluntuTur.addEventListener('change', function (e) {
+            console.log("event buluntu tur:", e.target.value.toLowerCase())
+            let output;
+            switch (e.target.value.toLowerCase()) {
 
-                output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${kucukBuluntuNo.value}`
-                break;
+                case "keramik":
+                case "küçük buluntu":
 
-            case "kemik":
-                output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}b / ${kucukBuluntuNo.value}`
-                break;
+                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${kucukBuluntuNo.value}`
+                    break;
 
-            case "taş":
-                output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}c / ${kucukBuluntuNo.value}`
-                break;
+                case "kemik":
+                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}b / ${kucukBuluntuNo.value}`
+                    break;
 
-        }
+                case "taş":
+                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}c / ${kucukBuluntuNo.value}`
+                    break;
 
-        buluntuNoSonuc.value = output
+            }
 
-    })
+            buluntuNoSonuc.value = output
+
+        })
+    }
+
 
 }

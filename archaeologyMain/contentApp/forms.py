@@ -10,14 +10,13 @@ class CustomDateInput(DateInput):
 # CKEDITOR BAKILACAK!
 class FixtureForm(forms.ModelForm):
     
-    fixtureDescription = forms.CharField(widget=CKEditorWidget())
-
     class Meta:
         model = Fixture
         fields = "__all__"
         exclude = ['user']
         widgets = {
             'dateofaddition': CustomDateInput(),
+            'fixtureDescription' : CKEditorWidget()
         }
     def __init__(self, *args, **kwargs):
         super(FixtureForm, self).__init__(*args, **kwargs)
