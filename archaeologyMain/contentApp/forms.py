@@ -56,3 +56,12 @@ class GeneralInstructionsForm(forms.ModelForm):
     class Meta:
         model = GeneralInstructions
         fields = "__all__"
+
+
+
+class BuluntuImagesForm(forms.ModelForm):
+
+    class Meta:
+        model = BuluntuImages
+        fields = "__all__"
+        exclude  = ['buluntu']
