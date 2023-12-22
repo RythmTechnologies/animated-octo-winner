@@ -51,3 +51,9 @@ class GeneralBuluntuForm(forms.ModelForm):
         exclude  = ['user']
 
 # ends
+        
+class GeneralInstructionsForm(forms.ModelForm):
+
+    class Meta:
+        model = GeneralInstructions
+        fields = "__all__"

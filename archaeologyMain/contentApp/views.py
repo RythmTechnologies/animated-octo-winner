@@ -60,6 +60,7 @@ def get_dashboard(request: HttpRequest) -> HttpResponse:
 def set_buluntu(request: HttpRequest) -> HttpResponse:
     context = {}
     context['form'] = GeneralBuluntuForm
+    context['instruactionForm'] = GeneralInstructionsForm
 
     return render(request, 'Buluntu/create.html', context)
 # ends

@@ -83,3 +83,47 @@ nav .container-fluid {
 
   flex-wrap: wrap !important;
 }
+
+
+.instruactionElements textarea {
+
+    width: 50%;
+}
+
+.instruactionElements select { 
+  width: 50%;
+}
+.instruactionElements .additional-element-container {
+
+  display: flex;
+}
+
+
+.instruactionElements .additional-element-container div {
+
+  margin-left: 8px;
+}
+
+
+
+
+/* resp */
+@media screen and (max-width: 800px) {
+
+  .instruactionElements textarea {
+
+    width: 100%;
+  }
+
+  .instruactionElements select {
+
+    width: 100%;
+  }
+
+
+  .instruactionElements .additional-element-container {
+
+    display: block;
+  }
+
+}

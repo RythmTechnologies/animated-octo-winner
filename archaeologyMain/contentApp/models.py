@@ -176,6 +176,7 @@ class BuluntuPeriod(models.Model):
         return self.period
 
 
+"""buluntu ekle modeli"""
 class SetGeneralBuluntu(models.Model):
     # methods
     year_choices = avaiable_years()
@@ -231,3 +232,21 @@ class SetGeneralBuluntu(models.Model):
 
     # def __str__(self) -> str:
     #     return self.no
+
+"""genel talimatlar modeli"""
+class GeneralInstructions(models.Model):
+    OPTION_CHOICES = (
+    ("ETUTLUK", "Etutluk"),
+    ("ENVANTERLIK", "Envanterlik"),
+    ("ANALIZ", "Analiz"),
+    ("DIGER", "Diğer"), )
+
+    description = models.TextField(("Tanım"), max_length=250)
+    description_2 = models.TextField(("Genel Açıklama"), max_length=250)
+    inventoryNo = models.CharField(("Envanter No"), max_length=10)
+    pieceNo = models.CharField(("Eser No"), max_length=10)
+    illustrationNo = models.CharField(("Çizim No"), max_length=10)
+    inventory = models.CharField(("Etütlük / Envanter"), max_length=30, choices=OPTION_CHOICES)
+
+    def __str__(self) -> str:
+        return self.description
