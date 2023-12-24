@@ -233,7 +233,8 @@ class SetGeneralBuluntu(models.Model):
     # def __str__(self) -> str:
     #     return self.no
 
-"""genel talimatlar modeli"""
+"""genel tanımlamalar modeli"""
+
 class GeneralInstructions(models.Model):
     OPTION_CHOICES = (
     ("ETUTLUK", "Etutluk"),
@@ -241,6 +242,7 @@ class GeneralInstructions(models.Model):
     ("ANALIZ", "Analiz"),
     ("DIGER", "Diğer"), )
 
+    buluntu = models.ForeignKey("contentApp.SetGeneralBuluntu", null=True, verbose_name=("Buluntu"), on_delete=models.CASCADE)
     description = models.TextField(("Tanım"), max_length=250)
     description_2 = models.TextField(("Genel Açıklama"), max_length=250)
     inventoryNo = models.CharField(("Envanter No"), max_length=10)
@@ -250,3 +252,27 @@ class GeneralInstructions(models.Model):
 
     def __str__(self) -> str:
         return self.description
+    
+"""İlişkili: SetGeneralBuluntu Fotoğraflar bu model atlında depolanır"""
+class BuluntuImages(models.Model):
+    store = "Buluntu/Attachments"
+
+    buluntu = models.ForeignKey("contentApp.SetGeneralBuluntu", null=True, verbose_name=("Buluntu"), on_delete=models.CASCADE)
+    type_1 = models.ImageField(("Eskiz"), upload_to=store)
+    type_2 = models.ImageField(("Fotoğraf"), upload_to=store)
+    type_3 = models.ImageField(("Çizim"), upload_to=store)
+    type_4 = models.ImageField(("OrtoFoto"), upload_to=store)
+
+
+
+"""küçük buluntu modeli"""
+class MinorBuluntu(models.Model):
+    OPTION_CHOICES = (
+    ("1", "El Arabası"),
+    ("2", "Insitu/Dolgu"),
+    ("3", "Tum"),
+    ("4", "Kirik"), )
+
+    buluntu = models.CharField(("Küçük Buluntu"), max_length=50, choices=OPTION_CHOICES)
+    filledBy = models.CharField(("Formu Dolduran"), max_length=50)
+    processedBy = models.CharField(("Veri Giren"), max_length=50)

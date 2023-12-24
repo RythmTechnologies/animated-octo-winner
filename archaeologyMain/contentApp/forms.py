@@ -56,3 +56,20 @@ class GeneralInstructionsForm(forms.ModelForm):
     class Meta:
         model = GeneralInstructions
         fields = "__all__"
+
+
+
+class BuluntuImagesForm(forms.ModelForm):
+
+    class Meta:
+        model = BuluntuImages
+        fields = "__all__"
+        exclude  = ['buluntu']
+
+
+class MinorBuluntuForm(forms.ModelForm):
+
+     class Meta:
+        model = MinorBuluntu
+        fields = "__all__"
+        exclude  = ['processedBy']
