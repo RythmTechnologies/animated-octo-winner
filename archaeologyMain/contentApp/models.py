@@ -262,3 +262,17 @@ class BuluntuImages(models.Model):
     type_2 = models.ImageField(("Fotoğraf"), upload_to=store)
     type_3 = models.ImageField(("Çizim"), upload_to=store)
     type_4 = models.ImageField(("OrtoFoto"), upload_to=store)
+
+
+
+"""küçük buluntu modeli"""
+class MinorBuluntu(models.Model):
+    OPTION_CHOICES = (
+    ("1", "El Arabası"),
+    ("2", "Insitu/Dolgu"),
+    ("3", "Tum"),
+    ("4", "Kirik"), )
+
+    buluntu = models.CharField(("Küçük Buluntu"), max_length=50, choices=OPTION_CHOICES)
+    filledBy = models.CharField(("Formu Dolduran"), max_length=50)
+    processedBy = models.CharField(("Veri Giren"), max_length=50)
