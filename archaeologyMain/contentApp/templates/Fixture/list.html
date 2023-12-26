@@ -1,0 +1,12 @@
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Filtrele</button>
+</form>
+
+<ul>
+    {% for fixture in filter.qs %}
+        <li>{{ fixture.name }} - {{ fixture.marka }}</li>
+    {% empty %}
+        <li>Hiçbir demirbaş bulunamadı.</li>
+    {% endfor %}
+</ul>

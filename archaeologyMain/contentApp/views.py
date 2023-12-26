@@ -6,6 +6,10 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
+from django.views.generic import ListView
+from .models import Fixture
+from .filters import FixtureFilter
+
 #Formlar
 from .forms import *
 from userApp.models import *
@@ -89,6 +93,20 @@ def set_fixture(request: HttpRequest) -> HttpResponse:
 
     return render(request, 'Fixture/create.html', context)
 # Demirbas Add end
+
+
+
+# Demirbaş filter
+class FixtureListView(ListView):
+    model = Fixture
+    template_name = 'Fixture/list.html'  # Şablon dosyanızın adı
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = FixtureFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+
 
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:
