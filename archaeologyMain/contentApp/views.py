@@ -105,8 +105,16 @@ class FixtureListView(ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = FixtureFilter(self.request.GET, queryset=self.get_queryset())
         return context
+    
 
+def fixture_list(request: HttpRequest) -> HttpResponse:
+    context = {}
+    fixtures = Fixture.objects.all()
+    form = FixtureForm()
+    context['form'] = form
+    context['fixtures'] = fixtures
 
+    return render(request, 'Fixture/list.html', context)
 
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:

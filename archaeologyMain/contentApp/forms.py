@@ -16,7 +16,7 @@ class FixtureForm(forms.ModelForm):
         exclude = ['user']
         widgets = {
             'dateofaddition': CustomDateInput(),
-            'fixtureDescription' : CKEditorWidget(config_name='basicstyle')
+            'fixtureDescription' : CKEditorWidget()
         }
     def __init__(self, *args, **kwargs):
         super(FixtureForm, self).__init__(*args, **kwargs)

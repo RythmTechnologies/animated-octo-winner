@@ -76,13 +76,7 @@ TEMPLATES = [
     },
 ]
 
-# CKEDITOR_CONFIGS = {
-#     'default': {
-#         'toolbar': [
-#             {'name': 'codesnippet', 'items': ['CodeSnippet']},
-#         ],
-#     },
-# }
+
 
 WSGI_APPLICATION = "archaeologyMain.wsgi.application"
 
@@ -151,11 +145,7 @@ CKEDITOR_BASEPATH = STATIC_URL + "ckeditor/ckeditor/"
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Full',
-    },
-    'basicstyle': {
-        'toolbar': 'Custom',
-        'customConfig': '/static/ckeditor/ckeditor/config.js'
-    },
+    }
 }
 
 # Default primary key field type
