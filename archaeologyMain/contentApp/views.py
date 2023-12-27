@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
@@ -96,25 +98,33 @@ def set_fixture(request: HttpRequest) -> HttpResponse:
 
 
 
-# Demirbaş filter
-class FixtureListView(ListView):
-    model = Fixture
-    template_name = 'Fixture/list.html'  # Şablon dosyanızın adı
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter'] = FixtureFilter(self.request.GET, queryset=self.get_queryset())
-        return context
-    
-
+@login_required(login_url='homepage')
 def fixture_list(request: HttpRequest) -> HttpResponse:
-    context = {}
-    fixtures = Fixture.objects.all()
-    form = FixtureForm()
-    context['form'] = form
-    context['fixtures'] = fixtures
+    fixture_filter = FixtureFilter(request.GET, queryset=Fixture.objects.all())
+
+    context = {
+        'form' : fixture_filter.form,
+        'fixtures': fixture_filter.qs
+    }
+
 
     return render(request, 'Fixture/list.html', context)
+
+class FilterListView(ListView):
+    queryset = Fixture.objects.all()
+    template_name = 'Fixture/list.html'
+    context_object_name = 'fixtures'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = FixtureFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.filterset.form
+        return context
+
 
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:
