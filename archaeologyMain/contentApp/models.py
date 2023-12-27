@@ -39,7 +39,7 @@ class Fixture(models.Model):
     fixtureFile = models.FileField(
         ("Demirbaş Alım Belgesi"), upload_to="fixture", max_length=100
     )
-    fixtureDescription = RichTextField(("Demirbaş Açıklama"), max_length=900)
+    fixtureDescription = models.TextField(("Demirbaş Açıklama"), max_length=900)
 
     def __str__(self) -> str:
         return self.name
@@ -66,7 +66,7 @@ class AcmaRapor(models.Model):
     rapordate = models.DateField(("Rapor Tarihi"), auto_now=False, auto_now_add=False)
     title = models.CharField(("Başlık"), max_length=150)
     owner = models.CharField(("Formu Dolduran"), max_length=150)
-    rapordetail = RichTextField(("Rapor Detay"))
+    rapordetail = models.TextField(("Rapor Detay"))
     file = models.FileField(("Evrak Yükleme"), upload_to="raporfiles", max_length=100)
 
     def __str__(self) -> str:
@@ -90,7 +90,7 @@ class DocumentCreateModel(models.Model):
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
     files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
-    detail = RichTextField(("Rapor Detay"))
+    detail = models.TextField(("Rapor Detay"))
 
     def __str__(self) -> str:
         return self.docsubject
