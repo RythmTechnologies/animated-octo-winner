@@ -126,6 +126,24 @@ class FilterListView(ListView):
         return context
 
 
+# Rapor Start
+def get_rapor(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        form = AcmaRaporForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            rapor = form.save(commit=False)
+            rapor.user = request.user  # Kullanıcıyı burada atayın
+            rapor.save()
+            messages.success(request, 'Rapor Başarıyla Eklenmiştir!')
+            return redirect('set-rapor')
+        else:
+            messages.error(request, "Lütfen Form'u Eksiksiz Doldurunuz!")
+    else:
+        form = AcmaRaporForm(user=request.user)
+
+    return render(request, "Rapor/create.html", {'form': form})
+# Rapor End
+
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:
     return render(request, '404page.html')

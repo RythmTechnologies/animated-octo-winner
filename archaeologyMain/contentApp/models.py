@@ -6,6 +6,7 @@ from userApp.models import SiteUser
 
 import datetime, string
 
+
 class FixtureGainType(models.Model):
     input = models.CharField(("Alış Type"), max_length=50)
 
@@ -15,7 +16,6 @@ class FixtureGainType(models.Model):
 
 # Demirbaş modelidir
 class Fixture(models.Model):
-
     user = models.ForeignKey(
         SiteUser, verbose_name=("Kullanıcı"), on_delete=models.CASCADE
     )
@@ -26,7 +26,9 @@ class Fixture(models.Model):
     unitprice = models.DecimalField(("Birim Fiyatı"), max_digits=15, decimal_places=2)
     taxrate = models.DecimalField(("Vergi Oranı"), max_digits=5, decimal_places=2)
     totalprice = models.DecimalField(("Toplam Fiyat"), max_digits=15, decimal_places=2)
-    typeofaddition = models.OneToOneField(FixtureGainType, verbose_name=("Alış Şekli"), on_delete=models.CASCADE)
+    typeofaddition = models.OneToOneField(
+        FixtureGainType, verbose_name=("Alış Şekli"), on_delete=models.CASCADE
+    )
     dateofaddition = models.DateField(("Alım Tarihi"), auto_now_add=False)
     where = models.CharField(("Bulunduğu Yer"), max_length=150)
     custodian = models.CharField(("Zimmetli Kişi"), max_length=150)
@@ -44,6 +46,7 @@ class Fixture(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 # Buluntu Yeri Açma Rapor İçin
 class BuluntuYeri(models.Model):
     name = models.CharField(("Buluntu Yeri"), max_length=150)
@@ -54,20 +57,25 @@ class BuluntuYeri(models.Model):
 
 # Acma Rapor
 class AcmaRapor(models.Model):
-    user = models.ForeignKey(
-        SiteUser, verbose_name=("Veri Giren"), on_delete=models.CASCADE
+    RAPOR_CHOICES = (
+        ("daily", "Günlük"),
+        ("weekly", "Haftalık"),
+        ("fifteenday", "15 Günlük"),
+        ("monthly", "Aylık"),
+        ("closing", "Kapanış"),
     )
-    daily = models.BooleanField(("Günlük"), default=False)
-    weekly = models.BooleanField(("Haftalık"), default=False)
-    fifteenday = models.BooleanField(("15 Günlük"), default=False)
-    monthly = models.BooleanField(("Aylık"), default=True)
-    closing = models.BooleanField(("Kapanış"), default=True)
-    placebuluntu = models.ManyToManyField(BuluntuYeri, verbose_name=("Buluntu Yeri"))
-    rapordate = models.DateField(("Rapor Tarihi"), auto_now=False, auto_now_add=False)
-    title = models.CharField(("Başlık"), max_length=150)
-    owner = models.CharField(("Formu Dolduran"), max_length=150)
-    rapordetail = models.TextField(("Rapor Detay"))
-    file = models.FileField(("Evrak Yükleme"), upload_to="raporfiles", max_length=100)
+    user = models.ForeignKey(
+        SiteUser, verbose_name="Veri Giren", on_delete=models.CASCADE
+    )
+    rapor_type = models.CharField(
+        "Rapor Tipi", max_length=10, choices=RAPOR_CHOICES, default="daily"
+    )
+    placebuluntu = models.OneToOneField(BuluntuYeri, verbose_name="Buluntu Yeri", on_delete=models.CASCADE)
+    rapordate = models.DateField("Rapor Tarihi", auto_now=False, auto_now_add=False)
+    title = models.CharField("Başlık", max_length=150)
+    owner = models.CharField("Formu Dolduran", max_length=150)
+    rapordetail = models.TextField("Rapor Detay")
+    file = models.FileField("Evrak Yükleme", upload_to="raporfiles", max_length=100)
 
     def __str__(self) -> str:
         return self.title
@@ -94,7 +102,6 @@ class DocumentCreateModel(models.Model):
 
     def __str__(self) -> str:
         return self.docsubject
-
 
 
 """
@@ -177,6 +184,8 @@ class BuluntuPeriod(models.Model):
 
 
 """buluntu ekle modeli"""
+
+
 class SetGeneralBuluntu(models.Model):
     # methods
     year_choices = avaiable_years()
@@ -195,7 +204,7 @@ class SetGeneralBuluntu(models.Model):
     )
     plankareY = models.IntegerField(("Plankare Y"), choices=number_choices, default=1)
 
-    plankareNo = models.CharField(("Plankare No"), max_length=50, null = True)
+    plankareNo = models.CharField(("Plankare No"), max_length=50, null=True)
 
     gridX = models.CharField(("Grid X"), max_length=50)
     gridY = models.CharField(("Grid Y"), max_length=50)
@@ -203,7 +212,6 @@ class SetGeneralBuluntu(models.Model):
     no = models.IntegerField(("Buluntu No"))
     noResult = models.CharField(("Buluntu No Sonuç"), max_length=50, null=True)
     secondaryNo = models.IntegerField(("Küçük Buluntu No"))
-   
 
     type = models.ForeignKey(
         BuluntuTypes, to_field="buluntu", verbose_name=("Tür"), on_delete=models.CASCADE
@@ -233,45 +241,65 @@ class SetGeneralBuluntu(models.Model):
     # def __str__(self) -> str:
     #     return self.no
 
+
 """genel tanımlamalar modeli"""
+
 
 class GeneralInstructions(models.Model):
     OPTION_CHOICES = (
-    ("ETUTLUK", "Etutluk"),
-    ("ENVANTERLIK", "Envanterlik"),
-    ("ANALIZ", "Analiz"),
-    ("DIGER", "Diğer"), )
+        ("ETUTLUK", "Etutluk"),
+        ("ENVANTERLIK", "Envanterlik"),
+        ("ANALIZ", "Analiz"),
+        ("DIGER", "Diğer"),
+    )
 
-    buluntu = models.ForeignKey("contentApp.SetGeneralBuluntu", null=True, verbose_name=("Buluntu"), on_delete=models.CASCADE)
+    buluntu = models.ForeignKey(
+        "contentApp.SetGeneralBuluntu",
+        null=True,
+        verbose_name=("Buluntu"),
+        on_delete=models.CASCADE,
+    )
     description = models.TextField(("Tanım"), max_length=250)
     description_2 = models.TextField(("Genel Açıklama"), max_length=250)
     inventoryNo = models.CharField(("Envanter No"), max_length=10)
     pieceNo = models.CharField(("Eser No"), max_length=10)
     illustrationNo = models.CharField(("Çizim No"), max_length=10)
-    inventory = models.CharField(("Etütlük / Envanter"), max_length=30, choices=OPTION_CHOICES)
+    inventory = models.CharField(
+        ("Etütlük / Envanter"), max_length=30, choices=OPTION_CHOICES
+    )
 
     def __str__(self) -> str:
         return self.description
-    
+
+
 """İlişkili: SetGeneralBuluntu Fotoğraflar bu model atlında depolanır"""
+
+
 class BuluntuImages(models.Model):
     store = "Buluntu/Attachments"
 
-    buluntu = models.ForeignKey("contentApp.SetGeneralBuluntu", null=True, verbose_name=("Buluntu"), on_delete=models.CASCADE)
+    buluntu = models.ForeignKey(
+        "contentApp.SetGeneralBuluntu",
+        null=True,
+        verbose_name=("Buluntu"),
+        on_delete=models.CASCADE,
+    )
     type_1 = models.ImageField(("Eskiz"), upload_to=store)
     type_2 = models.ImageField(("Fotoğraf"), upload_to=store)
     type_3 = models.ImageField(("Çizim"), upload_to=store)
     type_4 = models.ImageField(("OrtoFoto"), upload_to=store)
 
 
-
 """küçük buluntu modeli"""
+
+
 class MinorBuluntu(models.Model):
     OPTION_CHOICES = (
-    ("1", "El Arabası"),
-    ("2", "Insitu/Dolgu"),
-    ("3", "Tum"),
-    ("4", "Kirik"), )
+        ("1", "El Arabası"),
+        ("2", "Insitu/Dolgu"),
+        ("3", "Tum"),
+        ("4", "Kirik"),
+    )
 
     buluntu = models.CharField(("Küçük Buluntu"), max_length=50, choices=OPTION_CHOICES)
     filledBy = models.CharField(("Formu Dolduran"), max_length=50)
