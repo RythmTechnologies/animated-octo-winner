@@ -183,7 +183,7 @@ class BuluntuPeriod(models.Model):
         return self.period
 
 
-"""Renk Ekleme Modeli"""
+"""Renk Ekleme Model"""
 class SetColour(models.Model):
 
 
