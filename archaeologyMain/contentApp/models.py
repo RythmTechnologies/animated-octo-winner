@@ -183,6 +183,16 @@ class BuluntuPeriod(models.Model):
         return self.period
 
 
+"""Renk Ekleme Model"""
+class SetColour(models.Model):
+
+
+     colorName = models.CharField(("Renk Adı"), max_length=20)
+     color = ColorField(default="#FF0000", verbose_name="Renk Kodu", unique=True)
+
+     def __str__(self) -> str:
+         return self.colorName
+
 """buluntu ekle modeli"""
 
 
@@ -229,7 +239,7 @@ class SetGeneralBuluntu(models.Model):
     area = models.ManyToManyField(
         "contentApp.BuluntuAlani", verbose_name=("Buluntu / Kova Alanı")
     )
-    colour = ColorField(default="#FF0000", verbose_name="Renk")
+    colour = models.ForeignKey(SetColour, to_field="color", verbose_name=("Buluntu Renk"), on_delete=models.CASCADE)
 
     layer_count = models.CharField(("Tabaka Sayı"), max_length=50)
     layer_letter = models.CharField(("Tabaka Harf"), max_length=50)

@@ -7,7 +7,7 @@ window.onload = function () {
             element.type = "date"
         }
 
-        if (["id_plankareNo", 'id_noResult'].includes(element.id)) {
+        if (["id_plankareNo", 'id_noResult', 'id_secondaryNo'].includes(element.id)) {
 
             element.disabled = true
         }
@@ -15,6 +15,7 @@ window.onload = function () {
         element.classList.add('form-control')
         element.classList.add('mb-3')
     })
+
 
 
     // plankareler alanı
@@ -31,12 +32,13 @@ window.onload = function () {
     if (plankareX) {
         plankareX.addEventListener("change", function (e) {
 
+
             let output = `${e.target.value} ${plankareY.value}`
             let buluntuNoOutput;
 
             plankareNo.value = output
 
-            buluntuNoOutput = `${output} ${buluntuNo.value} / `
+            buluntuNoOutput = `${output} ${buluntuNo.value} `
 
             if (kucukBuluntuNo.value) {
                 buluntuNoOutput += kucukBuluntuNo.value
@@ -56,7 +58,7 @@ window.onload = function () {
 
             plankareNo.value = output
 
-            buluntuNoOutput = `${output} ${buluntuNo.value} / `
+            buluntuNoOutput = `${output} ${buluntuNo.value}`
 
             if (kucukBuluntuNo.value) {
                 buluntuNoOutput += kucukBuluntuNo.value
@@ -76,7 +78,7 @@ window.onload = function () {
     if (buluntuNo) {
         buluntuNo.addEventListener('change', function (e) {
 
-            buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value}  ${e.target.value} /`
+            buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value}  ${e.target.value}`
         })
     }
 
@@ -94,21 +96,36 @@ window.onload = function () {
     if (buluntuTur) {
         buluntuTur.addEventListener('change', function (e) {
             console.log("event buluntu tur:", e.target.value.toLowerCase())
+
+            const target = e.target.value.toLowerCase()
             let output;
-            switch (e.target.value.toLowerCase()) {
 
-                case "keramik":
+            if (target == "küçük buluntu") {
+
+                kucukBuluntuNo.disabled = false
+            } else {
+
+                kucukBuluntuNo.disabled = true
+            }
+
+           
+            switch (target) {
+
+           
                 case "küçük buluntu":
-
                     output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${kucukBuluntuNo.value}`
                     break;
 
+                case "keramik":
+                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}`
+                    break;
+
                 case "kemik":
-                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}b / ${kucukBuluntuNo.value}`
+                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}b`
                     break;
 
                 case "taş":
-                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}c / ${kucukBuluntuNo.value}`
+                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}c`
                     break;
 
             }
@@ -142,6 +159,18 @@ window.onload = function () {
         reader.readAsDataURL(meta);
       }
       
+
+
+
+     // color_field
+     const colorDropdown = document.getElementById('id_colour')
+     const colorPreview = document.getElementById('id_palet')  
+
+     colorDropdown.onchange = function(event) {
+
+            colorPreview.value = event.target.value;
+     }
+ 
    
 
 
