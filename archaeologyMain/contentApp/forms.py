@@ -16,7 +16,7 @@ class FixtureForm(forms.ModelForm):
         exclude = ['user']
         widgets = {
             'dateofaddition': CustomDateInput(),
-            'fixtureDescription' : CKEditorWidget(config_name='basicstyle')
+            'fixtureDescription' : CKEditorWidget()
         }
     def __init__(self, *args, **kwargs):
         super(FixtureForm, self).__init__(*args, **kwargs)
@@ -73,3 +73,21 @@ class MinorBuluntuForm(forms.ModelForm):
         model = MinorBuluntu
         fields = "__all__"
         exclude  = ['processedBy']
+
+
+class AcmaRaporForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(AcmaRaporForm, self).__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control mb-3 rounded'
+            field.widget.attrs['placeholder'] = field.label
+
+            if field_name == "user":
+                field.initial = user
+                field.disabled = True
+
+    class Meta:
+        model = AcmaRapor
+        fields = "__all__"
