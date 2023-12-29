@@ -4,6 +4,7 @@ from .models import *
 
 admin.site.register(Fixture)
 admin.site.register(SetGeneralBuluntu)
+admin.site.register(SetColour)
 admin.site.register(BuluntuAlani)
 admin.site.register(BuluntuTypes)
 admin.site.register(BuluntuPeriod)
