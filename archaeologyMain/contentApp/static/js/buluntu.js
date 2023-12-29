@@ -167,8 +167,8 @@ window.onload = function () {
      const colorPreview = document.getElementById('id_palet')  
 
      colorDropdown.onchange = function(event) {
-        
-            colorPreview.value = event.target.value
+
+            colorPreview.value = event.target.value;
      }
  
    
