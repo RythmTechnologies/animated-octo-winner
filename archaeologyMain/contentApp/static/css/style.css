@@ -127,3 +127,9 @@ nav .container-fluid {
   }
 
 }
+
+
+.errorlist li {
+
+  list-style-type: none;
+}
