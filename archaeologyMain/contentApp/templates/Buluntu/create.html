@@ -8,9 +8,41 @@
    
 
     <div class="mt-3" style="width: 90%; margin: auto;">
-        
 
-    <form>
+    {% if errors %}
+      
+    <div class="card mb-3">
+
+        <div class="card-header">
+          Form Hataları
+        </div>
+
+
+        <div class="row p-3">
+
+        {% for form_name, form_errors in errors.items %}
+
+        {% if form_errors %}
+            
+          <p>{{ form_name }} Hataları:</p>
+          
+            {% for field_name, error_tag in form_errors.items %}
+              
+                <li>{{field_name}}: <a href="#id_{{field_name}}">{{error_tag}}</a> </li>
+         
+            {% endfor %}
+
+        {% endif %}
+        
+        {% endfor %}
+      
+      </div>
+  
+    </div>
+
+    {% endif %}
+
+    <form action="{% url 'set-buluntu' %}" method="post" enctype="multipart/form-data">
       
     <div class="card">
 
@@ -288,6 +320,10 @@
               <label for="id_id_processedBy">Veri Giren</label>
               <input disabled name="id_processedBy" value="{{request.user.username}}">
            </div>
+
+           <div>
+              <button class="btn btn-success" type="submit">Oluştur</button>
+           </div>
         </div>
 
 
@@ -296,6 +332,7 @@
 
     </div>
 
+    {% csrf_token %}
    </form>
 
   
