@@ -1,4 +1,4 @@
-window.onload = function () {
+window.onload = function() {
 
     document.querySelectorAll('#submit-buluntu,input,textarea,select,option').forEach(function (element) {
 
@@ -17,8 +17,7 @@ window.onload = function () {
     })
 
 
-
-    // plankareler alanı
+    // plankare starts
     const plankareX = document.getElementById('id_plankareX')
     const plankareY = document.getElementById('id_plankareY')
     const plankareNo = document.getElementById('id_plankareNo')
@@ -29,114 +28,103 @@ window.onload = function () {
     const kucukBuluntuNo = document.getElementById('id_secondaryNo')
     const buluntuTur = document.getElementById('id_type')
 
-    if (plankareX) {
-        plankareX.addEventListener("change", function (e) {
+    let flag = "";
 
+    const set_value_for_input = function(action) {
 
-            let output = `${e.target.value} ${plankareY.value}`
-            let buluntuNoOutput;
+        let displayValue = `${plankareX.value} ${plankareY.value}` || "";
 
-            plankareNo.value = output
-
-            buluntuNoOutput = `${output} ${buluntuNo.value} `
-
-            if (kucukBuluntuNo.value) {
-                buluntuNoOutput += kucukBuluntuNo.value
-            }
-
-            buluntuNoSonuc.value = buluntuNoOutput
-        })
-    }
-
-    if (plankareY) {
-        plankareY.addEventListener("change", function (e) {
-
-
-            let output = `${plankareX.value} ${e.target.value}`
-            let buluntuNoOutput;
-
-
-            plankareNo.value = output
-
-            buluntuNoOutput = `${output} ${buluntuNo.value}`
-
-            if (kucukBuluntuNo.value) {
-                buluntuNoOutput += kucukBuluntuNo.value
-            }
-
-            buluntuNoSonuc.value = buluntuNoOutput
-
-        })
-    }
+        if (buluntuNo.value) {
+            displayValue = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}`
+        }
 
 
 
+        const option = buluntuTur.value.toLowerCase()
+  
 
+        switch(action) {
 
-    // plankareler alanı biter
+            case "plankareX":
+            case "plankareY":
+            plankareNo.value = `${plankareX.value} ${plankareY.value}`
+            break;
 
-    if (buluntuNo) {
-        buluntuNo.addEventListener('change', function (e) {
-
-            buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value}  ${e.target.value}`
-        })
-    }
-
-
-    if (kucukBuluntuNo) {
-        kucukBuluntuNo.addEventListener('change', function (e) {
-
-            buluntuNoSonuc.value = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${e.target.value}`
-
-        })
-    }
-
-
-
-    if (buluntuTur) {
-        buluntuTur.addEventListener('change', function (e) {
-            console.log("event buluntu tur:", e.target.value.toLowerCase())
-
-            const target = e.target.value.toLowerCase()
-            let output;
-
-            if (target == "küçük buluntu") {
+            case "bulunuTur":
+            // reset
+            if (option == "küçük buluntu") {
 
                 kucukBuluntuNo.disabled = false
+                flag = "/"
+            } else if (option == "taş") {
+
+                flag = "c"
+
+            } else if (option == "kemik") {
+
+                flag = "b"
+
             } else {
 
                 kucukBuluntuNo.disabled = true
+                flag = ""
             }
 
-           
-            switch (target) {
+        }
 
-           
-                case "küçük buluntu":
-                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} / ${kucukBuluntuNo.value}`
-                    break;
 
-                case "keramik":
-                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}`
-                    break;
+        if (flag.length && option == "küçük buluntu") {
 
-                case "kemik":
-                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}b`
-                    break;
+            displayValue = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} ${flag} ${kucukBuluntuNo.value}`
+            
+        } else if (flag.length) {
 
-                case "taş":
-                    output = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}c`
-                    break;
+            displayValue = `${displayValue}${flag}`
+        }
 
-            }
-
-            buluntuNoSonuc.value = output
-
-        })
+        buluntuNoSonuc.value = displayValue
     }
 
+    // set values for first time
+    set_value_for_input("plankareX")
 
-    // preview
+    plankareX.addEventListener("change", function (e) {
+
+
+        set_value_for_input("plankareX")
+
+    })
+
+
+    plankareY.addEventListener("change", function (e) {
+
+        set_value_for_input("plankareY")
+    })
+
+
+    // buluntu no sonuç
+    buluntuNo.addEventListener('change', function (e) {
+
+        set_value_for_input()
+    })
+
+
+    // küçük buluntu no sonuç
+    kucukBuluntuNo.addEventListener('change', function (e) {
+
+        set_value_for_input()
+    })
+
+    // buluntu türü dropdown
+    buluntuTur.addEventListener('change', function (e) {
+
+        set_value_for_input("bulunuTur")
+    })
+
+
+   // end of plankare
+
+
     const create_preview_element = function(id) {
 
         const element = document.createElement("img")
@@ -174,7 +162,7 @@ window.onload = function () {
    
 
 
-      document.querySelectorAll('#imageElements input').forEach(function(element) {
+    document.querySelectorAll('#imageElements input').forEach(function(element) {
         
             if (element.type === 'file' && element.id.includes("id_type")) { 
 
@@ -203,5 +191,5 @@ window.onload = function () {
             element.insertAdjacentElement("afterend", clearElement)
         } 
       })
-  
+
 }
