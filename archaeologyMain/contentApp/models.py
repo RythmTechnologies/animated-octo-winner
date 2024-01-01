@@ -202,6 +202,7 @@ class SetGeneralBuluntu(models.Model):
     letter_choices = generate_letters()
     number_choices = generate_numbers()
 
+
     user = models.ForeignKey(
         SiteUser, verbose_name=("Kullanıcı"), on_delete=models.CASCADE
     )
@@ -250,7 +251,6 @@ class SetGeneralBuluntu(models.Model):
 
     # def __str__(self) -> str:
     #     return self.no
-
 
 """genel tanımlamalar modeli"""
 
