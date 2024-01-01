@@ -301,8 +301,6 @@ class BuluntuImages(models.Model):
 
 
 """küçük buluntu modeli"""
-
-
 class MinorBuluntu(models.Model):
     OPTION_CHOICES = (
         ("1", "El Arabası"),
