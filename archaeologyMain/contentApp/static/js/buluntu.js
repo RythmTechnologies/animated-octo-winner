@@ -56,19 +56,24 @@ window.onload = function() {
 
                 kucukBuluntuNo.disabled = false
                 flag = "/"
-            } else if (option == "taş") {
-
-                flag = "c"
-
-            } else if (option == "kemik") {
-
-                flag = "b"
+                
+                if (!buluntuNo.value) { buluntuNo.focus()}
+                else if (!kucukBuluntuNo.value) {kucukBuluntuNo.focus()}
 
             } else {
-
                 kucukBuluntuNo.disabled = true
                 flag = ""
+            } 
+            
+            if (option == "taş") {
+
+                flag = "c"
             }
+
+            if (option == "kemik") {
+
+                flag = "b"
+            } 
 
         }
 
@@ -106,6 +111,8 @@ window.onload = function() {
     buluntuNo.addEventListener('change', function (e) {
 
         set_value_for_input()
+
+        if (!kucukBuluntuNo.value) {kucukBuluntuNo.focus()}
     })
 
 
@@ -113,6 +120,8 @@ window.onload = function() {
     kucukBuluntuNo.addEventListener('change', function (e) {
 
         set_value_for_input()
+
+        if (!buluntuNo.value) {kucukBuluntuNo.focus()}
     })
 
     // buluntu türü dropdown
