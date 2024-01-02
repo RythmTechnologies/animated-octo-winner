@@ -14,6 +14,13 @@ class FixtureGainType(models.Model):
         return self.input
 
 
+class CustomTaxRate(models.Model):
+    name = models.CharField(("Verginin Adı"), max_length=50)
+    rate = models.DecimalField(("Vergi Oranı"), max_digits=6, decimal_places=2)
+
+    def __str__(self) -> str:
+        return self.name
+
 # Demirbaş modelidir
 class Fixture(models.Model):
     user = models.ForeignKey(
@@ -24,9 +31,9 @@ class Fixture(models.Model):
     model = models.CharField(("Model"), max_length=150)
     piece = models.IntegerField(("Adet"))
     unitprice = models.DecimalField(("Birim Fiyatı"), max_digits=15, decimal_places=2)
-    taxrate = models.DecimalField(("Vergi Oranı"), max_digits=5, decimal_places=2)
+    taxrate = models.ForeignKey(CustomTaxRate, verbose_name=("Vergi"), on_delete=models.CASCADE)
     totalprice = models.DecimalField(("Toplam Fiyat"), max_digits=15, decimal_places=2)
-    typeofaddition = models.OneToOneField(
+    typeofaddition = models.ForeignKey(
         FixtureGainType, verbose_name=("Alış Şekli"), on_delete=models.CASCADE
     )
     dateofaddition = models.DateField(("Alım Tarihi"), auto_now_add=False)
@@ -70,7 +77,7 @@ class AcmaRapor(models.Model):
     rapor_type = models.CharField(
         "Rapor Tipi", max_length=10, choices=RAPOR_CHOICES, default="daily"
     )
-    placebuluntu = models.OneToOneField(BuluntuYeri, verbose_name="Buluntu Yeri", on_delete=models.CASCADE)
+    placebuluntu = models.ForeignKey(BuluntuYeri, verbose_name="Buluntu Yeri", on_delete=models.CASCADE)
     rapordate = models.DateField("Rapor Tarihi", auto_now=False, auto_now_add=False)
     title = models.CharField("Başlık", max_length=150)
     owner = models.CharField("Formu Dolduran", max_length=150)

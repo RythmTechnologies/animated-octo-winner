@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.generic import ListView
 from .models import Fixture
-from .filters import FixtureFilter
+from .filters import FixtureFilter, RaporAcmaFilter
 
 #Formlar
 from .forms import *
@@ -125,14 +125,15 @@ def set_fixture(request: HttpRequest) -> HttpResponse:
     context['form'] = serverForm
 
     if request.method == 'POST':
-        form = FixtureForm(request.POST)
+        form = FixtureForm(request.POST, request.FILES)
         if form.is_valid():
             form = form.save(commit=False)
             form.user = creater
             form.save()
             messages.success(request, 'Demirbaş Başarıyla Eklenmiştir!')
-            return redirect('set-fixture')
+            return redirect('fixture-liste')
         else:
+            print("Form Errors:", form.errors)
             messages.error(request, "Lütfen Form'u Eksiksiz Doldurunuz!")
             return redirect('set-fixture')
 
@@ -150,41 +151,43 @@ def fixture_list(request: HttpRequest) -> HttpResponse:
         'fixtures': fixture_filter.qs
     }
 
-
     return render(request, 'Fixture/list.html', context)
 
-class FilterListView(ListView):
-    queryset = Fixture.objects.all()
-    template_name = 'Fixture/list.html'
-    context_object_name = 'fixtures'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        self.filterset = FixtureFilter(self.request.GET, queryset=queryset)
-        return self.filterset.qs
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.filterset.form
-        return context
 
 
 # Rapor Start
 def get_rapor(request: HttpRequest) -> HttpResponse:
+    
     if request.method == 'POST':
         form = AcmaRaporForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             rapor = form.save(commit=False)
-            rapor.user = request.user  # Kullanıcıyı burada atayın
+            rapor.user = request.user
             rapor.save()
             messages.success(request, 'Rapor Başarıyla Eklenmiştir!')
-            return redirect('set-rapor')
+            return redirect('rapor-liste')
         else:
+            print("Forms Errors:", form.errors)
             messages.error(request, "Lütfen Form'u Eksiksiz Doldurunuz!")
+            return redirect('set-rapor')
     else:
         form = AcmaRaporForm(user=request.user)
 
     return render(request, "Rapor/create.html", {'form': form})
+
+
+@login_required(login_url='homepage')
+def get_rapor_list(request: HttpRequest) -> HttpResponse:
+    rapor_filter = RaporAcmaFilter(request.GET, queryset=AcmaRapor.objects.all())
+
+    context = {
+        'form' : rapor_filter.form,
+        'rapors': rapor_filter.qs
+    }
+
+    return render(request, 'Rapor/list.html', context)
+
 # Rapor End
 
 # 404 Page Start

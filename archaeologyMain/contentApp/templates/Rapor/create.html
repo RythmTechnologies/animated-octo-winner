@@ -20,17 +20,20 @@ Rapor Ekle
         </div>
 
         <!-- Form Başlangıcı -->
-        <form method="post" enctype="multipart/form-data">
-                <div class="card">
-                {% csrf_token %}
-                <div class="btn-group mt-3 p-3" role="group" aria-label="Rapor Tipi">
-                    {% for radio in form.rapor_type %}
-                    <input type="radio" class="btn-check" name="{{ form.rapor_type.name }}" id="rapor_type_{{ forloop.counter }}" value="{{ radio.choice_value }}" autocomplete="off" {% if adio.choice_value == form.rapor_type.value %}checked{% endif %}>
-                    <label class="btn btn-outline-primary" for="rapor_type_{{ forloop.counter }}">{{ radio.choice_label}}</label>
-                    {% endfor %}
-                </div>
+        <form method="post" action="{% url 'set-rapor' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card">
 
                 <div class="row justify-content-between mt-3 p-3">
+                    <div class="col-md-12">
+                        <div class="d-flex align-items-center mb-4">
+                            {% for radio in form.rapor_type %}
+                                <div class="form-check form-check-inline">
+                                    {{ radio }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-6">
@@ -63,19 +66,19 @@ Rapor Ekle
 
             </div>
 
-                <div class="card-header mt-3">
-                    Rapor Detay
-                </div>
-                {{form.rapordetail}}
-                <div class="card-header mt-3">
-                    Evrak Yükleme
-                </div>
-                {{form.file}}
+            <div class="card-header mt-3">
+                Rapor Detay
+            </div>
+            {{form.rapordetail}}
+            <div class="card-header mt-3">
+                Evrak Yükleme
+            </div>
+            {{form.file}}
 
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-success">Formu Gönder</button>
-                </div>
-            </form>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success">Formu Gönder</button>
+            </div>
+        </form>
 
 
     </div>
