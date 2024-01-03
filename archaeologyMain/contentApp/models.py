@@ -21,6 +21,7 @@ class CustomTaxRate(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 # Demirbaş modelidir
 class Fixture(models.Model):
     user = models.ForeignKey(
@@ -31,7 +32,9 @@ class Fixture(models.Model):
     model = models.CharField(("Model"), max_length=150)
     piece = models.IntegerField(("Adet"))
     unitprice = models.DecimalField(("Birim Fiyatı"), max_digits=15, decimal_places=2)
-    taxrate = models.ForeignKey(CustomTaxRate, verbose_name=("Vergi"), on_delete=models.CASCADE)
+    taxrate = models.ForeignKey(
+        CustomTaxRate, verbose_name=("Vergi"), on_delete=models.CASCADE
+    )
     totalprice = models.DecimalField(("Toplam Fiyat"), max_digits=15, decimal_places=2)
     typeofaddition = models.ForeignKey(
         FixtureGainType, verbose_name=("Alış Şekli"), on_delete=models.CASCADE
@@ -77,7 +80,9 @@ class AcmaRapor(models.Model):
     rapor_type = models.CharField(
         "Rapor Tipi", max_length=10, choices=RAPOR_CHOICES, default="daily"
     )
-    placebuluntu = models.ForeignKey(BuluntuYeri, verbose_name="Buluntu Yeri", on_delete=models.CASCADE)
+    placebuluntu = models.ForeignKey(
+        BuluntuYeri, verbose_name="Buluntu Yeri", on_delete=models.CASCADE
+    )
     rapordate = models.DateField("Rapor Tarihi", auto_now=False, auto_now_add=False)
     title = models.CharField("Başlık", max_length=150)
     owner = models.CharField("Formu Dolduran", max_length=150)
@@ -167,7 +172,7 @@ class BuluntuTypes(models.Model):
 
 
 """
-BuluntuAlani => Pulluk, Çukur, Yapı İçi vs. 
+BuluntuAlani => Pulluk, Çukur, Yapı İçi vs.
 """
 
 
@@ -191,14 +196,15 @@ class BuluntuPeriod(models.Model):
 
 
 """Renk Ekleme Model"""
+
+
 class SetColour(models.Model):
+    colorName = models.CharField(("Renk Adı"), max_length=20)
+    color = ColorField(default="#FF0000", verbose_name="Renk Kodu", unique=True)
 
+    def __str__(self) -> str:
+        return self.colorName
 
-     colorName = models.CharField(("Renk Adı"), max_length=20)
-     color = ColorField(default="#FF0000", verbose_name="Renk Kodu", unique=True)
-
-     def __str__(self) -> str:
-         return self.colorName
 
 """buluntu ekle modeli"""
 
@@ -208,7 +214,6 @@ class SetGeneralBuluntu(models.Model):
     year_choices = avaiable_years()
     letter_choices = generate_letters()
     number_choices = generate_numbers()
-
 
     user = models.ForeignKey(
         SiteUser, verbose_name=("Kullanıcı"), on_delete=models.CASCADE
@@ -247,7 +252,12 @@ class SetGeneralBuluntu(models.Model):
     area = models.ManyToManyField(
         "contentApp.BuluntuAlani", verbose_name=("Buluntu / Kova Alanı")
     )
-    colour = models.ForeignKey(SetColour, to_field="color", verbose_name=("Buluntu Renk"), on_delete=models.CASCADE)
+    colour = models.ForeignKey(
+        SetColour,
+        to_field="color",
+        verbose_name=("Buluntu Renk"),
+        on_delete=models.CASCADE,
+    )
 
     layer_count = models.CharField(("Tabaka Sayı"), max_length=50)
     layer_letter = models.CharField(("Tabaka Harf"), max_length=50)
@@ -258,6 +268,7 @@ class SetGeneralBuluntu(models.Model):
 
     # def __str__(self) -> str:
     #     return self.no
+
 
 """genel tanımlamalar modeli"""
 
@@ -308,6 +319,8 @@ class BuluntuImages(models.Model):
 
 
 """küçük buluntu modeli"""
+
+
 class MinorBuluntu(models.Model):
     OPTION_CHOICES = (
         ("1", "El Arabası"),
