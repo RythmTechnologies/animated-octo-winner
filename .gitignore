@@ -1,6 +1,7 @@
 .env
 archaeologyMain/data/
 archaeologyMain/Uploads/
+archaeologyMain/contentApp/migrations/
 venv/
 staticfiles/
 media/
