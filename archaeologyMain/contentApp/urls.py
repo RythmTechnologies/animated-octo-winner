@@ -11,4 +11,6 @@ urlpatterns = [
     path('fixture/liste', fixture_list, name='fixture-liste'),
     path('rapor/ekle', get_rapor, name='set-rapor'),
     path('rapor/liste', get_rapor_list, name='rapor-liste'),
+    path('document/ekle', get_document, name='set-document'),
+    path('document/list', get_document_list, name='document-liste'),
 ]

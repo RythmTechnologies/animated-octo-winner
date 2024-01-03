@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.generic import ListView
 from .models import Fixture
-from .filters import FixtureFilter, RaporAcmaFilter
+from .filters import FixtureFilter, RaporAcmaFilter, DocumentFilter
 
 #Formlar
 from .forms import *
@@ -189,6 +189,43 @@ def get_rapor_list(request: HttpRequest) -> HttpResponse:
     return render(request, 'Rapor/list.html', context)
 
 # Rapor End
+
+
+# Document Start
+@login_required(login_url='homepage')
+def get_document(request: HttpRequest) -> HttpResponseRedirect:
+
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            rapor = form.save(commit=False)
+            rapor.user = request.user
+            rapor.save()
+            messages.success(request, 'Rapor Başarıyla Eklenmiştir!')
+            return redirect('rapor-liste')
+        else:
+            print("Forms Errors:", form.errors)
+            messages.error(request, "Lütfen Form'u Eksiksiz Doldurunuz!")
+            return redirect('set-rapor')
+    else:
+        form = DocumentForm(user=request.user)
+
+    return render(request, "Document/create.html", {'form': form})
+
+@login_required(login_url='homepage')
+def get_document_list(request: HttpRequest) -> HttpResponse:
+    document_filter = DocumentFilter(request.GET, queryset=DocumentCreateModel.objects.all())
+
+    context = {
+        'form' : document_filter.form,
+        'documents': document_filter.qs
+    }
+
+    return render(request, 'Document/list.html', context)
+# Document End
+
+
+
 
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:

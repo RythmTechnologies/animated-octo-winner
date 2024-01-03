@@ -101,7 +101,7 @@ class DocumentCreateModel(models.Model):
     relevantunit = models.CharField(("İlgili Birim"), max_length=150)
     relevantinstitution = models.CharField(("İlgili Kurum"), max_length=150)
     docsubject = models.CharField(("Evrak Konusu"), max_length=150)
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
     files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
