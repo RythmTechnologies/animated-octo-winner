@@ -301,8 +301,6 @@ class GeneralInstructions(models.Model):
 
 
 """İlişkili: SetGeneralBuluntu Fotoğraflar bu model atlında depolanır"""
-
-
 class BuluntuImages(models.Model):
     store = "Buluntu/Attachments"
 
@@ -317,10 +315,37 @@ class BuluntuImages(models.Model):
     type_3 = models.ImageField(("Çizim"), upload_to=store)
     type_4 = models.ImageField(("OrtoFoto"), upload_to=store)
 
+"""Küçük Buluntu Formu Yardımcı Modelleri"""
+class Pieces(models.Model):
+
+    name = models.CharField(("Eser Adı"), max_length=100)
+    
+    def __str__(self) -> str:
+        return self.name
+    
+class Statues(models.Model):
+
+    status = models.CharField(("Eser Durumu"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.status
+"""Küçük Buluntu Formu Yardımcı Modelleri Biter"""
+
+
+
+"""küçük buluntu formu"""
+class MinorBuluntuForm(models.Model):
+
+    # şimdilik charfield
+    buluntuName = models.CharField(("Buluntu Adı"), max_length=50, default="")
+    pieceName = models.ForeignKey(Pieces, verbose_name=("Eser"), on_delete=models.CASCADE)
+    pieceStatus = models.ForeignKey(Statues, verbose_name=("Durum"), on_delete=models.CASCADE)
+    # tanım ve ölçüler ?
+
+    def __str__(self) -> str:
+        return self.buluntuName
 
 """küçük buluntu modeli"""
-
-
 class MinorBuluntu(models.Model):
     OPTION_CHOICES = (
         ("1", "El Arabası"),
@@ -332,3 +357,4 @@ class MinorBuluntu(models.Model):
     buluntu = models.CharField(("Küçük Buluntu"), max_length=50, choices=OPTION_CHOICES)
     filledBy = models.CharField(("Formu Dolduran"), max_length=50)
     processedBy = models.CharField(("Veri Giren"), max_length=50)
+    form = models.ForeignKey(MinorBuluntuForm, verbose_name=("Küçük Buluntu Formu"), default="", on_delete=models.CASCADE)

@@ -101,10 +101,10 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
             context["errors"]["imageForm"] = imageForm.errors
             context["errors"]["minorBuluntuForm"] = minorForm.errors
 
-            context["form"] = GeneralBuluntuForm
-            context["instruactionForm"] = GeneralInstructionsForm
-            context["imageForm"] = BuluntuImagesForm
-            context["minorBuluntuForm"] = MinorBuluntuForm
+            context["form"] = buluntuForm
+            context["instruactionForm"] = instruactionForm
+            context["imageForm"] = imageForm
+            context["minorBuluntuForm"] = minorForm
 
             return render(request, "Buluntu/create.html", context)
 
