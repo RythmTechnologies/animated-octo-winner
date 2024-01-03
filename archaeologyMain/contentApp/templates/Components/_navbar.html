@@ -70,7 +70,7 @@
                             <a class="dropdown-item" href="{% url 'set-rapor' %}"> Rapor Ekle</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#"> Rapor Listele</a>
+                            <a class="dropdown-item" href="{% url 'rapor-liste' %}"> Rapor Listele</a>
                         </li>
                     </ul>
                 </li>
@@ -82,10 +82,10 @@
             {% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#"><i class="fa-solid fa-thumbtack"></i> Evrak Yönetimi</a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" href="#"> Evrak Ekle</a>
+                            <a class="dropdown-item" href="{% url 'set-document' %}"> Evrak Ekle</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#"> Evrak Listele</a>
+                            <a class="dropdown-item" href="{% url 'document-liste' %}"> Evrak Listele</a>
                         </li>
                     </ul>
                 </li>

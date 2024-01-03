@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static %}
+{% block site-content %}
+
+
+
+<div class="mt-3" style="width: 90%; margin: auto;">
+
+
+  <div class="card p-3">
+
+    <div class="card-header">
+      Evrak
+    </div>
+
+    <div class="card">
+      <!-- Form Başlangıcı -->
+      <form action="{% url 'set-document' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row p-3">
+
+          <div class="col-md-6">
+            <div class="card-header">Evrak Tipi</div>
+            <div class="row justify-content-between p-3">
+              <div class="col-md-4">
+                <label for="id_incomingdoc" class="form-label">Gelen Evrak</label>
+                {{form.incomingdoc}}
+              </div>
+              <div class="col-md-4">
+                <label for="id_outgoingdoc" class="form-label">Giden Evrak</label>
+                {{form.outgoingdoc}}
+              </div>
+              <div class="col-md-4">
+                <label for="id_amount" class="form-label">Tutanak</label>
+                {{form.amount}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card-header">Öncelik</div>
+            <div class="row justify-content-between p-3">
+              <div class="col-md-4">
+                <label for="id_high" class="form-label">Yüksek</label>
+                {{form.high}}
+              </div>
+              <div class="col-md-4">
+                <label for="id_middle" class="form-label">Orta</label>
+                {{form.middle}}
+              </div>
+              <div class="col-md-4">
+                <label for="id_low" class="form-label">Düşük</label>
+                {{form.low}}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <label for="id_docno" class="form-label">Evrak No</label>
+            {{form.docno}}
+
+          </div>
+
+
+
+          <div class="col-md-4">
+            <label for="id_docdate" class="form-label">Evrak Tarihi</label>
+            {{form.docdate}}
+          </div>
+
+
+          <div class="col-md-4">
+            <label for="id_doccount" class="form-label">Evrak Sayısı</label>
+            {{form.doccount}}
+          </div>
+
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <label for="id_relevantunit" class="form-label">İlgili Birim</label>
+              {{form.relevantunit}}
+            </div>
+
+            <div class="col-md-6">
+              <label for="id_relevantinstitution" class="form-label">İlgili Kurum</label>
+              {{form.relevantinstitution}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <label for="id_docsubject">Evrak Konusu</label>
+              {{form.docsubject}}
+            </div>
+            <div class="col-md-6">
+              <label for="id_user">Formu Dolduran</label>
+              {{form.user}}
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+        <div class="card-header mt-3">Rapor Detay</div>
+        
+        {{ form.detail }}
+
+        <div class="card-header mt-3">Evrak Yükleme</div>
+
+        {{ form.files }}
+
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Formu Gönder</button>
+        </div>
+      </form>
+
+
+
+
+
+
+  </div>
+
+  <script src="{% static '/js/buluntu.js' %}"></script>
+  {% endblock site-content %}
