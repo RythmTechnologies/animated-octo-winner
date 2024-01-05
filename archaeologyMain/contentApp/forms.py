@@ -41,7 +41,9 @@ class FixtureForm(forms.ModelForm):
             if field_name == "companyAddress":
                 field.widget.attrs["style"] = "height: 124px;"
 
-
+            if 'taxrate' in self.fields:
+                taxrate_choices = [(taxrate.id, f'{taxrate} (Rate: {taxrate.rate})') for taxrate in CustomTaxRate.objects.all()]
+                self.fields['taxrate'].widget = forms.Select(choices=taxrate_choices, attrs={'class': 'form-control mb-3 rounded'})
 # set general buluntu form field
 
 
