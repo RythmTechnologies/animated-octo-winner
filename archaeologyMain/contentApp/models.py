@@ -319,27 +319,101 @@ class BuluntuImages(models.Model):
 class Pieces(models.Model):
 
     name = models.CharField(("Eser Adı"), max_length=100)
-    
+    status = models.CharField(("Eser Durumu"), max_length=50, default="")
     def __str__(self) -> str:
         return self.name
     
-class Statues(models.Model):
-
-    status = models.CharField(("Eser Durumu"), max_length=50)
-
-    def __str__(self) -> str:
-        return self.status
 """Küçük Buluntu Formu Yardımcı Modelleri Biter"""
 
+"""Renkler (Astar) formu"""
+class AstarColour(models.Model):
+    disAstar = models.CharField(("Dış Astar Rengi"), max_length=50)
+    icAstar = models.CharField(("İç Astar Rengi"), max_length=50)
+    hamur = models.CharField(("Hamur / Çekirdek Rengi"), max_length=50)
 
+    def __str__(self) -> str:
+        return self.disAstar
+
+"""Hamur Özellikleri Formu"""
+class HamurKatkiBoy(models.Model):
+
+    value = models.CharField(("Katkı Boyutu"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+    
+    
+class HamurGozeneklilik(models.Model):
+
+    value = models.CharField(("Gözeneklilik"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+class HamurSertlik(models.Model):
+
+    value = models.CharField(("Sertlik"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+class HamurFirinlama(models.Model):
+
+    value = models.CharField(("Fırınlama"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+class HamurKatkiTur(models.Model):
+
+    value = models.CharField(("Katkı Türü"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+class HamurYuzey(models.Model):
+
+    value = models.CharField(("Yuzey Ugulamaları"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+"""Hamur Özellikleri Formu Biter"""
+
+
+"""Benzeme Formu"""
+class Bezeme(models.Model):
+
+    bezeme = models.CharField(("Bezeme"), max_length=50)
+    bezemeAlani = models.CharField(("Bezeme Alanı"), max_length=50)
+    bezemeTur = models.CharField(("Bezeme Türü"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.bezeme
 
 """küçük buluntu formu"""
 class MinorBuluntuForm(models.Model):
 
     # şimdilik charfield
     buluntuName = models.CharField(("Buluntu Adı"), max_length=50, default="")
-    pieceName = models.ForeignKey(Pieces, verbose_name=("Eser"), on_delete=models.CASCADE)
-    pieceStatus = models.ForeignKey(Statues, verbose_name=("Durum"), on_delete=models.CASCADE)
+    piece = models.ForeignKey(Pieces, verbose_name=("Eser"), on_delete=models.CASCADE, related_name="eserler", default="")
+    width = models.CharField(("Yükseklik"), max_length=50, default="", blank=True)
+    thick = models.CharField(("Kalınlık"), max_length=50, default="", blank=True)
+    height = models.CharField(("Genişlik"), max_length=50, default="", blank=True)
+    diameter = models.CharField(("Çap"), max_length=50, default="", blank=True)
+    length = models.CharField(("Uzunluk"), max_length=50, default="", blank=True)
+    weight = models.CharField(("Ağırlık"), max_length=50, default="", blank=True)
+    color = models.ForeignKey(AstarColour, verbose_name=("Renkler"), on_delete=models.CASCADE, default = "")
+    hamurBoy = models.ForeignKey(HamurKatkiBoy, verbose_name=("Katkı Boyutu"), on_delete=models.CASCADE, default = "")
+    hamurGozeneklik = models.ForeignKey(HamurGozeneklilik, verbose_name=("Gözeneklilik"), on_delete=models.CASCADE, default = "")
+    hamurSertlik = models.ForeignKey(HamurSertlik, verbose_name=("Sertlik"), on_delete=models.CASCADE, default = "")
+    hamurFirinlama = models.ForeignKey(HamurFirinlama, verbose_name=("Fırınlama"), on_delete=models.CASCADE, default = "")
+    hamurTur = models.ForeignKey(HamurKatkiTur, verbose_name=("Katkı Türü"), on_delete=models.CASCADE, default = "")
+    hamurYuzey = models.ForeignKey(HamurYuzey, verbose_name=("Hamur Yüzey Uygulamaları"), on_delete=models.CASCADE, default = "")
+    bezeme = models.ForeignKey(Bezeme, verbose_name=("Bezeme"), on_delete=models.CASCADE, default = "")
+
     # tanım ve ölçüler ?
 
     def __str__(self) -> str:

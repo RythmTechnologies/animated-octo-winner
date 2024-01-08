@@ -2,7 +2,7 @@ from datetime import datetime
 from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import DateInput
+from django.forms import DateInput, inlineformset_factory
 
 from .models import *
 
@@ -70,11 +70,21 @@ class BuluntuImagesForm(forms.ModelForm):
         exclude = ["buluntu"]
 
 
-class MinorBuluntuForm(forms.ModelForm):
+class MinorBuluntu(forms.ModelForm):
     class Meta:
         model = MinorBuluntu
         fields = "__all__"
         exclude = ["processedBy"]
+
+
+
+class FinalBuluntuForm(forms.ModelForm):
+
+    # piece = forms.ChoiceField(choices=Pieces.objects.values_list())
+
+    class Meta:
+        model = MinorBuluntuForm
+        fields = "__all__"
 
 
 class AcmaRaporForm(forms.ModelForm):
