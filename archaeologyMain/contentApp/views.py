@@ -78,7 +78,7 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
         buluntuForm = GeneralBuluntuForm(incame_data)
         instruactionForm = GeneralInstructionsForm(incame_data)
         imageForm = BuluntuImagesForm(incame_data, request.FILES)
-        minorForm = MinorBuluntuForm(incame_data)
+        minorForm = MinorBuluntu(incame_data)
 
         context["errors"] = {}
 
@@ -99,12 +99,12 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
             context["errors"]["buluntuForm"] = buluntuForm.errors
             context["errors"]["instruactionForm"] = instruactionForm.errors
             context["errors"]["imageForm"] = imageForm.errors
-            context["errors"]["minorBuluntuForm"] = minorForm.errors
+            context["errors"]["minorBuluntu"] = minorForm.errors
 
             context["form"] = buluntuForm
             context["instruactionForm"] = instruactionForm
             context["imageForm"] = imageForm
-            context["minorBuluntuForm"] = minorForm
+            context["minorBuluntu"] = minorForm
 
             return render(request, "Buluntu/create.html", context)
 
@@ -112,7 +112,11 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
         context["form"] = GeneralBuluntuForm
         context["instruactionForm"] = GeneralInstructionsForm
         context["imageForm"] = BuluntuImagesForm
-        context["minorBuluntuForm"] = MinorBuluntuForm
+        context["minorBuluntu"] = MinorBuluntu
+        context['minorBuluntuForm'] = FinalBuluntuForm
+
+        print("TETO:", FinalBuluntuForm().fields)
+        
         return render(request, "Buluntu/create.html", context)
 
 
