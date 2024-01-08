@@ -169,6 +169,17 @@ window.onload = function() {
      }
  
    
+    //  küçük buluntu dropdown (hatali)
+    const selectBuluntu = document.getElementById('id_form')
+    
+    selectBuluntu.onchange = function(event) {
+
+        const selectedOption = event.target.options[event.target.selectedIndex]
+
+        selectedOption.setAttribute("data-bs-toggle", "modal");
+        selectedOption.setAttribute("data-bs-target", "#commonModal");
+        
+    }
 
 
     document.querySelectorAll('#imageElements input').forEach(function(element) {
