@@ -56,7 +56,9 @@ Demirbaş Listesi
                     <th>Alım Tarihi</th>
                     <th>Bulunduğu Yer</th>
                     <th>Zimmetli Kişi</th>
+                    {% if request.user.is_superuser or request.user.isModerator == True %}
                     <th>İşlemler</th>
+                    {% endif %}
                 </tr>
             </thead>
             <!-- Tablo verileri -->
@@ -71,9 +73,11 @@ Demirbaş Listesi
                     <td>{{ fixture.dateofaddition }}</td>
                     <td>{{ fixture.where }}</td>
                     <td>{{ fixture.custodian }}</td>
+                    {% if request.user.is_superuser or request.user.isModerator == True %}
                     <td><a href="#" class="mb-2 me-3"><button class="btn btn-danger">Sil</button></a><a href="#"><button
                                 class="btn btn-info">Düzenle</button></a></td>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
