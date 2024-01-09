@@ -42,6 +42,11 @@
 
     {% endif %}
 
+
+    {% include "./Components/BuluntuModal.html" %}
+
+
+
     <form action="{% url 'set-buluntu' %}" method="post" enctype="multipart/form-data">
       
     <div class="card">
@@ -314,7 +319,11 @@
 
         <div class="col-12 col-md-3">
 
-            {{minorBuluntuForm}}
+            {{minorBuluntu}}
+
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#commonModal">
+              Küçük Buluntu Form Modalını Tetikle
+            </button>
 
             <div>
               <label for="id_id_processedBy">Veri Giren</label>
