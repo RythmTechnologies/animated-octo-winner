@@ -50,7 +50,10 @@ Evrak Listesi
                     <th>İlgili Kurum</th>
                     <th>Evrak Konusu</th>
                     <th>Evrak Detayı</th>
+                    {% if request.user.is_superuser or request.user.isModerator == True %}
+                      
                     <th>İşlemler</th>
+                    {% endif %}
                 </tr>
             </thead>
             <!-- Tablo verileri -->
@@ -60,12 +63,14 @@ Evrak Listesi
                     <td>{{ document.docno }}</td>
                     <td>{{ document.docdate }}</td>
                     <td>{{ document.relevantunit }}</td>
-                    <td>{{ document.relavantinstitution }}</td>
+                    <td>{{ document.relevantinstitution }}</td>
                     <td>{{ document.docsubject }}</td>
                     <td>{{ document.detail }}</td>
+                    {% if request.user.is_superuser or request.user.isModerator == True %}
                     <td><a href="#" class="mb-2 me-3"><button class="btn btn-danger">Sil</button></a><a href="#"><button
-                                class="btn btn-info">Düzenle</button></a></td>
-                </tr>
+                        class="btn btn-info">Düzenle</button></a></td>
+                    </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>

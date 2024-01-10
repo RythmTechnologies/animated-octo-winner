@@ -147,7 +147,6 @@ def set_fixture(request: HttpRequest) -> HttpResponse:
     return render(request, "Fixture/create.html", context)
 
 
-# Demirbas Add end
 
 
 @login_required(login_url="homepage")
@@ -158,6 +157,7 @@ def fixture_list(request: HttpRequest) -> HttpResponse:
 
     return render(request, "Fixture/list.html", context)
 
+# Demirbas Add end
 
 # Rapor Start
 def get_rapor(request: HttpRequest) -> HttpResponse:
@@ -201,11 +201,11 @@ def get_document(request: HttpRequest) -> HttpResponseRedirect:
             rapor.user = request.user
             rapor.save()
             messages.success(request, "Rapor Başarıyla Eklenmiştir!")
-            return redirect("rapor-liste")
+            return redirect("document-liste")
         else:
             print("Forms Errors:", form.errors)
             messages.error(request, "Lütfen Form'u Eksiksiz Doldurunuz!")
-            return redirect("set-rapor")
+            return redirect("set-document")
     else:
         form = DocumentForm(user=request.user)
 

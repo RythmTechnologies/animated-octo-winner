@@ -36,7 +36,7 @@ class FixtureForm(forms.ModelForm):
 
             if field_name == "totalprice":
                 field.widget.attrs["input_type"] = "number"
-                field.widget.attrs["disabled"] = True
+                field.widget.attrs["readonly"] = True
 
             if field_name == "companyAddress":
                 field.widget.attrs["style"] = "height: 124px;"

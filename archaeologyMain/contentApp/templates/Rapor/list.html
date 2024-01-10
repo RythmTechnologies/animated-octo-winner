@@ -51,7 +51,10 @@ Rapor Listesi
                     <th>Raporu Dolduran</th>
                     <th>Rapor Tarihi</th>
                     <th>Veriyi Giren</th>
+                    {% if request.user.is_superuser or request.user.isModerator == True %}
+                      
                     <th>İşlemler</th>
+                    {% endif %}
                 </tr>
             </thead>
             <!-- Tablo verileri -->
@@ -65,8 +68,11 @@ Rapor Listesi
                     <td>{{ rapor.owner }}</td>
                     <td>{{ rapor.rapordate }}</td>
                     <td>{{ rapor.user }}</td>
+                    {% if request.user.is_superuser or request.user.isModerator == True %}
+                      ß
                     <td><a href="#" class="mb-2 me-3"><button class="btn btn-danger">Sil</button></a><a href="#"><button
-                                class="btn btn-info">Düzenle</button></a></td>
+                        class="btn btn-info">Düzenle</button></a></td>
+                        {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
