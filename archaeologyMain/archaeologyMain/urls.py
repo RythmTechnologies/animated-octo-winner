@@ -23,6 +23,7 @@ from contentApp.views import *
 
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('', get_index, name='homepage'),
     path('site/', include('contentApp.urls')),
