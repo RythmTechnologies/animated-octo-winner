@@ -19,12 +19,17 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from django.urls import path, include, re_path
-from contentApp.views import *
+from apps.main.views import *
+from apps.document.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', get_index, name='homepage'),
-    path('site/', include('contentApp.urls')),
+    path('dashboard/', include('apps.main.urls')),
+    path('document/', include('apps.document.urls')),
+    path('buluntu/', include('apps.buluntu.urls')),
+    path('fixture/', include('apps.fixture.urls')),
+    path('rapor/', include('apps.rapor.urls')),
     re_path(r'^.*/$', get_notFound, name='404'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
