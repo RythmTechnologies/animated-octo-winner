@@ -10,7 +10,7 @@ class FixtureGainType(models.Model):
 
 class CustomTaxRate(models.Model):
     name = models.CharField(("Verginin Adı"), max_length=50)
-    rate = models.DecimalField(("Vergi Oranı"), max_digits=6, decimal_places=2)
+    rate = models.DecimalField(("Vergi Oranı (%)"), max_digits=6, decimal_places=2, unique = True)
 
     def __str__(self) -> str:
         return self.name
@@ -26,7 +26,7 @@ class Fixture(models.Model):
     piece = models.IntegerField(("Adet"))
     unitprice = models.DecimalField(("Birim Fiyatı"), max_digits=15, decimal_places=2)
     taxrate = models.ForeignKey(
-        CustomTaxRate, verbose_name=("Vergi"), on_delete=models.CASCADE
+        CustomTaxRate, to_field="rate", verbose_name=("Vergi"), on_delete=models.CASCADE
     )
     totalprice = models.DecimalField(("Toplam Fiyat"), max_digits=15, decimal_places=2)
     typeofaddition = models.ForeignKey(

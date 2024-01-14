@@ -188,7 +188,7 @@
           
           // Tax rate'i seçilen opsiyondan al ve çarpan olarak kullan
           const taxrateValue = parseFloat(taxrate.options[taxrate.selectedIndex].value) / 100 + 1;
-  
+
           // Toplam fiyatı hesapla
           const result = pieceValue * unitpriceValue * taxrateValue;
           totalprice.value = result.toFixed(2); // Sonucu 2 ondalık basamağa yuvarla
