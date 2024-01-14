@@ -1,8 +1,14 @@
 .env
 archaeologyMain/data/
 archaeologyMain/Uploads/
-archaeologyMain/contentApp/migrations/
 venv/
 staticfiles/
 media/
-.DS_Store
+
+# Ignore Django Migrations in Development if you are working on team
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+
+# Ignore DsStore
+**/.DS_Store
