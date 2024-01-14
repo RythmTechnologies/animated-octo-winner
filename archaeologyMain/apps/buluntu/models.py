@@ -1,9 +1,9 @@
-from django.db import models
+import datetime
+import string
 
+from apps.specuser.models import SiteUser
 from colorfield.fields import ColorField
-from apps.specuser.models import *
-
-import datetime, string
+from django.db import models
 
 """
 Aşağıdaki modeller buluntu kayıt form genel bilgiler'i kapsar
@@ -139,7 +139,7 @@ class SetGeneralBuluntu(models.Model):
     kor_h = models.CharField(("Kordinat H"), max_length=50)
 
     area = models.ManyToManyField(
-        "contentApp.BuluntuAlani", verbose_name=("Buluntu / Kova Alanı")
+        BuluntuAlani, verbose_name=("Buluntu / Kova Alanı")
     )
     colour = models.ForeignKey(
         SetColour,
@@ -152,7 +152,7 @@ class SetGeneralBuluntu(models.Model):
     layer_letter = models.CharField(("Tabaka Harf"), max_length=50)
     phase = models.CharField(("Evre"), max_length=50)
     period = models.ForeignKey(
-        "contentApp.BuluntuPeriod", verbose_name=("Dönem"), on_delete=models.CASCADE
+        BuluntuPeriod, verbose_name=("Dönem"), on_delete=models.CASCADE
     )
 
     def __str__(self) -> str:
@@ -171,7 +171,7 @@ class GeneralInstructions(models.Model):
     )
 
     buluntu = models.ForeignKey(
-        "contentApp.SetGeneralBuluntu",
+        SetGeneralBuluntu,
         null=True,
         verbose_name=("Buluntu"),
         on_delete=models.CASCADE,
@@ -190,11 +190,13 @@ class GeneralInstructions(models.Model):
 
 
 """İlişkili: SetGeneralBuluntu Fotoğraflar bu model atlında depolanır"""
+
+
 class BuluntuImages(models.Model):
     store = "Buluntu/Attachments"
 
     buluntu = models.ForeignKey(
-        "contentApp.SetGeneralBuluntu",
+        SetGeneralBuluntu,
         null=True,
         verbose_name=("Buluntu"),
         on_delete=models.CASCADE,
@@ -204,17 +206,23 @@ class BuluntuImages(models.Model):
     type_3 = models.ImageField(("Çizim"), upload_to=store)
     type_4 = models.ImageField(("OrtoFoto"), upload_to=store)
 
-"""Küçük Buluntu Formu Yardımcı Modelleri"""
-class Pieces(models.Model):
 
+"""Küçük Buluntu Formu Yardımcı Modelleri"""
+
+
+class Pieces(models.Model):
     name = models.CharField(("Eser Adı"), max_length=100)
     status = models.CharField(("Eser Durumu"), max_length=50, default="")
+
     def __str__(self) -> str:
         return self.name
-    
+
+
 """Küçük Buluntu Formu Yardımcı Modelleri Biter"""
 
 """Renkler (Astar) formu"""
+
+
 class AstarColour(models.Model):
     disAstar = models.CharField(("Dış Astar Rengi"), max_length=50)
     icAstar = models.CharField(("İç Astar Rengi"), max_length=50)
@@ -223,17 +231,18 @@ class AstarColour(models.Model):
     def __str__(self) -> str:
         return self.disAstar
 
-"""Hamur Özellikleri Formu"""
-class HamurKatkiBoy(models.Model):
 
+"""Hamur Özellikleri Formu"""
+
+
+class HamurKatkiBoy(models.Model):
     value = models.CharField(("Katkı Boyutu"), max_length=50)
 
     def __str__(self) -> str:
         return self.value
-    
-    
-class HamurGozeneklilik(models.Model):
 
+
+class HamurGozeneklilik(models.Model):
     value = models.CharField(("Gözeneklilik"), max_length=50)
 
     def __str__(self) -> str:
@@ -241,14 +250,13 @@ class HamurGozeneklilik(models.Model):
 
 
 class HamurSertlik(models.Model):
-
     value = models.CharField(("Sertlik"), max_length=50)
 
     def __str__(self) -> str:
         return self.value
 
-class HamurFirinlama(models.Model):
 
+class HamurFirinlama(models.Model):
     value = models.CharField(("Fırınlama"), max_length=50)
 
     def __str__(self) -> str:
@@ -256,25 +264,26 @@ class HamurFirinlama(models.Model):
 
 
 class HamurKatkiTur(models.Model):
-
     value = models.CharField(("Katkı Türü"), max_length=50)
 
     def __str__(self) -> str:
         return self.value
 
-class HamurYuzey(models.Model):
 
+class HamurYuzey(models.Model):
     value = models.CharField(("Yuzey Ugulamaları"), max_length=50)
 
     def __str__(self) -> str:
         return self.value
 
+
 """Hamur Özellikleri Formu Biter"""
 
 
 """Benzeme Formu"""
-class Bezeme(models.Model):
 
+
+class Bezeme(models.Model):
     bezeme = models.CharField(("Bezeme"), max_length=50)
     bezemeAlani = models.CharField(("Bezeme Alanı"), max_length=50)
     bezemeTur = models.CharField(("Bezeme Türü"), max_length=50)
@@ -282,33 +291,69 @@ class Bezeme(models.Model):
     def __str__(self) -> str:
         return self.bezeme
 
-"""küçük buluntu formu"""
-class MinorBuluntuForm(models.Model):
 
+"""küçük buluntu formu"""
+
+
+class MinorBuluntuForm(models.Model):
     # şimdilik charfield
     buluntuName = models.CharField(("Buluntu Adı"), max_length=50, default="")
-    piece = models.ForeignKey(Pieces, verbose_name=("Eser"), on_delete=models.CASCADE, related_name="eserler", default="")
+    piece = models.ForeignKey(
+        Pieces,
+        verbose_name=("Eser"),
+        on_delete=models.CASCADE,
+        related_name="eserler",
+        default="",
+    )
     width = models.CharField(("Yükseklik"), max_length=50, default="", blank=True)
     thick = models.CharField(("Kalınlık"), max_length=50, default="", blank=True)
     height = models.CharField(("Genişlik"), max_length=50, default="", blank=True)
     diameter = models.CharField(("Çap"), max_length=50, default="", blank=True)
     length = models.CharField(("Uzunluk"), max_length=50, default="", blank=True)
     weight = models.CharField(("Ağırlık"), max_length=50, default="", blank=True)
-    color = models.ForeignKey(AstarColour, verbose_name=("Renkler"), on_delete=models.CASCADE, default = "")
-    hamurBoy = models.ForeignKey(HamurKatkiBoy, verbose_name=("Katkı Boyutu"), on_delete=models.CASCADE, default = "")
-    hamurGozeneklik = models.ForeignKey(HamurGozeneklilik, verbose_name=("Gözeneklilik"), on_delete=models.CASCADE, default = "")
-    hamurSertlik = models.ForeignKey(HamurSertlik, verbose_name=("Sertlik"), on_delete=models.CASCADE, default = "")
-    hamurFirinlama = models.ForeignKey(HamurFirinlama, verbose_name=("Fırınlama"), on_delete=models.CASCADE, default = "")
-    hamurTur = models.ForeignKey(HamurKatkiTur, verbose_name=("Katkı Türü"), on_delete=models.CASCADE, default = "")
-    hamurYuzey = models.ForeignKey(HamurYuzey, verbose_name=("Hamur Yüzey Uygulamaları"), on_delete=models.CASCADE, default = "")
-    bezeme = models.ForeignKey(Bezeme, verbose_name=("Bezeme"), on_delete=models.CASCADE, default = "")
+    color = models.ForeignKey(
+        AstarColour, verbose_name=("Renkler"), on_delete=models.CASCADE, default=""
+    )
+    hamurBoy = models.ForeignKey(
+        HamurKatkiBoy,
+        verbose_name=("Katkı Boyutu"),
+        on_delete=models.CASCADE,
+        default="",
+    )
+    hamurGozeneklik = models.ForeignKey(
+        HamurGozeneklilik,
+        verbose_name=("Gözeneklilik"),
+        on_delete=models.CASCADE,
+        default="",
+    )
+    hamurSertlik = models.ForeignKey(
+        HamurSertlik, verbose_name=("Sertlik"), on_delete=models.CASCADE, default=""
+    )
+    hamurFirinlama = models.ForeignKey(
+        HamurFirinlama, verbose_name=("Fırınlama"), on_delete=models.CASCADE, default=""
+    )
+    hamurTur = models.ForeignKey(
+        HamurKatkiTur, verbose_name=("Katkı Türü"), on_delete=models.CASCADE, default=""
+    )
+    hamurYuzey = models.ForeignKey(
+        HamurYuzey,
+        verbose_name=("Hamur Yüzey Uygulamaları"),
+        on_delete=models.CASCADE,
+        default="",
+    )
+    bezeme = models.ForeignKey(
+        Bezeme, verbose_name=("Bezeme"), on_delete=models.CASCADE, default=""
+    )
 
     # tanım ve ölçüler ?
 
     def __str__(self) -> str:
         return self.buluntuName
 
+
 """küçük buluntu modeli"""
+
+
 class MinorBuluntu(models.Model):
     OPTION_CHOICES = (
         ("1", "El Arabası"),
@@ -320,4 +365,9 @@ class MinorBuluntu(models.Model):
     buluntu = models.CharField(("Küçük Buluntu"), max_length=50, choices=OPTION_CHOICES)
     filledBy = models.CharField(("Formu Dolduran"), max_length=50)
     processedBy = models.CharField(("Veri Giren"), max_length=50)
-    form = models.ForeignKey(MinorBuluntuForm, verbose_name=("Küçük Buluntu Formu"), default="", on_delete=models.CASCADE)
+    form = models.ForeignKey(
+        MinorBuluntuForm,
+        verbose_name=("Küçük Buluntu Formu"),
+        default="",
+        on_delete=models.CASCADE,
+    )

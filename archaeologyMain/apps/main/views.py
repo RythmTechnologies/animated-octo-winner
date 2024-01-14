@@ -38,17 +38,17 @@ def get_index(request: HttpRequest) -> RedirectOrResponse:
             messages.warning(request, "Please fill in the fields.")
             return redirect("homepage")
 
-    return render(request, "index.html")
+    return render(request, "main/index.html")
 # Homepage End
 
 # Dashboard Start
 @login_required(login_url="homepage")
 def get_dashboard(request: HttpRequest) -> HttpResponse:
-    return render(request, "dashboard.html")
+    return render(request, "main/dashboard.html")
 # Dashboard End
 
 
 # 404 Page Start
 def get_notFound(request: HttpRequest) -> HttpResponse:
-    return render(request, "404page.html")
+    return render(request, "main/404page.html")
 # 404 Page End

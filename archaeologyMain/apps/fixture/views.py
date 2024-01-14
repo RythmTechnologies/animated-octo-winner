@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Fixture
 from .filters import FixtureFilter
 from .forms import FixtureForm
-from apps.account.models import SiteUser
+from apps.specuser.models import SiteUser
 
 # For TypeHint
 import typing as t

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block site-title %}
+Archeology Main Page
+{% endblock site-title %}
+
+{% block site-content %}
+<div class="container">
+  <div class="head">
+    <div class="login-card shadow-lg">
+      <div class="row justify-content-center align-content-center">
+        <div class="col-md-6 text-center">
+          <h3 class="text-center text-white mb-3">Archeology Login</h3>
+          <form action="{% url 'homepage' %}" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <input class="form-control" type="text" placeholder="Username" name="username" />
+            </div>
+            <div class="mb-3">
+              <input class="form-control" type="password" placeholder="Password" name="password" />
+            </div>
+            <button class="btn btn-success" type="submit">Login</button>
+          </form>
+          <div class="mt-2">
+            {% for message in messages %}
+            {% if message.tags == 'success' %}
+            <div class="alert alert-success" role="alert" id="alertDiv">
+              {{ message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'error' or message.tags == 'warning' %}
+            <div class="alert alert-danger" role="alert" id="alertDiv">
+              {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock site-content %}
