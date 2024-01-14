@@ -59,4 +59,4 @@ docker-compose up
 
 - All applications are inside the `Apps` folder.
 - You can access application files in the `templates` folder accordingly.
-- The static folder was completely collectstatic.
+- The `static` folder was completely collectstatic.
