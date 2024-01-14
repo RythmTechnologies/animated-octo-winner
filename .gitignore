@@ -5,3 +5,4 @@ archaeologyMain/contentApp/migrations/
 venv/
 staticfiles/
 media/
+.DS_Store
