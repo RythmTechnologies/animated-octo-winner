@@ -60,3 +60,10 @@ docker-compose up
 - All applications are inside the `Apps` folder.
 - You can access application files in the `templates` folder accordingly.
 - The `static` folder was completely collectstatic.
+
+## View
+
+### Admin Panel
+
+![screencapture-127-0-0-1-8000-admin-2024-01-15-01_08_57](https://github.com/CoderMungan/animated-octo-winner/assets/126997544/3825aec2-b294-46dd-a69a-5f511a3c0996)
+
