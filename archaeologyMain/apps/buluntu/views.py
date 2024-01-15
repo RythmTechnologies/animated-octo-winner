@@ -1,5 +1,6 @@
 
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 # Formlar
 from .forms import *
@@ -15,6 +16,7 @@ RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
 
 
 # add buluntu starts
+@login_required(login_url="homepage")
 def set_buluntu(request: HttpRequest) -> HttpResponse:
     context = {}
 
