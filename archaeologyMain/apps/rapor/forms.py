@@ -27,4 +27,4 @@ class AcmaRaporForm(forms.ModelForm):
     class Meta:
         model = AcmaRapor
         fields = "__all__"
-        widgets = {"rapordate": CustomDateInput(), "rapor_type": forms.RadioSelect(attrs={'class' : 'd-inline'})}
+        widgets = {"rapordate": CustomDateInput(), "rapor_type": forms.RadioSelect()}
