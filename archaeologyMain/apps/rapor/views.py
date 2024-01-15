@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 # For TypeHint
@@ -32,25 +33,40 @@ def get_rapor(request: HttpRequest) -> HttpResponse:
     else:
         form = AcmaRaporForm(user=request.user)
 
+
     return render(request, "rapor/create.html", {"form": form})
 
 
+login_required(login_url="homepage")
+def delete_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
+    try:
+        rapor = AcmaRapor.objects.get(id=id)
+        if request.user.is_authenticated and request.user.is_superuser and request.user.isModerator:
+            rapor.delete()
+            return redirect("rapor-list")
+    except Exception as e:
+        print("Hata Silme", e)
+
+
 @login_required(login_url="homepage")
-def get_rapor_list(request: HttpRequest) -> HttpResponse:
+def get_rapor_list(request):
     rapor_filter = RaporAcmaFilter(request.GET, queryset=AcmaRapor.objects.all())
-
-    context = {"form": rapor_filter.form, "rapors": rapor_filter.qs}
-
+    updateForms = {rapor.id: AcmaRaporForm(instance=rapor) for rapor in rapor_filter.qs}
+    context = {
+        "form": rapor_filter.form,
+        "rapors": rapor_filter.qs,
+        "updateForms": updateForms
+    }
     return render(request, "rapor/list.html", context)
 
 @login_required(login_url="homepage")
-def delete_rapor(request: HttpRequest, id: int) -> RedirectOrResponse:
-    try:
-        rapor = AcmaRapor.objects.filter(id = id).first()
-        if request.user.is_superuser or request.user.isModerator:
-            rapor.delete()
+def update_rapor(request, id):
+    rapor = AcmaRapor.objects.get(id=id)
+    if request.method == "POST":
+        form = AcmaRaporForm(request.POST, instance=rapor)
+        if form.is_valid():
+            form.save()
             return redirect('rapor-liste')
-    except:
-        return redirect('rapor-liste')
-
-# Rapor End
+        else:
+            messages.error(request, "Lütfen Formu Doğru Giriniz!")
+            return redirect('rapor-liste')
