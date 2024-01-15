@@ -5,4 +5,5 @@ from .views import *
 urlpatterns = [
     path("ekle", get_rapor, name="set-rapor"),
     path("liste", get_rapor_list, name="rapor-liste"),
+    path("sil/<id>", delete_rapor, name="delete-rapor")
 ]

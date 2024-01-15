@@ -3,6 +3,7 @@ from django import forms
 from .models import AcmaRapor
 from apps.specuser.models import *
 
+
 class CustomDateInput(forms.DateInput):
     input_type = "date"
 
@@ -26,7 +27,7 @@ class RaporAcmaFilter(django_filters.FilterSet):
         ),
         lookup_expr="icontains",
     )
-    rapordate = django_filters.DateFilter(widget=CustomDateInput())
+    rapordate = django_filters.DateFilter(widget=CustomDateInput(attrs={"class":"form-control"}))
 
     class Meta:
         model = AcmaRapor

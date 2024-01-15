@@ -43,5 +43,14 @@ def get_rapor_list(request: HttpRequest) -> HttpResponse:
 
     return render(request, "rapor/list.html", context)
 
+@login_required(login_url="homepage")
+def delete_rapor(request: HttpRequest, id: int) -> RedirectOrResponse:
+    try:
+        rapor = AcmaRapor.objects.filter(id = id).first()
+        if request.user.is_superuser or request.user.isModerator:
+            rapor.delete()
+            return redirect('rapor-liste')
+    except:
+        return redirect('rapor-liste')
 
 # Rapor End
