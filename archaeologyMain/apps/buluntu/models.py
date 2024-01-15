@@ -99,6 +99,11 @@ class SetColour(models.Model):
 
 
 class SetGeneralBuluntu(models.Model):
+    
+    class Meta:
+        verbose_name_plural = "Genel Buluntu Kayıt Formu"
+        verbose_name = "Genel Buluntu Formu"
+
     # methods
     year_choices = avaiable_years()
     letter_choices = generate_letters()
@@ -163,6 +168,11 @@ class SetGeneralBuluntu(models.Model):
 
 
 class GeneralInstructions(models.Model):
+        
+    class Meta:
+        verbose_name_plural = "Genel Tanımlamalar"
+        verbose_name = "Genel Tanımlama"
+
     OPTION_CHOICES = (
         ("ETUTLUK", "Etutluk"),
         ("ENVANTERLIK", "Envanterlik"),
@@ -193,6 +203,12 @@ class GeneralInstructions(models.Model):
 
 
 class BuluntuImages(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Buluntu Görselleri"
+        verbose_name = "Buluntu Görseli"
+
+
     store = "Buluntu/Attachments"
 
     buluntu = models.ForeignKey(
@@ -296,6 +312,11 @@ class Bezeme(models.Model):
 
 
 class MinorBuluntuForm(models.Model):
+        
+    class Meta:
+        verbose_name_plural = "Minor Buluntu Formları"
+        verbose_name = "Minor Buluntu Formu"
+
     # şimdilik charfield
     buluntuName = models.CharField(("Buluntu Adı"), max_length=50, default="")
     piece = models.ForeignKey(
@@ -349,6 +370,9 @@ class MinorBuluntuForm(models.Model):
 
     def __str__(self) -> str:
         return self.buluntuName
+    
+    
+
 
 
 """küçük buluntu modeli"""
