@@ -51,7 +51,6 @@ Evrak Listesi
                     <th>Evrak Konusu</th>
                     <th>Evrak Detayı</th>
                     {% if request.user.is_superuser or request.user.isModerator == True %}
-                      
                     <th>İşlemler</th>
                     {% endif %}
                 </tr>

@@ -15,8 +15,8 @@ from .filters import RaporAcmaFilter
 from .models import *
 
 
-
 # Rapor Start
+@login_required(login_url="homepage")
 def get_rapor(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form = AcmaRaporForm(request.POST, request.FILES, user=request.user)
@@ -33,15 +33,18 @@ def get_rapor(request: HttpRequest) -> HttpResponse:
     else:
         form = AcmaRaporForm(user=request.user)
 
-
     return render(request, "rapor/create.html", {"form": form})
 
 
-login_required(login_url="homepage")
+@login_required(login_url="homepage")
 def delete_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
     try:
         rapor = AcmaRapor.objects.get(id=id)
-        if request.user.is_authenticated and request.user.is_superuser and request.user.isModerator:
+        if (
+            request.user.is_authenticated
+            and request.user.is_superuser
+            or request.user.isModerator
+        ):
             rapor.delete()
             return redirect("rapor-list")
     except Exception as e:
@@ -55,18 +58,23 @@ def get_rapor_list(request):
     context = {
         "form": rapor_filter.form,
         "rapors": rapor_filter.qs,
-        "updateForms": updateForms
+        "updateForms": updateForms,
     }
     return render(request, "rapor/list.html", context)
 
+
 @login_required(login_url="homepage")
-def update_rapor(request, id):
+def update_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
     rapor = AcmaRapor.objects.get(id=id)
     if request.method == "POST":
-        form = AcmaRaporForm(request.POST, instance=rapor)
+        form = AcmaRaporForm(request.POST, request.FILES, instance=rapor)
         if form.is_valid():
+            print("gelen error",form.errors)
             form.save()
-            return redirect('rapor-liste')
+            return redirect("rapor-liste")
         else:
             messages.error(request, "Lütfen Formu Doğru Giriniz!")
-            return redirect('rapor-liste')
+            return redirect("rapor-liste")
+        
+
+# Rapor End

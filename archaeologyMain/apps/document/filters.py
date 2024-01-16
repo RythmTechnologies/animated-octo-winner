@@ -26,7 +26,7 @@ class DocumentFilter(django_filters.FilterSet):
         ),
         lookup_expr="icontains",
     )
-    docdate = django_filters.DateFilter(widget=CustomDateInput())
+    docdate = django_filters.DateFilter(widget=CustomDateInput(attrs={"class": "form-control"}))
 
     class Meta:
         model = DocumentCreateModel
