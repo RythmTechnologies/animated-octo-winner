@@ -18,7 +18,7 @@ class DocumentCreateModel(models.Model):
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
     files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
-    detail = models.TextField(("Rapor Detay"))
+    detail = models.TextField(("Evrak Detay"))
 
     def __str__(self) -> str:
         return self.docsubject

@@ -66,13 +66,277 @@ Evrak Listesi
                     <td>{{ document.docsubject }}</td>
                     <td>{{ document.detail }}</td>
                     {% if request.user.is_superuser or request.user.isModerator == True %}
-                    <td><a href="#" class="mb-2 me-3"><button class="btn btn-danger">Sil</button></a><a href="#"><button
-                        class="btn btn-info">Düzenle</button></a></td>
+                    <td>
+                        <a
+                          href="#"
+                          class="mb-2 me-3"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deletealert{{ document.id }}"
+                          ><i class="fa-solid fa-trash text-danger"></i
+                        ></a>
+                        <a
+                          href="#"
+                          class="mb-2 me-3"
+                          data-bs-toggle="modal"
+                          data-bs-target="#updateModal{{ document.id }}"
+                          ><i class="fa-solid fa-pencil"></i
+                        ></a>
+                        <a
+                          href="#"
+                          data-bs-toggle="modal"
+                          data-bs-target="#viewModal{{ document.id }}"
+                          ><i class="fa-solid fa-magnifying-glass"></i
+                        ></a>
+                      </td>
+                      {% endif %}
                     </tr>
-                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    <!-- Modals for each report -->
+  {% for document in documents %}
+  <!-- Modal Delete -->
+  <div
+    class="modal fade"
+    id="deletealert{{ document.id }}"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Silmek İstediğinizden Emin Misiniz?
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Vazgeç
+          </button>
+          <a href="{% url 'delete-document' document.id %}"
+            ><button type="button" class="btn btn-danger">Sil</button></a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Delete End -->
+
+  <!-- Update Modal -->
+  <div
+    class="modal fade"
+    id="updateModal{{ document.id }}"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="updateModalLabel{{ document.id }}"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog"
+      role="document"
+      style="max-width: 900px; max-height: 1500px"
+    >
+      <div class="modal-content">
+        <form
+          method="post"
+          action="{% url 'update-document' document.id %}"
+          class="update-form"
+        >
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateModalLabel{{ document.id }}">
+              Evrak Güncelle
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            {% for form_id, form in updateForms.items %} 
+            {% if form_id == document.id %}
+            <div class="card">
+              <!-- Form Başlangıcı -->
+              <form action="{% url 'set-document' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row p-3">
+        
+                  <div class="col-md-6">
+                    <div class="card-header">Evrak Tipi</div>
+                    <div class="row justify-content-between p-3">
+                      <div class="col-md-4">
+                        <label for="id_incomingdoc" class="form-label">Gelen Evrak</label>
+                        {{form.incomingdoc}}
+                      </div>
+                      <div class="col-md-4">
+                        <label for="id_outgoingdoc" class="form-label">Giden Evrak</label>
+                        {{form.outgoingdoc}}
+                      </div>
+                      <div class="col-md-4">
+                        <label for="id_amount" class="form-label">Tutanak</label>
+                        {{form.amount}}
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="col-md-6">
+                    <div class="card-header">Öncelik</div>
+                    <div class="row justify-content-between p-3">
+                      <div class="col-md-4">
+                        <label for="id_high" class="form-label">Yüksek</label>
+                        {{form.high}}
+                      </div>
+                      <div class="col-md-4">
+                        <label for="id_middle" class="form-label">Orta</label>
+                        {{form.middle}}
+                      </div>
+                      <div class="col-md-4">
+                        <label for="id_low" class="form-label">Düşük</label>
+                        {{form.low}}
+                      </div>
+                    </div>
+                  </div>
+        
+        
+                  <div class="col-md-4">
+                    <label for="id_docno" class="form-label">Evrak No</label>
+                    {{form.docno}}
+        
+                  </div>
+        
+        
+        
+                  <div class="col-md-4">
+                    <label for="id_docdate" class="form-label">Evrak Tarihi</label>
+                    {{form.docdate}}
+                  </div>
+        
+        
+                  <div class="col-md-4">
+                    <label for="id_doccount" class="form-label">Evrak Sayısı</label>
+                    {{form.doccount}}
+                  </div>
+        
+        
+                  <div class="row">
+        
+                    <div class="col-md-6">
+                      <label for="id_relevantunit" class="form-label">İlgili Birim</label>
+                      {{form.relevantunit}}
+                    </div>
+        
+                    <div class="col-md-6">
+                      <label for="id_relevantinstitution" class="form-label">İlgili Kurum</label>
+                      {{form.relevantinstitution}}
+                    </div>
+                  </div>
+        
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="id_docsubject">Evrak Konusu</label>
+                      {{form.docsubject}}
+                    </div>
+                    <div class="col-md-6">
+                      <label for="id_user">Formu Dolduran</label>
+                      {{form.user}}
+                    </div>
+                  </div>
+                </div>
+        
+        
+              </div>
+        
+                <div class="card-header mt-3">Rapor Detay</div>
+                
+                {{ form.detail }}
+        
+                <div class="card-header mt-3">Evrak Yükleme</div>
+        
+                {{ form.files }}
+        
+          {% endif %}
+          {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Kapat
+            </button>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Update Modal End -->
+  
+  <!-- View Modal -->
+  <div
+  class="modal fade"
+  id="viewModal{{ document.id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="viewModalLabel{{ document.id }}"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewModalLabel{{ document.id }}">
+          document Detayları
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- document details here -->
+        <div>
+          <h3>Evrak Tipi</h3>
+          <p><strong>Gelen Evrak: </strong> {{ document.incomingdoc }}</p>
+          <p><strong>Giden Evrak: </strong> {{ document.outgoingdoc }}</p>
+          <p><strong>Tutanak: </strong> {{ document.amount }}</p>
+        </div>
+        <div>
+          <h3>Öncelik</h3>
+          <p><strong>Yüksek: </strong> {{ document.high }}</p>
+          <p><strong>Orta: </strong> {{ document.middle }}</p>
+          <p><strong>Düşük: </strong> {{ document.low }}</p>
+        </div>
+        <p><strong>Evrak Numarası: </strong> {{ document.docno }}</p>
+        <p><strong>Evrak Tarihi: </strong> {{ document.docdate }}</p>
+        <p><strong>Evrak Sayısı: </strong> {{ document.doccount }}</p>
+        <p><strong>İlgili Birim:</strong> {{ document.relevantunit }}</p>
+        <p><strong>İlgili Kurum:</strong> {{ document.relevantinstitution }}</p>
+        <p><strong>Evrak Konusu: </strong> {{ document.docsubject }}</p>
+        <p><strong>Formu Dolduran: </strong> {{ document.user }}</p>
+        <p><strong>Evrak Dosyası: </strong><a href="{{document.files.url}}">{{ document.files }}</a></p>
+        <p><strong>Evrak Detay: </strong> {{ document.detail }}</p>
+        <!-- Add more details as needed -->
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- View Modal End -->
+  {% endfor %}
 </div>
 {% endblock site-content %}
