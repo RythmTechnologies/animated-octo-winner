@@ -2,7 +2,7 @@
 {% endblock site-title %} {% block site-content %}
 <div class="container">
   <!-- Django Filter Start -->
-  <form method="get" action="{% url 'rapor-liste' %}">
+  <form method="get" action="{% url 'rapor-liste' %}" enctype="multipart/form-data">
     <div class="card p-5 mt-5">
       <div class="card-header">Detaylı Arama</div>
       <div class="row justify-content-center align-items-center mt-5 mb-5">
@@ -211,7 +211,6 @@
         {{form.file}}
           {% endif %}
           {% endfor %}
-          </div>
           </div>
           <div class="modal-footer">
             <button
