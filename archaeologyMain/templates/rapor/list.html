@@ -180,7 +180,7 @@
                       </div>
                       <div class="col-md-6">
                           <label for="id_rapordate">Rapor Tarihi</label>
-                          {{form.rapordate}}
+                          {{ form.rapordate }}
                       </div>
                       <div class="col-md-12">
                           <label for="id_title">Başlık</label>
@@ -267,4 +267,12 @@
   <!-- View Modal End -->
   {% endfor %}
 </div>
+<script>
+  document.querySelectorAll('[id^=updateModal]').forEach(function(modal) {
+    modal.addEventListener('shown.bs.modal', function () {
+        const x = modal.querySelector('#id_rapordate')
+        x.value = ""
+    });
+});
+</script>
 {% endblock site-content %}

@@ -1,14 +1,15 @@
+from apps.specuser.models import *
 from django import forms
 from django.forms import DateInput
 
 from .models import *
-from apps.specuser.models import *
+
 
 class CustomDateInput(DateInput):
     input_type = "date"
 
-
 class AcmaRaporForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
         super(AcmaRaporForm, self).__init__(*args, **kwargs)
@@ -24,7 +25,8 @@ class AcmaRaporForm(forms.ModelForm):
                 field.initial = user
                 field.disabled = True
 
+
     class Meta:
         model = AcmaRapor
         fields = "__all__"
-        widgets = {"rapordate": CustomDateInput(), "rapor_type": forms.RadioSelect()}
+        widgets = {"rapordate": CustomDateInput(),"rapor_type": forms.RadioSelect()}

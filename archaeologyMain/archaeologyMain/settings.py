@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 'gdstorage',
     "apps.specuser",
     "apps.buluntu",
     "apps.document",
@@ -224,7 +225,8 @@ JAZZMIN_SETTINGS = {
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
 }
 
-
+DATE_INPUT_FORMATS = ["%Y-%m-%d"]
+USE_L10N = False
 
 WSGI_APPLICATION = "archaeologyMain.wsgi.application"
 
@@ -297,6 +299,10 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'Full',
     }
 }
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = 'avian-curve-266518-6ca119fc33ee.json'
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = 'tavsanli/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
