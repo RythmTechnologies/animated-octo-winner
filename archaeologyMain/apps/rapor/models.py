@@ -2,6 +2,10 @@ from django.db import models
 
 from apps.specuser.models import *
 
+from gdstorage.storage import GoogleDriveStorage
+
+drive_storage = GoogleDriveStorage()
+
 
 class BuluntuYeri(models.Model):
     name = models.CharField(("Buluntu Yeri"), max_length=150)
@@ -31,7 +35,7 @@ class AcmaRapor(models.Model):
     title = models.CharField("Başlık", max_length=150)
     owner = models.CharField("Formu Dolduran", max_length=150)
     rapordetail = models.TextField("Rapor Detay")
-    file = models.FileField("Evrak Yükleme", upload_to="raporfiles", max_length=100)
+    file = models.FileField("Evrak Yükleme", upload_to="raporfiles",storage=drive_storage,max_length=100)
 
     def __str__(self) -> str:
         return self.title

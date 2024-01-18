@@ -267,12 +267,4 @@
   <!-- View Modal End -->
   {% endfor %}
 </div>
-<script>
-  document.querySelectorAll('[id^=updateModal]').forEach(function(modal) {
-    modal.addEventListener('shown.bs.modal', function () {
-        const x = modal.querySelector('#id_rapordate')
-        x.value = ""
-    });
-});
-</script>
 {% endblock site-content %}

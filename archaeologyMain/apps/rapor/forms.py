@@ -29,4 +29,7 @@ class AcmaRaporForm(forms.ModelForm):
     class Meta:
         model = AcmaRapor
         fields = "__all__"
-        widgets = {"rapordate": CustomDateInput(),"rapor_type": forms.RadioSelect()}
+        widgets = {
+            "rapordate": CustomDateInput(),
+            "rapor_type": forms.RadioSelect(),
+            }
