@@ -1,6 +1,8 @@
 from django.db import models
 from apps.specuser.models import *
+from gdstorage.storage import GoogleDriveStorage
 
+drive_storage = GoogleDriveStorage()
 class FixtureGainType(models.Model):
     input = models.CharField(("Alış Type"), max_length=50)
 
@@ -42,7 +44,7 @@ class Fixture(models.Model):
     companyEmail = models.EmailField(("Firma E-Mail"), max_length=254)
     companyAddress = models.TextField(("Firma Adresi"))
     fixtureFile = models.FileField(
-        ("Demirbaş Alım Belgesi"), upload_to="fixture", max_length=100
+        ("Demirbaş Alım Belgesi"), upload_to="fixture",storage=drive_storage, max_length=100
     )
     fixtureDescription = models.TextField(("Demirbaş Açıklama"), max_length=900)
 

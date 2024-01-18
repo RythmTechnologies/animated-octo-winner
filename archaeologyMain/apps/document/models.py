@@ -1,5 +1,8 @@
 from django.db import models
 from apps.specuser.models import *
+from gdstorage.storage import GoogleDriveStorage
+
+drive_storage = GoogleDriveStorage()
 
 class DocumentCreateModel(models.Model):
     incomingdoc = models.BooleanField(("Gelen Evrak"), default=False)
@@ -17,7 +20,7 @@ class DocumentCreateModel(models.Model):
     user = models.ForeignKey(
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
-    files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
+    files = models.FileField(("Evrak Yükleme"), upload_to="document", storage=drive_storage, max_length=100)
     detail = models.TextField(("Evrak Detay"))
 
     def __str__(self) -> str:
