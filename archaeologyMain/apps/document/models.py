@@ -1,8 +1,20 @@
 from django.db import models
 from apps.specuser.models import *
-from gdstorage.storage import GoogleDriveStorage
+from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
 
-drive_storage = GoogleDriveStorage()
+permission =  GoogleDriveFilePermission(
+   GoogleDrivePermissionRole.READER,
+   GoogleDrivePermissionType.USER,
+   "codermungan@gmail.com"
+)
+
+public_permission = GoogleDriveFilePermission(
+    GoogleDrivePermissionRole.READER,
+    GoogleDrivePermissionType.ANYONE,
+    None
+)
+
+drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
 
 class DocumentCreateModel(models.Model):
     incomingdoc = models.BooleanField(("Gelen Evrak"), default=False)
