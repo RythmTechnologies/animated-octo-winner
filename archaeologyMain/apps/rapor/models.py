@@ -1,13 +1,19 @@
+import os
+
+from dotenv import load_dotenv
+
 from django.db import models
 
 from apps.specuser.models import *
+
+load_dotenv()
 
 from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
 
 permission =  GoogleDriveFilePermission(
    GoogleDrivePermissionRole.READER,
    GoogleDrivePermissionType.USER,
-   "codermungan@gmail.com"
+   os.getenv("EMAIL")
 )
 
 public_permission = GoogleDriveFilePermission(

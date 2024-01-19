@@ -1,10 +1,29 @@
 import datetime
 import string
-
+import os
 from apps.specuser.models import SiteUser
 from colorfield.fields import ColorField
 from django.db import models
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
+
+permission =  GoogleDriveFilePermission(
+   GoogleDrivePermissionRole.READER,
+   GoogleDrivePermissionType.USER,
+   os.getenv("EMAIL")
+)
+
+public_permission = GoogleDriveFilePermission(
+    GoogleDrivePermissionRole.READER,
+    GoogleDrivePermissionType.ANYONE,
+    None
+)
+
+drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
 """
 Aşağıdaki modeller buluntu kayıt form genel bilgiler'i kapsar
 """
@@ -217,10 +236,10 @@ class BuluntuImages(models.Model):
         verbose_name=("Buluntu"),
         on_delete=models.CASCADE,
     )
-    type_1 = models.ImageField(("Eskiz"), upload_to=store)
-    type_2 = models.ImageField(("Fotoğraf"), upload_to=store)
-    type_3 = models.ImageField(("Çizim"), upload_to=store)
-    type_4 = models.ImageField(("OrtoFoto"), upload_to=store)
+    type_1 = models.ImageField(("Eskiz"), upload_to=store, storage=drive_storage)
+    type_2 = models.ImageField(("Fotoğraf"), upload_to=store, storage=drive_storage)
+    type_3 = models.ImageField(("Çizim"), upload_to=store, storage=drive_storage)
+    type_4 = models.ImageField(("OrtoFoto"), upload_to=store, storage=drive_storage)
 
 
 """Küçük Buluntu Formu Yardımcı Modelleri"""
