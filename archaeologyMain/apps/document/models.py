@@ -1,5 +1,29 @@
+import os
+
+from ckeditor.fields import RichTextField
+
+from dotenv import load_dotenv
+
 from django.db import models
 from apps.specuser.models import *
+
+load_dotenv()
+
+from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
+
+permission =  GoogleDriveFilePermission(
+   GoogleDrivePermissionRole.READER,
+   GoogleDrivePermissionType.USER,
+   os.getenv("EMAIL")
+)
+
+public_permission = GoogleDriveFilePermission(
+    GoogleDrivePermissionRole.READER,
+    GoogleDrivePermissionType.ANYONE,
+    None
+)
+
+drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
 
 class DocumentCreateModel(models.Model):
     incomingdoc = models.BooleanField(("Gelen Evrak"), default=False)
@@ -17,7 +41,7 @@ class DocumentCreateModel(models.Model):
     user = models.ForeignKey(
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
-    files = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
+    files = models.FileField(("Evrak Yükleme"), upload_to="document", storage=drive_storage, max_length=100)
     detail = models.TextField(("Evrak Detay"))
 
     def __str__(self) -> str:

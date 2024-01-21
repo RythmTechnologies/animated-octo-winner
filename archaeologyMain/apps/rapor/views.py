@@ -46,9 +46,10 @@ def delete_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
             or request.user.isModerator
         ):
             rapor.delete()
-            return redirect("rapor-list")
+            return redirect("rapor-liste")
     except Exception as e:
         print("Hata Silme", e)
+        return redirect("rapor-liste")
 
 
 @login_required(login_url="homepage")
@@ -67,6 +68,7 @@ def get_rapor_list(request):
 def update_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
     rapor = AcmaRapor.objects.get(id=id)
     if request.method == "POST":
+        print("DENEME:",request.FILES)
         form = AcmaRaporForm(request.POST, request.FILES, instance=rapor)
         if form.is_valid():
             print("gelen error",form.errors)
