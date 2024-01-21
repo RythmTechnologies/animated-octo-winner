@@ -1,9 +1,7 @@
 .env
 archaeologyMain/data/
 archaeologyMain/Uploads/
-venv/
-staticfiles/
-media/
+
 archaeologyMain/static/
 
 # Ignore Django Migrations in Development if you are working on team
@@ -12,7 +10,7 @@ archaeologyMain/static/
 !**/migrations/__init__.py
 
 # Ignore python virtual env
-archaeologyMain/env
+env/
 
 # Ignore DsStore
 **/.DS_Store

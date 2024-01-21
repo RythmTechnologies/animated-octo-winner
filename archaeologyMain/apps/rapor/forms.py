@@ -8,6 +8,7 @@ from .models import *
 class CustomDateInput(DateInput):
     input_type = "date"
 
+
 class AcmaRaporForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

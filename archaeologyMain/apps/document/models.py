@@ -1,6 +1,6 @@
 import os
 
-from ckeditor.fields import RichTextField
+from tinymce.models import HTMLField
 
 from dotenv import load_dotenv
 
@@ -42,7 +42,7 @@ class DocumentCreateModel(models.Model):
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
     files = models.FileField(("Evrak Yükleme"), upload_to="document", storage=drive_storage, max_length=100)
-    detail = models.TextField(("Evrak Detay"))
+    detail = HTMLField(("Evrak Detay"))
 
     def __str__(self) -> str:
         return self.docsubject

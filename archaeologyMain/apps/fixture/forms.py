@@ -1,4 +1,3 @@
-from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.forms import DateInput
 
@@ -17,7 +16,6 @@ class FixtureForm(forms.ModelForm):
         exclude = ["user"]
         widgets = {
             "dateofaddition": CustomDateInput(),
-            "fixtureDescription": CKEditorWidget(),
         }
 
     def __init__(self, *args, **kwargs):

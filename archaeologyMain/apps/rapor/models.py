@@ -2,6 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
+from tinymce.models import HTMLField
+
 from django.db import models
 
 from apps.specuser.models import *
@@ -52,7 +54,7 @@ class AcmaRapor(models.Model):
     rapordate = models.DateField("Rapor Tarihi", auto_now=False, auto_now_add=False)
     title = models.CharField("Başlık", max_length=150)
     owner = models.CharField("Formu Dolduran", max_length=150)
-    rapordetail = models.TextField("Rapor Detay")
+    rapordetail = HTMLField("Rapor Detay")
     file = models.FileField("Evrak Yükleme", upload_to="raporfiles",storage=drive_storage,max_length=100)
 
     def __str__(self) -> str:

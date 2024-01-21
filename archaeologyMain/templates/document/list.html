@@ -64,7 +64,7 @@ Evrak Listesi
                     <td>{{ document.relevantunit }}</td>
                     <td>{{ document.relevantinstitution }}</td>
                     <td>{{ document.docsubject }}</td>
-                    <td>{{ document.detail }}</td>
+                    <td>{{ document.detail|safe }}</td>
                     {% if request.user.is_superuser or request.user.isModerator == True %}
                     <td>
                         <a
@@ -324,7 +324,7 @@ Evrak Listesi
         <p><strong>Evrak Konusu: </strong> {{ document.docsubject }}</p>
         <p><strong>Formu Dolduran: </strong> {{ document.user }}</p>
         <p><strong>Evrak Dosyası: </strong><a href="{{document.files.url}}" target="_blank">{{ document.files }}</a></p>
-        <p><strong>Evrak Detay: </strong> {{ document.detail }}</p>
+        <p><strong>Evrak Detay: </strong> {{ document.detail|safe }}</p>
         <!-- Add more details as needed -->
       </div>
       </div>

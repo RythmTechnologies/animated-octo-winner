@@ -168,10 +168,6 @@
       </form>
     </div>
   </div>
-  <!-- <script>
-    // CKEditor'ü başlatma kodu
-    CKEDITOR.replace("id_fixtureDescription");
-  </script> -->
   <script>
     window.onload = function() {
       // Form elemanlarını tanımlama
@@ -203,5 +199,6 @@
       calculateTotal(); 
   };
   </script>
+  <script src="{% static 'js/tinyhtml.js' %}"></script>
   {% endblock site-content %}
 </div>

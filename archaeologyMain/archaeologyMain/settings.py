@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "apps.rapor",
     "colorfield",
     "django_filters",
+    "tinymce",
 ]
 
 MIDDLEWARE = [
@@ -290,22 +291,6 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
-
-
-# CKEDITOR SETTINGS HERE!
-CKEDITOR_BASEPATH = "static/ckeditor/ckeditor/"
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source']
-        ]
-    }
-}
 
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = 'tavsanli-41bb0a89bf6a.json'
 GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = 'tavsanli/'

@@ -2,6 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
+from tinymce.models import HTMLField
+
 from django.db import models
 from apps.specuser.models import *
 
@@ -61,11 +63,11 @@ class Fixture(models.Model):
     companyOfficial = models.CharField(("Firma Yetkilisi"), max_length=150)
     companyPhone = models.CharField(("Firma Telefon"), max_length=150)
     companyEmail = models.EmailField(("Firma E-Mail"), max_length=254)
-    companyAddress = models.TextField(("Firma Adresi"))
+    companyAddress = HTMLField(("Firma Adresi"))
     fixtureFile = models.FileField(
         ("Demirbaş Alım Belgesi"), upload_to="fixture",storage=drive_storage, max_length=100
     )
-    fixtureDescription = models.TextField(("Demirbaş Açıklama"), max_length=900)
+    fixtureDescription = HTMLField(("Demirbaş Açıklama"), max_length=900)
 
     def __str__(self) -> str:
         return self.name

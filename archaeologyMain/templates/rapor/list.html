@@ -52,7 +52,7 @@
         {% for rapor in rapors %}
         <tr>
           <td>{{ rapor.title }}</td>
-          <td>{{ rapor.rapordetail }}</td>
+          <td>{{ rapor.rapordetail|safe }}</td>
           <td>{{ rapor.rapor_type }}</td>
           <td>{{ rapor.placebuluntu }}</td>
           <td>{{ rapor.owner }}</td>
@@ -249,9 +249,8 @@
       <div class="modal-body">
         <!-- Rapor details here -->
         <p><strong>Rapor Başlık:</strong> {{ rapor.title }}</p>
-        <p><strong>Rapor Açıklama:</strong> {{ rapor.rapordetail }}</p>
         <p><strong>Rapor Tipi:</strong> {{ rapor.rapor_type }}</p>
-        <p><strong>Rapor Detay:</strong> {{ rapor.rapordetail }}</p>
+        <p><strong>Rapor Detay:</strong> {{ rapor.rapordetail|safe }}</p>
         <p><strong>Buluntu Yeri:</strong> {{ rapor.placebuluntu }}</p>
         <p><strong>Raporu Dolduran:</strong> {{ rapor.owner }}</p>
         <p><strong>Rapor Tarihi:</strong> {{ rapor.rapordate }}</p>
