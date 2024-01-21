@@ -4,11 +4,15 @@ archaeologyMain/Uploads/
 venv/
 staticfiles/
 media/
+archaeologyMain/static/
 
 # Ignore Django Migrations in Development if you are working on team
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+
+# Ignore python virtual env
+archaeologyMain/env
 
 # Ignore DsStore
 **/.DS_Store
