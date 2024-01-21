@@ -32,4 +32,4 @@ urlpatterns = [
     path('fixture/', include('apps.fixture.urls')),
     path('rapor/', include('apps.rapor.urls')),
     re_path(r'^.*/$', get_notFound, name='404'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

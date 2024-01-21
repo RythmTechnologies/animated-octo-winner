@@ -5,6 +5,7 @@ from apps.specuser.models import *
 from .views import *
 from .models import *
 
+
 class CustomDateInput(DateInput):
     input_type = "date"
 

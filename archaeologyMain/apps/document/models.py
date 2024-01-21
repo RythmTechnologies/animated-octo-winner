@@ -1,5 +1,7 @@
 import os
 
+from ckeditor.fields import RichTextField
+
 from dotenv import load_dotenv
 
 from django.db import models
