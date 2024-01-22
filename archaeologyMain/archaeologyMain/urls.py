@@ -26,10 +26,14 @@ from apps.document.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', get_index, name='homepage'),
+    path('tinymce/', include('tinymce.urls')),
     path('dashboard/', include('apps.main.urls')),
     path('document/', include('apps.document.urls')),
     path('buluntu/', include('apps.buluntu.urls')),
     path('fixture/', include('apps.fixture.urls')),
     path('rapor/', include('apps.rapor.urls')),
     re_path(r'^.*/$', get_notFound, name='404'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

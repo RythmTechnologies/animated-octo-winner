@@ -375,9 +375,9 @@ Demirbaş Listesi
         <p><strong>Demirbaş Firma Yetkilisi: </strong> {{ fixture.companyOfficial }}</p>
         <p><strong>Demirbaş Firma Telefon Numarası: </strong> {{ fixture.companyPhone }}</p>
         <p><strong>Demirbaş Firma Email Adresi: </strong> {{ fixture.companyEmail }}</p>
-        <p><strong>Demirbaş Firma Adresi: </strong> {{ fixture.companyAddress }}</p>
+        <p><strong>Demirbaş Firma Adresi: </strong> {{ fixture.companyAddress|safe }}</p>
         <p><strong>Demirbaş Alım Belgesi: </strong> <a href="{{fixture.fixtureFile.url}}" target="_blank">{{ fixture.fixtureFile }}</a></p>
-        <p><strong>Demirbaş Açıklama: </strong> {{fixture.fixtureDescription}}</p>
+        <p><strong>Demirbaş Açıklama: </strong> {{fixture.fixtureDescription|safe}}</p>
         <!-- Add more details as needed -->
       </div>
       <div class="modal-footer">
