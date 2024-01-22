@@ -134,6 +134,31 @@ window.onload = function() {
  // end of plankare
 
 
+  const create_preview_element = function(id) {
+
+      const element = document.createElement("img")
+      element.style.width = "100%"
+
+      element.id = `preview-${id}`
+
+      return element
+    }
+    
+    
+    const update_preview_image = function(targetId, meta) {
+    
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+          document.querySelector(`#preview-${targetId}`).setAttribute("src", e.target.result)
+      };
+
+      reader.readAsDataURL(meta);
+    }
+    
+
+
+
    // color_field
    const colorDropdown = document.getElementById('id_colour')
    const colorPreview = document.getElementById('id_palet')  
@@ -155,5 +180,36 @@ window.onload = function() {
       selectedOption.setAttribute("data-bs-target", "#commonModal");
       
   }
+
+
+  document.querySelectorAll('#imageElements input').forEach(function(element) {
+      
+          if (element.type === 'file' && element.id.includes("id_type")) { 
+
+          const previewElement = create_preview_element(element.id)
+          const clearElement = document.createElement('input')
+
+          element.onchange = function(event) {
+              update_preview_image(element.id, event.target.files[0])
+              clearElement.style.display = "block"
+          }
+
+          element.insertAdjacentElement("afterend", previewElement)
+
+
+          clearElement.style.display = "none"
+          clearElement.type = 'button'
+          clearElement.value = "Temizle"
+          clearElement.id = `clear-preview-${element.id}`
+          
+          clearElement.onclick = function() {
+              element.value = ""
+              previewElement.src = ""
+              clearElement.style.display = "none"
+          }
+
+          element.insertAdjacentElement("afterend", clearElement)
+      } 
+    })
 
 }

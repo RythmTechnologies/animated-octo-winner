@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import SetGeneralBuluntu
+from .models import SetGeneralBuluntu, GeneralInstructions, BuluntuImages, MinorBuluntu, MinorBuluntuForm
 
 
 class GeneralBuluntuForm(forms.ModelForm):
@@ -9,7 +9,7 @@ class GeneralBuluntuForm(forms.ModelForm):
         fields = "__all__"
         exclude = ["user"]
 
-"""
+
 class GeneralInstructionsForm(forms.ModelForm):
     class Meta:
         model = GeneralInstructions
@@ -35,5 +35,3 @@ class FinalBuluntuForm(forms.ModelForm):
     class Meta:
         model = MinorBuluntuForm
         fields = "__all__"
-        
-"""

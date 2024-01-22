@@ -9,7 +9,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from gdstorage.storage import (GoogleDriveFilePermission,GoogleDrivePermissionRole,GoogleDrivePermissionType, GoogleDriveStorage)
+from gdstorage.storage import (GoogleDriveFilePermission,
+                               GoogleDrivePermissionRole,
+                               GoogleDrivePermissionType, GoogleDriveStorage)
 
 permission =  GoogleDriveFilePermission(
    GoogleDrivePermissionRole.READER,
@@ -115,32 +117,14 @@ class SetColour(models.Model):
 
 
 """buluntu ekle modeli"""
+
+
 class SetGeneralBuluntu(models.Model):
 
     class Meta:
         verbose_name_plural = "Genel Buluntu Kayıt Formu"
         verbose_name = "Genel Buluntu Formu"
 
-
-    INVENTORY_CHOICES = (
-        (1, "Etutluk"),
-        (2, "Envanterlik"),
-        (3, "Analiz"),
-        (4, "Diğer"),
-    )
-
-    BULUNTU_FORM_CHOICES = (
-
-        (1, "Pişmiş Toprak"),
-        (2, "Kemik"),
-        (3, "Taş"),
-        (4, "Metal"),
-        (5, "C14"),
-        (6, "Toprak Örneği"),
-        (7, "Çanak Çömlek")
-    )
-
-    storage = "Buluntu/Images"
     # methods
     year_choices = avaiable_years()
     letter_choices = generate_letters()
@@ -194,30 +178,241 @@ class SetGeneralBuluntu(models.Model):
     layer_letter = models.CharField(("Tabaka Harf"), max_length=50)
     phase = models.CharField(("Evre"), max_length=50)
     period = models.ForeignKey(
-        BuluntuPeriod, verbose_name=("Dönem"), on_delete=models.CASCADE)
-    
-
-    # genel tanımlamar
-    definition = models.TextField(("Tanım"))
-    description = models.TextField(("Genel Açıklama"))
-    inventoryNo = models.CharField(("Envanter No"), max_length=50)
-    pieceNo = models.CharField(("Eser No"), max_length=50)
-    drawNo = models.CharField(("Çizim No"), max_length=50)
-    inventories = models.CharField(("Etutluk / Envanter"), max_length=50, choices=INVENTORY_CHOICES)
-
-    # görseller
-    eskiz = models.ImageField(("Eskiz"), upload_to=storage, storage=drive_storage, blank=True)
-    picture = models.ImageField(("Fotoğraf"), upload_to=storage, storage=drive_storage, blank=True)
-    draw = models.ImageField(("Çizim"), upload_to=storage, storage=drive_storage, blank=True)
-    orto = models.ImageField(("OrtoFoto"), upload_to=storage, storage=drive_storage, blank=True)
-
-    # küçük buluntu
-    buluntuForms = models.CharField(("Küçük Buluntu Formu"), max_length=50, choices=BULUNTU_FORM_CHOICES)
-    filledBy = models.CharField(("Formu Dolduran"), max_length=50)
-    processedBy = models.CharField(("Veri Giren"), max_length=50)
-    
-
+        BuluntuPeriod, verbose_name=("Dönem"), on_delete=models.CASCADE
+    )
 
     def __str__(self) -> str:
         return str(self.no)
 
+
+"""genel tanımlamalar modeli"""
+
+
+class GeneralInstructions(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Genel Tanımlamalar"
+        verbose_name = "Genel Tanımlama"
+
+    OPTION_CHOICES = (
+        ("ETUTLUK", "Etutluk"),
+        ("ENVANTERLIK", "Envanterlik"),
+        ("ANALIZ", "Analiz"),
+        ("DIGER", "Diğer"),
+    )
+
+    buluntu = models.ForeignKey(
+        SetGeneralBuluntu,
+        null=True,
+        verbose_name=("Buluntu"),
+        on_delete=models.CASCADE,
+    )
+    description = models.TextField(("Tanım"), max_length=250)
+    description_2 = models.TextField(("Genel Açıklama"), max_length=250)
+    inventoryNo = models.CharField(("Envanter No"), max_length=10)
+    pieceNo = models.CharField(("Eser No"), max_length=10)
+    illustrationNo = models.CharField(("Çizim No"), max_length=10)
+    inventory = models.CharField(
+        ("Etütlük / Envanter"), max_length=30, choices=OPTION_CHOICES
+    )
+
+    def __str__(self) -> str:
+        return self.description
+
+
+"""İlişkili: SetGeneralBuluntu Fotoğraflar bu model atlında depolanır"""
+
+
+class BuluntuImages(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Buluntu Görselleri"
+        verbose_name = "Buluntu Görseli"
+
+
+    store = "Buluntu/Attachments"
+
+    buluntu = models.ForeignKey(
+        SetGeneralBuluntu,
+        null=True,
+        verbose_name=("Buluntu"),
+        on_delete=models.CASCADE,
+    )
+    type_1 = models.ImageField(("Eskiz"), upload_to=store, storage=drive_storage)
+    type_2 = models.ImageField(("Fotoğraf"), upload_to=store, storage=drive_storage)
+    type_3 = models.ImageField(("Çizim"), upload_to=store, storage=drive_storage)
+    type_4 = models.ImageField(("OrtoFoto"), upload_to=store, storage=drive_storage)
+
+
+"""Küçük Buluntu Formu Yardımcı Modelleri"""
+
+
+class Pieces(models.Model):
+    name = models.CharField(("Eser Adı"), max_length=100)
+    status = models.CharField(("Eser Durumu"), max_length=50, default="")
+
+    def __str__(self) -> str:
+        return self.name
+
+
+"""Küçük Buluntu Formu Yardımcı Modelleri Biter"""
+
+"""Renkler (Astar) formu"""
+
+
+class AstarColour(models.Model):
+    disAstar = models.CharField(("Dış Astar Rengi"), max_length=50)
+    icAstar = models.CharField(("İç Astar Rengi"), max_length=50)
+    hamur = models.CharField(("Hamur / Çekirdek Rengi"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.disAstar
+
+
+"""Hamur Özellikleri Formu"""
+
+
+class HamurKatkiBoy(models.Model):
+    value = models.CharField(("Katkı Boyutu"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+class HamurGozeneklilik(models.Model):
+    value = models.CharField(("Gözeneklilik"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+class HamurSertlik(models.Model):
+    value = models.CharField(("Sertlik"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+class HamurFirinlama(models.Model):
+    value = models.CharField(("Fırınlama"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+class HamurKatkiTur(models.Model):
+    value = models.CharField(("Katkı Türü"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+class HamurYuzey(models.Model):
+    value = models.CharField(("Yuzey Ugulamaları"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.value
+
+
+"""Hamur Özellikleri Formu Biter"""
+
+
+"""Benzeme Formu"""
+
+
+class Bezeme(models.Model):
+    bezeme = models.CharField(("Bezeme"), max_length=50)
+    bezemeAlani = models.CharField(("Bezeme Alanı"), max_length=50)
+    bezemeTur = models.CharField(("Bezeme Türü"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.bezeme
+
+
+"""küçük buluntu formu"""
+
+
+class MinorBuluntuForm(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Minor Buluntu Formları"
+        verbose_name = "Minor Buluntu Formu"
+
+    # şimdilik charfield
+    buluntuName = models.CharField(("Buluntu Adı"), max_length=50, default="")
+    piece = models.ForeignKey(
+        Pieces,
+        verbose_name=("Eser"),
+        on_delete=models.CASCADE,
+        related_name="eserler",
+        default="",
+    )
+    width = models.CharField(("Yükseklik"), max_length=50, default="", blank=True)
+    thick = models.CharField(("Kalınlık"), max_length=50, default="", blank=True)
+    height = models.CharField(("Genişlik"), max_length=50, default="", blank=True)
+    diameter = models.CharField(("Çap"), max_length=50, default="", blank=True)
+    length = models.CharField(("Uzunluk"), max_length=50, default="", blank=True)
+    weight = models.CharField(("Ağırlık"), max_length=50, default="", blank=True)
+    color = models.ForeignKey(
+        AstarColour, verbose_name=("Renkler"), on_delete=models.CASCADE, default=""
+    )
+    hamurBoy = models.ForeignKey(
+        HamurKatkiBoy,
+        verbose_name=("Katkı Boyutu"),
+        on_delete=models.CASCADE,
+        default="",
+    )
+    hamurGozeneklik = models.ForeignKey(
+        HamurGozeneklilik,
+        verbose_name=("Gözeneklilik"),
+        on_delete=models.CASCADE,
+        default="",
+    )
+    hamurSertlik = models.ForeignKey(
+        HamurSertlik, verbose_name=("Sertlik"), on_delete=models.CASCADE, default=""
+    )
+    hamurFirinlama = models.ForeignKey(
+        HamurFirinlama, verbose_name=("Fırınlama"), on_delete=models.CASCADE, default=""
+    )
+    hamurTur = models.ForeignKey(
+        HamurKatkiTur, verbose_name=("Katkı Türü"), on_delete=models.CASCADE, default=""
+    )
+    hamurYuzey = models.ForeignKey(
+        HamurYuzey,
+        verbose_name=("Hamur Yüzey Uygulamaları"),
+        on_delete=models.CASCADE,
+        default="",
+    )
+    bezeme = models.ForeignKey(
+        Bezeme, verbose_name=("Bezeme"), on_delete=models.CASCADE, default=""
+    )
+
+    # tanım ve ölçüler ?
+
+    def __str__(self) -> str:
+        return self.buluntuName
+
+
+
+
+
+"""küçük buluntu modeli"""
+
+
+class MinorBuluntu(models.Model):
+    OPTION_CHOICES = (
+        ("1", "El Arabası"),
+        ("2", "Insitu/Dolgu"),
+        ("3", "Tum"),
+        ("4", "Kirik"),
+    )
+
+    buluntu = models.CharField(("Küçük Buluntu"), max_length=50, choices=OPTION_CHOICES)
+    filledBy = models.CharField(("Formu Dolduran"), max_length=50)
+    processedBy = models.CharField(("Veri Giren"), max_length=50)
+    form = models.ForeignKey(
+        MinorBuluntuForm,
+        verbose_name=("Küçük Buluntu Formu"),
+        default="",
+        on_delete=models.CASCADE,
+    )
