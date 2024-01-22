@@ -10,134 +10,104 @@ Demirbaş Listesi
 <div class="container">
 
 
-    <!-- Django Filter Start -->
-    <form method="get" action="{% url 'fixture-liste' %}">
-        <div class="card p-5 mt-5">
-            <div class="card-header">Detaylı Arama</div>
-            <div class="row justify-content-center align-items-center mt-5 mb-5">
-                <div class="col-md-2">
-                    <label for="id_name" class="mb-2">Demirbaş Adı</label>
-                    {{form.name}}
-                </div>
-                <div class="col-md-2">
-                    <label for="id_marka" class="mb-2">Demirbaş Marka</label>
-                    {{form.marka}}
-                </div>
-                <div class="col-md-2">
-                    <label for="id_model" class="mb-2">Demirbaş Model</label>
-                    {{form.model}}
-                </div>
-                <div class="col-md-2">
-                    <label for="id_piece" class="mb-2">Demirbaş Adet</label>
-                    {{form.piece}}
-                </div>
-                <div class="col-md-2">
-                    <label for="id_piece" class="mb-2">Demirbaş Zimmetli Kişi</label>
-                    {{form.custodian}}
-                </div>
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-success">Filtrele</button>
-                </div>
-            </div>
+  <!-- Django Filter Start -->
+  <form method="get" action="{% url 'fixture-liste' %}">
+    <div class="card p-5 mt-5">
+      <div class="card-header">Detaylı Arama</div>
+      <div class="row justify-content-center align-items-center mt-5 mb-5">
+        <div class="col-md-2">
+          <label for="id_name" class="mb-2">Demirbaş Adı</label>
+          {{form.name}}
         </div>
-
-
-    </form>
-    <div class="card mt-5 p-5">
-      <div class="table-responsive">
-        <table class="table table-striped" id="tablo">
-            <!-- Tablo başlıkları -->
-            <thead>
-                <tr>
-                    <th scope="col">Demirbaş Adı</th>
-                    <th scope="col">Marka</th>
-                    <th scope="col">Model</th>
-                    <th scope="col">Adet</th>
-                    <th scope="col" >Toplam Fiyat</th>
-                    <th scope="col">Alım Tarihi</th>
-                    <th scope="col">Bulunduğu Yer</th>
-                    <th scope="col">Zimmetli Kişi</th>
-                    {% if request.user.is_superuser or request.user.isModerator == True %}
-                    <th>İşlemler</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <!-- Tablo verileri -->
-            <tbody>
-                {% for fixture in fixtures %}
-                <tr>
-                    <td scope="row">{{ fixture.name }}</td>
-                    <td>{{ fixture.marka }}</td>
-                    <td>{{ fixture.model }}</td>
-                    <td>{{ fixture.piece }}</td>
-                    <td>{{ fixture.totalprice }}</td>
-                    <td>{{ fixture.dateofaddition }}</td>
-                    <td>{{ fixture.where }}</td>
-                    <td>{{ fixture.custodian }}</td>
-                    {% if request.user.is_superuser or request.user.isModerator == True %}
-                    <td>
-                      <a
-                        href="#"
-                        class="mb-2 me-3"
-                        data-bs-toggle="modal"
-                        data-bs-target="#deletealert{{ fixture.id }}"
-                        ><i class="fa-solid fa-trash text-danger"></i
-                      ></a>
-                      <a
-                        href="#"
-                        class="mb-2 me-3"
-                        data-bs-toggle="modal"
-                        data-bs-target="#updateModal{{ fixture.id }}"
-                        ><i class="fa-solid fa-pencil"></i
-                      ></a>
-                      <a
-                        href="#"
-                        data-bs-toggle="modal"
-                        data-bs-target="#viewModal{{ fixture.id }}"
-                        ><i class="fa-solid fa-magnifying-glass"></i
-                      ></a>
-                    </td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="col-md-2">
+          <label for="id_marka" class="mb-2">Demirbaş Marka</label>
+          {{form.marka}}
+        </div>
+        <div class="col-md-2">
+          <label for="id_model" class="mb-2">Demirbaş Model</label>
+          {{form.model}}
+        </div>
+        <div class="col-md-2">
+          <label for="id_piece" class="mb-2">Demirbaş Adet</label>
+          {{form.piece}}
+        </div>
+        <div class="col-md-2">
+          <label for="id_piece" class="mb-2">Demirbaş Zimmetli Kişi</label>
+          {{form.custodian}}
+        </div>
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-success">Filtrele</button>
+        </div>
       </div>
     </div>
-    <!-- Modals for each report -->
+
+
+  </form>
+  <div class="card mt-5 p-5">
+    <div class="table-responsive">
+      <table class="table table-striped" id="tablo">
+        <!-- Tablo başlıkları -->
+        <thead>
+          <tr>
+            <th scope="col">Demirbaş Adı</th>
+            <th scope="col">Marka</th>
+            <th scope="col">Model</th>
+            <th scope="col">Adet</th>
+            <th scope="col">Toplam Fiyat</th>
+            <th scope="col">Alım Tarihi</th>
+            <th scope="col">Bulunduğu Yer</th>
+            <th scope="col">Zimmetli Kişi</th>
+            {% if request.user.is_superuser or request.user.isModerator == True %}
+            <th>İşlemler</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <!-- Tablo verileri -->
+        <tbody>
+          {% for fixture in fixtures %}
+          <tr>
+            <td scope="row">{{ fixture.name }}</td>
+            <td>{{ fixture.marka }}</td>
+            <td>{{ fixture.model }}</td>
+            <td>{{ fixture.piece }}</td>
+            <td>{{ fixture.totalprice }}</td>
+            <td>{{ fixture.dateofaddition }}</td>
+            <td>{{ fixture.where }}</td>
+            <td>{{ fixture.custodian }}</td>
+            {% if request.user.is_superuser or request.user.isModerator == True %}
+            <td>
+              <a href="#" class="mb-2 me-3" data-bs-toggle="modal" data-bs-target="#deletealert{{ fixture.id }}"><i
+                  class="fa-solid fa-trash text-danger"></i></a>
+              <a href="#" class="mb-2 me-3" data-bs-toggle="modal" data-bs-target="#updateModal{{ fixture.id }}"><i
+                  class="fa-solid fa-pencil"></i></a>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal{{ fixture.id }}"><i
+                  class="fa-solid fa-magnifying-glass"></i></a>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Modals for each report -->
   {% for fixture in fixtures %}
   <!-- Modal Delete -->
-  <div
-    class="modal fade"
-    id="deletealert{{ fixture.id }}"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="deletealert{{ fixture.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">
             Silmek İstediğinizden Emin Misiniz?
           </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-footer justify-content-center">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Vazgeç
           </button>
-          <a href="{% url 'fixture-delete' fixture.id %}"
-            ><button type="button" class="btn btn-danger">Sil</button></a
-          >
+          <a href="{% url 'fixture-delete' fixture.id %}"><button type="button" class="btn btn-danger">Sil</button></a>
         </div>
       </div>
     </div>
@@ -145,180 +115,139 @@ Demirbaş Listesi
   <!-- Modal Delete End -->
 
   <!-- Update Modal -->
-  <div
-    class="modal fade"
-    id="updateModal{{ fixture.id }}"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="updateModalLabel{{ fixture.id }}"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog"
-      role="document"
-      style="max-width: 900px; max-height: 1500px"
-    >
+  <div class="modal fade" id="updateModal{{ fixture.id }}" tabindex="-1" role="dialog"
+    aria-labelledby="updateModalLabel{{ fixture.id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
       <div class="modal-content">
-        <form
-          method="post"
-          action="{% url 'fixture-update' fixture.id %}"
-          class="update-form"
-          enctype="multipart/form-data"
-        >
+        <form method="post" action="{% url 'fixture-update' fixture.id %}" class="update-form"
+          enctype="multipart/form-data">
           {% csrf_token %}
           <div class="modal-header">
             <h5 class="modal-title" id="updateModalLabel{{ fixture.id }}">
               Fixture Güncelle
             </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            {% for form_id, form in updateForms.items %} 
+            {% for form_id, form in updateForms.items %}
             {% if form_id == fixture.id %}
             <div class="row p-3">
               <div class="col-md-4">
                 <label for="id_name" class="form-label">Demirbaş Adı</label>
                 {{form.name}}
               </div>
-    
+
               <div class="col-md-4">
                 <label for="id_marka" class="form-label">Marka</label>
                 {{form.marka}}
               </div>
-    
+
               <div class="col-md-4">
                 <label for="id_model" class="form-label">Model</label>
                 {{form.model}}
               </div>
-    
+
               <div class="col-md-3">
                 <label for="id_piece" class="form-label">Adet</label>
                 {{form.piece}}
               </div>
-    
+
               <div class="col-md-3">
                 <label for="id_unitprice" class="form-label">Birim Fiyatı</label>
                 {{form.unitprice}}
               </div>
-    
+
               <div class="col-md-3">
                 <label for="id_taxrate" class="form-label">Tax Rate</label>
                 {{form.taxrate}}
               </div>
-    
+
               <div class="col-md-3">
                 <label for="id_totalprice" class="form-label">Toplam Fiyat</label>
                 {{form.totalprice}}
               </div>
-    
+
               <div class="row">
                 <div class="col-md-4">
-                  <label for="id_typeofaddition" class="form-label"
-                    >Alış Şekli</label
-                  >
+                  <label for="id_typeofaddition" class="form-label">Alış Şekli</label>
                   {{form.typeofaddition}}
                 </div>
-    
+
                 <div class="col-md-4">
-                  <label for="id_dateofaddition" class="form-label"
-                    >Alım Tarihi</label
-                  >
+                  <label for="id_dateofaddition" class="form-label">Alım Tarihi</label>
                   {{form.dateofaddition}}
                 </div>
-    
+
                 <div class="col-md-4">
                   <label for="id_where" class="form-label">Bulunduğu Yer</label>
                   {{form.where}}
                 </div>
               </div>
-    
+
               <div class="row">
                 <div class="col-md-6">
                   <div class="row">
                     <div class="col-md-6">
-                      <label for="id_custodian" class="form-label"
-                        >Zimmetli Kişi</label
-                      >
+                      <label for="id_custodian" class="form-label">Zimmetli Kişi</label>
                       {{form.custodian}}
                     </div>
                     <div class="col-md-6">
-                      <label for="id_barcode" class="form-label"
-                        >Barkod Numarası</label
-                      >
+                      <label for="id_barcode" class="form-label">Barkod Numarası</label>
                       {{form.barcode}}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-    
+
             <div class="card-header mt-5">Firma Bilgileri</div>
-    
+
             <div class="card p-4">
               <div class="row">
                 <div class="col-md-6">
                   <div class="row">
                     <div class="col-md-6">
-                      <label for="id_companyName" class="form-label"
-                        >Firma Adı</label
-                      >
+                      <label for="id_companyName" class="form-label">Firma Adı</label>
                       {{form.companyName}}
                     </div>
                     <div class="col-md-6">
-                      <label for="id_companyOfficial" class="form-label"
-                        >Firma Yetkilisi</label
-                      >
+                      <label for="id_companyOfficial" class="form-label">Firma Yetkilisi</label>
                       {{form.companyOfficial}}
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
-                      <label for="id_companyPhone" class="form-label"
-                        >Firma Telefon</label
-                      >
+                      <label for="id_companyPhone" class="form-label">Firma Telefon</label>
                       {{form.companyPhone}}
                     </div>
                     <div class="col-md-6">
-                      <label for="id_companyEmail" class="form-label"
-                        >Firma Email</label
-                      >
+                      <label for="id_companyEmail" class="form-label">Firma Email</label>
                       {{form.companyEmail}}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="id_companyAddress" class="form-label"
-                    >Firma Adresi</label
-                  >
+                  <label for="id_companyAddress" class="form-label">Firma Adresi</label>
                   {{form.companyAddress}}
                 </div>
               </div>
             </div>
-    
+
             <div class="card-header mt-5">
               <div class="row">
                 <div class="col-md-6">Demirbaş Alım Belgesi</div>
                 <div class="col-md-6">Demirbaş Açıklama</div>
               </div>
             </div>
-    
+
             <div class="card p-3">
               <div class="row">
                 <div class="col-md-6">
-                  <label for="id_fixtureFile" class="form-label"
-                    >Demirbaş Alım Belgesi</label
-                  >
+                  <label for="id_fixtureFile" class="form-label">Demirbaş Alım Belgesi</label>
                   {{form.fixtureFile}}
                 </div>
                 <div class="col-md-6">
-                  <label for="id_fixtureDescription" class="form-label"
-                    >Demirbaş Açıklama</label
-                  >
+                  <label for="id_fixtureDescription" class="form-label">Demirbaş Açıklama</label>
                   {{form.fixtureDescription}}
                 </div>
               </div>
@@ -327,16 +256,12 @@ Demirbaş Listesi
             {% endfor %}
           </div>
           <div class="modal-footer">
-            <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            >
-            Kapat
-          </button>
-          <button type="submit" class="btn btn-primary">Kaydet</button>
-        </div>
-      </form>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Kapat
+            </button>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -344,43 +269,39 @@ Demirbaş Listesi
   <!-- Update Modal End -->
 
   <!-- View Modal -->
-  <div class="modal fade" id="viewModal{{ fixture.id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel{{ fixture.id }}" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+  <div class="modal fade" id="viewModal{{ fixture.id }}" tabindex="-1" role="dialog"
+    aria-labelledby="viewModalLabel{{ fixture.id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
       <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title" id="viewModalLabel{{ fixture.id }}">Fixture Detayları</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewModalLabel{{ fixture.id }}">
+            Rapor Detayları
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body bg-light">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <p><strong>Demirbaş Adı:</strong> {{ fixture.name }}</p>
-                <p><strong>Demirbaş Marka:</strong> {{ fixture.marka }}</p>
-                <p><strong>Demirbaş Model:</strong> {{ fixture.model }}</p>
-                <p><strong>Demirbaş Adet:</strong> {{ fixture.piece }}</p>
-              </div>
-              <div class="col-md-6 mb-3">
-                <p><strong>Demirbaş Birim Fiyatı:</strong> {{ fixture.unitprice }}</p>
-                <p><strong>Demirbaş Vergi Oranı:</strong> {{ fixture.taxrate }}</p>
-                <p><strong>Demirbaş Toplam Fiyat:</strong> {{ fixture.totalprice }}</p>
-                <p><strong>Demirbaş Alış Şekli:</strong> {{ fixture.typeofaddition }}</p>
-              </div>
-              <div class="col-12 mb-3">
-                <p><strong>Demirbaş Alım Tarihi:</strong> {{ fixture.dateofaddition }}</p>
-                <p><strong>Demirbaş Bulunduğu Yer:</strong> {{ fixture.where }}</p>
-                <p><strong>Demirbaş Zimmeli Kişi:</strong> {{ fixture.custodian }}</p>
-                <p><strong>Demirbaş Barkod Numarası:</strong> {{ fixture.barcode }}</p>
-                <p><strong>Demirbaş Firma Adı:</strong> {{ fixture.companyName }}</p>
-                <p><strong>Demirbaş Firma Yetkilisi:</strong> {{ fixture.companyOfficial }}</p>
-                <p><strong>Demirbaş Firma Telefon Numarası:</strong> {{ fixture.companyPhone }}</p>
-                <p><strong>Demirbaş Firma Email Adresi:</strong> {{ fixture.companyEmail }}</p>
-                <p><strong>Demirbaş Firma Adresi:</strong> {{ fixture.companyAddress|safe }}</p>
-                <p><strong>Demirbaş Alım Belgesi:</strong> <a href="{{fixture.fixtureFile.url}}" target="_blank">{{ fixture.fixtureFile }}</a></p>
-                <p><strong>Demirbaş Açıklama:</strong> {{ fixture.fixtureDescription|safe }}</p>
-              </div>
-            </div>
-          </div>
+        <div class="modal-body">
+          <!-- Fixture details here -->
+          <p><strong>Demirbaş Kullanıcı: </strong> {{ fixture.user }}</p>
+          <p><strong>Demirbaş Adı: </strong> {{ fixture.name }}</p>
+          <p><strong>Demirbaş Marka: </strong> {{ fixture.marka }}</p>
+          <p><strong>Demirbaş Model: </strong> {{ fixture.model }}</p>
+          <p><strong>Demirbaş Adet: </strong> {{ fixture.piece }}</p>
+          <p><strong>Demirbaş Birim Fiyatı: </strong> {{ fixture.unitprice }}</p>
+          <p><strong>Demirbaş Vergi Oranı: </strong> {{ fixture.taxrate }}</p>
+          <p><strong>Demirbaş Toplam Fiyat: </strong> {{ fixture.totalprice }}</p>
+          <p><strong>Demirbaş Alış Şekli: </strong> {{ fixture.typeofaddition }}</p>
+          <p><strong>Demirbaş Alım Tarihi: </strong> {{ fixture.dateofaddition }}</p>
+          <p><strong>Demirbaş Bulunduğu Yer: </strong> {{ fixture.where }}</p>
+          <p><strong>Demirbaş Zimmetli Kişi: </strong> {{ fixture.custodian }}</p>
+          <p><strong>Demirbaş Barkod Numarası: </strong> {{ fixture.barcode }}</p>
+          <p><strong>Demirbaş Firma Adı: </strong> {{ fixture.companyName }}</p>
+          <p><strong>Demirbaş Firma Yetkilisi: </strong> {{ fixture.companyOfficial }}</p>
+          <p><strong>Demirbaş Firma Telefon: </strong> {{ fixture.companyPhone }}</p>
+          <p><strong>Demirbaş Firma Email Adresi: </strong> {{ fixture.companyEmail }}</p>
+          <p><strong>Demirbaş Firma Adresi: </strong> {{ fixture.companyAddress|safe }}</p>
+          <p><strong>Demirbaş Alım Belgesi: </strong> <a href="{{fixture.fixturefile.url}}" target="_blank">{{ fixture.fixtureFile }}</a></p>
+          <p><strong>Demirbaş Açıklama: </strong> {{ fixture.fixtureDescription|safe }}</p>
+        <!-- Fixture details end -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
