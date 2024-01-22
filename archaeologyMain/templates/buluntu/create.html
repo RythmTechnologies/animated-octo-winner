@@ -42,10 +42,7 @@
 
     {% endif %}
 
-
     {% include "./Components/BuluntuModal.html" %}
-
-
 
     <form action="{% url 'set-buluntu' %}" method="post" enctype="multipart/form-data">
       
@@ -343,12 +340,27 @@
  
         
             <div>
-              <label for="{{form.buluntuForms.auto_id}}">Küçük Buluntu Formu</label>
-              {{form.buluntuForms}}
 
-              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#commonModal">
+              <label for="{{form.buluntuForms.auto_id}}">Küçük Buluntu Formu</label>
+
+
+              <select required name="buluntuForms" id="id_buluntuForms">
+  
+                {% for value in form.buluntuForms %}
+                
+                {{value}}
+                
+                {% endfor %}
+
+              </select>
+              
+
+            
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#buluntu-5">
                 Küçük Buluntu Form Modalını Tetikle
               </button>
+
+
             </div>
          
 

@@ -221,3 +221,54 @@ class SetGeneralBuluntu(models.Model):
     def __str__(self) -> str:
         return str(self.no)
 
+
+
+"""eser, durum, tür"""
+class Piece(models.Model):
+    name = models.CharField(("Eser Adı"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.name
+    
+class Status(models.Model):
+    status = models.CharField(("Durum"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.status
+    
+
+class Type(models.Model):
+    type = models.CharField(("Tür"), max_length=50)
+
+    def __str__(self) -> str:
+        return self.type
+
+
+"""Küçük Buluntu Detay Sayfaları"""
+class Toprak(models.Model):
+
+    piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
+    # ölçüler
+    amount = models.CharField(("Miktar"), max_length=50)
+    flotasyonBefore = models.CharField(("Flotasyon Öncesi Miktar"), max_length=50)
+    flotasyonAfter = models.CharField(("Flotasyon Sonrası Miktar"), max_length=50)
+    defination = models.TextField(("Tanım"))
+
+class C14(models.Model):
+
+    AMOUNT_CHOICES = (
+
+        (1, "Analiz Tüpü"),
+        (2, "Plastik Kutu"),
+        (3, "Korunmuş Ahşap Örneği")
+    )
+
+    piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
+    type = models.ForeignKey(Type, verbose_name=("Tür"), on_delete=models.CASCADE)
+
+    # diğer bilgiler
+    amount = models.CharField(("Miktar"), choices=AMOUNT_CHOICES, max_length=50)
+    defination = models.TextField(("Tanım"))
+
