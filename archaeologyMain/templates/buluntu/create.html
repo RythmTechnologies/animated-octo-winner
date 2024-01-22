@@ -244,14 +244,14 @@
 
           <div>
             
-            <label for="{{instruactionForm.description.auto_id}}">{{instruactionForm.description.label}}</label>
-            {{instruactionForm.description}}
+            <label for="{{form.definition.auto_id}}">{{form.definition.label}}</label>
+            {{form.definition}}
           </div>
           
           <div>
 
-            <label for="{{instruactionForm.description_2.auto_id}}">{{instruactionForm.description_2.label}}</label>
-            {{instruactionForm.description_2}}
+            <label for="{{form.description.auto_id}}">{{form.description.label}}</label>
+            {{form.description}}
           </div>
       
 
@@ -259,26 +259,26 @@
 
             <div>
 
-              <label for="{{instruactionForm.inventoryNo.auto_id}}">{{instruactionForm.inventoryNo.label}}</label>
-              {{instruactionForm.inventoryNo}}
+              <label for="{{form.inventoryNo.auto_id}}">{{form.inventoryNo.label}}</label>
+              {{form.inventoryNo}}
             </div>
 
             <div>
-              <label for="{{instruactionForm.pieceNo.auto_id}}">{{instruactionForm.pieceNo.label}}</label>
-              {{instruactionForm.pieceNo}}
+              <label for="{{form.pieceNo.auto_id}}">{{form.pieceNo.label}}</label>
+              {{form.pieceNo}}
             </div>
 
             <div>
-              <label for="{{instruactionForm.illustrationNo.auto_id}}">{{instruactionForm.illustrationNo.label}}</label>
-              {{instruactionForm.illustrationNo}}
+              <label for="{{form.drawNo.auto_id}}">{{form.drawNo.label}}</label>
+              {{form.drawNo}}
             </div>
 
           </div>
    
 
           <div class="ms-1">
-            <label for="{{instruactionForm.inventory.auto_id}}">{{instruactionForm.inventory.label}}</label>
-            {{instruactionForm.inventory}}
+            <label for="{{form.inventories.auto_id}}">{{form.inventories.label}}</label>
+            {{form.inventories}}
           </div>
 
         </div>
@@ -296,9 +296,30 @@
 
       <div class="row p-3">
 
-        <div class="col-12 col-md-3" id="imageElements">
+        <div class="col-12 d-md-flex" id="imageElements">
 
-            {{imageForm}}
+            <div class="m-2">
+              <label for="{{id_form.eskiz}}">Eskiz</label>
+              {{form.eskiz}}
+            </div>
+    
+            <div class="m-2">
+              <label for="{{id_form.picture}}">Fotoğraf</label>
+              {{form.picture}}
+            </div>
+        
+
+            <div class="m-2">
+              <label for="{{id_form.draw}}">Çizim</label>
+              {{form.draw}}
+            </div>
+  
+
+            <div class="m-2">
+              <label for="{{id_form.orto}}">Orto Foto</label>
+              {{form.orto}}
+            </div>
+      
 
         </div>
 
@@ -319,15 +340,29 @@
 
         <div class="col-12 col-md-3">
 
-            {{minorBuluntu}}
+ 
+        
+            <div>
+              <label for="{{form.buluntuForms.auto_id}}">Küçük Buluntu Formu</label>
+              {{form.buluntuForms}}
 
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#commonModal">
-              Küçük Buluntu Form Modalını Tetikle
-            </button>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#commonModal">
+                Küçük Buluntu Form Modalını Tetikle
+              </button>
+            </div>
+         
+
+
 
             <div>
-              <label for="id_id_processedBy">Veri Giren</label>
-              <input disabled name="id_processedBy" value="{{request.user.username}}">
+              <label for="{{form.filledBy.auto_id}}">{{form.filledBy.label}}</label>
+              {{form.filledBy}}
+           </div>
+
+
+            <div>
+              <label for="{{form.processedBy.auto_id}}">{{form.processedBy.label}}</label>
+              <input disabled name="{{form.processedBy.auto_id}}" value="{{request.user.username}}">
            </div>
 
            <div>
@@ -350,5 +385,5 @@
 
 
 <script src="{% static '/js/buluntu.js' %}"></script>
-
+<script src="{% static '/js/imagePreview.js' %}"></script>
 {% endblock site-content %}
