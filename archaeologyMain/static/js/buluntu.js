@@ -144,16 +144,18 @@ window.onload = function() {
    }
 
  
-  //  küçük buluntu dropdown (hatali)
-  const selectBuluntu = document.getElementById('id_form')
-  
-  selectBuluntu.onchange = function(event) {
 
-      const selectedOption = event.target.options[event.target.selectedIndex]
+// dropdown change
+document.getElementById('id_buluntuForms').addEventListener('change', function () {
+    // Seçilen seçeneği al
+    let selectedOption = this.value;
 
-      selectedOption.setAttribute("data-bs-toggle", "modal");
-      selectedOption.setAttribute("data-bs-target", "#commonModal");
-      
-  }
+    if (selectedOption) {
+
+        const modalId = '#buluntu-' + selectedOption;
+        const modal = new bootstrap.Modal(document.querySelector(modalId));
+        modal.show();
+    }
+});
 
 }
