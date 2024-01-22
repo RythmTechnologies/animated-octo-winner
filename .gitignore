@@ -2,8 +2,6 @@
 archaeologyMain/data/
 archaeologyMain/Uploads/
 
-archaeologyMain/static/
-
 # Ignore Django Migrations in Development if you are working on team
 **/migrations/**
 !**/migrations
