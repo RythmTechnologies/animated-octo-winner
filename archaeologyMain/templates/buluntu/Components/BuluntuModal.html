@@ -1,175 +1,28 @@
-<div class="modal fade" id="commonModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+{% for id, buluntuForm in buluntuForms.items %}
+  
+<div class="modal fade" id="buluntu-{{id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">Genel Bilgiler</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        
         <div class="modal-body">
 
-                <div class="card">
-
-                    <div class="card-header">
-                        Genel Bilgiler
-                    </div>
-                
-
-                    <div class="row p-3">
-
-
-                        <div class="col-12 col-md-6">
-                            {{minorBuluntuForm.piece}}
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            {{minorBuluntuForm.piece}}
-                        </div>
-
-                        </div>
-                </div>
-
-                <div class="card mt-3">
-
-                    <div class="card-header">
-                       Ölçüler
-                    </div>
-                
-
-                    <div class="row p-3">
-
-
-                        <div class="col-4">
-
-
-                            <label for="{{minorBuluntuForm.width.auto_id}}">{{minorBuluntuForm.width.label}}</label>
-                            {{minorBuluntuForm.width}}
-
-                            <label for="{{minorBuluntuForm.thick.auto_id}}">{{minorBuluntuForm.thick.label}}</label>
-                            {{minorBuluntuForm.thick}}
-                        </div>
-
-
-                        <div class="col-4">
-                            <label for="{{minorBuluntuForm.height.auto_id}}">{{minorBuluntuForm.height.label}}</label>
-                            {{minorBuluntuForm.height}}
-
-                            <label for="{{minorBuluntuForm.diameter.auto_id}}">{{minorBuluntuForm.diameter.label}}</label>
-                            {{minorBuluntuForm.diameter}}
-
-                        </div>
-
-                        
-                        <div class="col-4">
-
-                            <label for="{{minorBuluntuForm.length.auto_id}}">{{minorBuluntuForm.length.label}}</label>
-                            {{minorBuluntuForm.length}}
-
-                            <label for="{{minorBuluntuForm.weight.auto_id}}">{{minorBuluntuForm.weight.label}}</label>
-                            {{minorBuluntuForm.weight}}
-
-                        </div>
-
-                    </div>
-                
-                </div>
-
-
-
-                <div class="card mt-3">
-
-                    <div class="card-header">
-                        Renkler
-                    </div>
-            
-                    <div class="row p-3">
-
-
-                        <div class="col-12 col-md-6">
-                            {{minorBuluntuForm.piece}}
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            {{minorBuluntuForm.piece}}
-                        </div>
-
-                        </div>
-                </div>
-
-
-
-                <div class="card mt-3">
-
-                    <div class="card-header">
-                        Hamur Özellikleri
-                    </div>
-                
-
-                    <div class="row p-3">
-
-
-                        <div class="col-12 col-md-4">
-                       
-                            <label for="{{minorBuluntuForm.hamurBoy.auto_id}}">{{minorBuluntuForm.hamurBoy.label}}</label>
-                            {{minorBuluntuForm.hamurBoy}}
-
-                            <label for="{{minorBuluntuForm.hamurFirinlama.auto_id}}">{{minorBuluntuForm.hamurFirinlama.label}}</label>
-                            {{minorBuluntuForm.hamurFirinlama}}
-                        </div>
-               
-                        <div class="col-12 col-md-4">
-
-                            <label for="{{minorBuluntuForm.hamurGozeneklik.auto_id}}">{{minorBuluntuForm.hamurGozeneklik.label}}</label>
-                            {{minorBuluntuForm.hamurGozeneklik}}
-
-
-                            <label for="{{minorBuluntuForm.hamurTur.auto_id}}">{{minorBuluntuForm.hamurTur.label}}</label>
-                            {{minorBuluntuForm.hamurTur}}
-
-                        </div>
-
-
-                        <div class="col-12 col-md-4">
-
-
-                            <label for="{{minorBuluntuForm.hamurSertlik.auto_id}}">{{minorBuluntuForm.hamurSertlik.label}}</label>
-                            {{minorBuluntuForm.hamurSertlik}}
-
-
-                            <label for="{{minorBuluntuForm.hamurYuzey.auto_id}}">Hamur Yüzey U.</label>
-                            {{minorBuluntuForm.hamurYuzey}}
-                        </div>
-
-                      </div>
-                </div>
+            {% for field in buluntuForm %}
+              
+    
+            {% endfor %}
            
-
-
-
-                <div class="card mt-3">
-
-                    <div class="card-header">
-                        Bezeme
-                    </div>
-                
-
-                    <div class="row p-3">
-
-
-                        <div class="col-12 col-md-6">
-                            {{minorBuluntuForm.piece}}
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            {{minorBuluntuForm.piece}}
-                        </div>
-
-                        </div>
-                </div>
- 
         </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-success">Onayla</button>
         </div>
       </div>
     </div>
   </div>
+
+  {% endfor %}
+
