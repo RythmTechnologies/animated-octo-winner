@@ -1,6 +1,5 @@
 from django import forms
-
-from .models import SetGeneralBuluntu
+from .models import *
 
 
 class GeneralBuluntuForm(forms.ModelForm):
@@ -9,31 +8,16 @@ class GeneralBuluntuForm(forms.ModelForm):
         fields = "__all__"
         exclude = ["user"]
 
-"""
-class GeneralInstructionsForm(forms.ModelForm):
+
+class ToprakForm(forms.ModelForm):
+
     class Meta:
-        model = GeneralInstructions
+        model = Toprak
         fields = "__all__"
 
 
-class BuluntuImagesForm(forms.ModelForm):
+class C14Form(forms.ModelForm):
+
     class Meta:
-        model = BuluntuImages
+        model = C14
         fields = "__all__"
-        exclude = ["buluntu"]
-
-
-class MinorBuluntu(forms.ModelForm):
-    class Meta:
-        model = MinorBuluntu
-        fields = "__all__"
-        exclude = ["processedBy"]
-
-
-class FinalBuluntuForm(forms.ModelForm):
-    # piece = forms.ChoiceField(choices=Pieces.objects.values_list())
-    class Meta:
-        model = MinorBuluntuForm
-        fields = "__all__"
-        
-"""
