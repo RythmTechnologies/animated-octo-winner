@@ -1,15 +1,17 @@
 import datetime
-import string
 import os
+import string
+
 from apps.specuser.models import SiteUser
 from colorfield.fields import ColorField
 from django.db import models
-
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
+from gdstorage.storage import (GoogleDriveFilePermission,
+                               GoogleDrivePermissionRole,
+                               GoogleDrivePermissionType, GoogleDriveStorage)
 
 permission =  GoogleDriveFilePermission(
    GoogleDrivePermissionRole.READER,
@@ -118,7 +120,7 @@ class SetColour(models.Model):
 
 
 class SetGeneralBuluntu(models.Model):
-    
+
     class Meta:
         verbose_name_plural = "Genel Buluntu Kayıt Formu"
         verbose_name = "Genel Buluntu Formu"
@@ -187,7 +189,7 @@ class SetGeneralBuluntu(models.Model):
 
 
 class GeneralInstructions(models.Model):
-        
+
     class Meta:
         verbose_name_plural = "Genel Tanımlamalar"
         verbose_name = "Genel Tanımlama"
@@ -331,7 +333,7 @@ class Bezeme(models.Model):
 
 
 class MinorBuluntuForm(models.Model):
-        
+
     class Meta:
         verbose_name_plural = "Minor Buluntu Formları"
         verbose_name = "Minor Buluntu Formu"
@@ -389,8 +391,8 @@ class MinorBuluntuForm(models.Model):
 
     def __str__(self) -> str:
         return self.buluntuName
-    
-    
+
+
 
 
 
