@@ -7,6 +7,7 @@ Evrak Listesi
 
 
 {% block site-content %}
+
 <div class="container">
 
 
@@ -37,63 +38,64 @@ Evrak Listesi
             </div>
         </div>
 
-
     </form>
     <div class="card mt-5 p-5">
-        <table class="table table-striped" id="tablo">
-            <!-- Tablo başlıkları -->
-            <thead>
-                <tr>
-                    <th>Evrak No</th>
-                    <th>Evrak Tarihi</th>
-                    <th>İlgili Birim</th>
-                    <th>İlgili Kurum</th>
-                    <th>Evrak Konusu</th>
-                    <th>Evrak Detayı</th>
-                    {% if request.user.is_superuser or request.user.isModerator == True %}
-                    <th>İşlemler</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <!-- Tablo verileri -->
-            <tbody>
-                {% for document in documents %}
-                <tr>
-                    <td>{{ document.docno }}</td>
-                    <td>{{ document.docdate }}</td>
-                    <td>{{ document.relevantunit }}</td>
-                    <td>{{ document.relevantinstitution }}</td>
-                    <td>{{ document.docsubject }}</td>
-                    <td>{{ document.detail|safe }}</td>
-                    {% if request.user.is_superuser or request.user.isModerator == True %}
-                    <td>
-                        <a
-                          href="#"
-                          class="mb-2 me-3"
-                          data-bs-toggle="modal"
-                          data-bs-target="#deletealert{{ document.id }}"
-                          ><i class="fa-solid fa-trash text-danger"></i
-                        ></a>
-                        <a
-                          href="#"
-                          class="mb-2 me-3"
-                          data-bs-toggle="modal"
-                          data-bs-target="#updateModal{{ document.id }}"
-                          ><i class="fa-solid fa-pencil"></i
-                        ></a>
-                        <a
-                          href="#"
-                          data-bs-toggle="modal"
-                          data-bs-target="#viewModal{{ document.id }}"
-                          ><i class="fa-solid fa-magnifying-glass"></i
-                        ></a>
+      <div class="table-responsive">
+          <table class="table table-striped" id="tablo">
+              <!-- Tablo başlıkları -->
+              <thead>
+                  <tr>
+                      <th scope="col">Evrak No</th>
+                      <th scope="col">Evrak Tarihi</th>
+                      <th scope="col">İlgili Birim</th>
+                      <th scope="col">İlgili Kurum</th>
+                      <th scope="col">Evrak Konusu</th>
+                      <th scope="col">Evrak Detayı</th>
+                      {% if request.user.is_superuser or request.user.isModerator == True %}
+                      <th scope="col">İşlemler</th>
+                      {% endif %}
+                  </tr>
+              </thead>
+              <!-- Tablo verileri -->
+              <tbody>
+                  {% for document in documents %}
+                  <tr>
+                      <td scope="row">{{ document.docno }}</td>
+                      <td>{{ document.docdate }}</td>
+                      <td>{{ document.relevantunit }}</td>
+                      <td>{{ document.relevantinstitution }}</td>
+                      <td>{{ document.docsubject }}</td>
+                      <td>{{ document.detail|slice:":10"|safe }}</td>
+                      {% if request.user.is_superuser or request.user.isModerator == True %}
+                      <td>
+                          <a
+                            href="#"
+                            class="mb-2 me-3"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deletealert{{ document.id }}"
+                            ><i class="fa-solid fa-trash text-danger"></i
+                          ></a>
+                          <a
+                            href="#"
+                            class="mb-2 me-3"
+                            data-bs-toggle="modal"
+                            data-bs-target="#updateModal{{ document.id }}"
+                            ><i id="modal_open" class="fa-solid fa-pencil"></i
+                          ></a>
+                          <a
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target="#viewModal{{ document.id }}"
+                            ><i class="fa-solid fa-magnifying-glass"></i
+                          ></a>
                       </td>
                       {% endif %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
     <!-- Modals for each report -->
   {% for document in documents %}
   <!-- Modal Delete -->
@@ -208,15 +210,12 @@ Evrak Listesi
                       </div>
                     </div>
                   </div>
-        
-        
+
                   <div class="col-md-4">
                     <label for="id_docno" class="form-label">Evrak No</label>
                     {{form.docno}}
         
                   </div>
-        
-        
         
                   <div class="col-md-4">
                     <label for="id_docdate" class="form-label">Evrak Tarihi</label>
@@ -228,7 +227,6 @@ Evrak Listesi
                     <label for="id_doccount" class="form-label">Evrak Sayısı</label>
                     {{form.doccount}}
                   </div>
-        
         
                   <div class="row">
         
@@ -259,12 +257,12 @@ Evrak Listesi
               </div>
         
                 <div class="card-header mt-3">Rapor Detay</div>
-                
-                {{ form.detail }}
-        
-                <div class="card-header mt-3">Evrak Yükleme</div>
-        
-                {{ form.files }}
+
+              {{ form.detail }}
+              <div class="card-header mt-3">Evrak Yükleme</div>
+                {{form.files}}
+                 
+              
         
           {% endif %}
           {% endfor %}
@@ -283,6 +281,7 @@ Evrak Listesi
       </div>
     </div>
   </div>
+  <script src="{% static '/js/tinyhtml.js' %}"></script>
   <!-- Update Modal End -->
   
   <!-- View Modal -->
@@ -294,47 +293,69 @@ Evrak Listesi
   aria-labelledby="viewModalLabel{{ document.id }}"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-dark text-white">
         <h5 class="modal-title" id="viewModalLabel{{ document.id }}">
-          document Detayları
+          Document Detayları
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <!-- document details here -->
-        <div>
-          <h3>Evrak Tipi</h3>
-          <p><strong>Gelen Evrak: </strong> {{ document.incomingdoc }}</p>
-          <p><strong>Giden Evrak: </strong> {{ document.outgoingdoc }}</p>
-          <p><strong>Tutanak: </strong> {{ document.amount }}</p>
+      <div class="modal-body bg-light">
+        <div class="container-fluid">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <h4>Evrak Bilgileri</h4>
+              <p><strong>Evrak Numarası:</strong> {{ document.docno }}</p>
+              <p><strong>Evrak Tarihi:</strong> {{ document.docdate }}</p>
+              <p><strong>Evrak Sayısı:</strong> {{ document.doccount }}</p>
+              <p><strong>İlgili Birim:</strong> {{ document.relevantunit }}</p>
+              <p><strong>İlgili Kurum:</strong> {{ document.relevantinstitution }}</p>
+              <p><strong>Evrak Konusu:</strong> {{ document.docsubject }}</p>
+              <p><strong>Formu Dolduran:</strong> {{ document.user }}</p>
+            </div>
+            <div class="col-md-6">
+              <h4>Evrak Özellikleri</h4>
+              <p><strong>Gelen Evrak:</strong> {{ document.incomingdoc }}</p>
+              <p><strong>Giden Evrak:</strong> {{ document.outgoingdoc }}</p>
+              <p><strong>Tutanak:</strong> {{ document.amount }}</p>
+              <p><strong>Öncelik:</strong> {{ document.high | yesno:"Yüksek,Orta,Düşük" }}</p>
+              <p><strong>Evrak Dosyası:</strong> <a href="{{ document.files.url }}" target="_blank">Dosyayı Görüntüle</a></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h4>Evrak Detay</h4>
+              <p>{{ document.detail|safe }}</p>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3>Öncelik</h3>
-          <p><strong>Yüksek: </strong> {{ document.high }}</p>
-          <p><strong>Orta: </strong> {{ document.middle }}</p>
-          <p><strong>Düşük: </strong> {{ document.low }}</p>
-        </div>
-        <p><strong>Evrak Numarası: </strong> {{ document.docno }}</p>
-        <p><strong>Evrak Tarihi: </strong> {{ document.docdate }}</p>
-        <p><strong>Evrak Sayısı: </strong> {{ document.doccount }}</p>
-        <p><strong>İlgili Birim:</strong> {{ document.relevantunit }}</p>
-        <p><strong>İlgili Kurum:</strong> {{ document.relevantinstitution }}</p>
-        <p><strong>Evrak Konusu: </strong> {{ document.docsubject }}</p>
-        <p><strong>Formu Dolduran: </strong> {{ document.user }}</p>
-        <p><strong>Evrak Dosyası: </strong><a href="{{document.files.url}}" target="_blank">{{ document.files }}</a></p>
-        <p><strong>Evrak Detay: </strong> {{ document.detail|safe }}</p>
-        <!-- Add more details as needed -->
-      </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kapat</button>
       </div>
     </div>
   </div>
 </div>
+</div>
   <!-- View Modal End -->
   {% endfor %}
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.ajax({
+            url: 'document/deneme/',
+            type: 'GET',
+            success: function(response) {
+               
+                console.log(response.data);
+            },
+            error: function(error) {
+               
+                console.error(error);
+            }
+        });
+    });
+</script>
 {% endblock site-content %}

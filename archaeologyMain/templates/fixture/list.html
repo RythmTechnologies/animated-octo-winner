@@ -44,18 +44,19 @@ Demirbaş Listesi
 
     </form>
     <div class="card mt-5 p-5">
+      <div class="table-responsive">
         <table class="table table-striped" id="tablo">
             <!-- Tablo başlıkları -->
             <thead>
                 <tr>
-                    <th>Demirbaş Adı</th>
-                    <th>Marka</th>
-                    <th>Model</th>
-                    <th>Adet</th>
-                    <th>Toplam Fiyat</th>
-                    <th>Alım Tarihi</th>
-                    <th>Bulunduğu Yer</th>
-                    <th>Zimmetli Kişi</th>
+                    <th scope="col">Demirbaş Adı</th>
+                    <th scope="col">Marka</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Adet</th>
+                    <th scope="col" >Toplam Fiyat</th>
+                    <th scope="col">Alım Tarihi</th>
+                    <th scope="col">Bulunduğu Yer</th>
+                    <th scope="col">Zimmetli Kişi</th>
                     {% if request.user.is_superuser or request.user.isModerator == True %}
                     <th>İşlemler</th>
                     {% endif %}
@@ -65,7 +66,7 @@ Demirbaş Listesi
             <tbody>
                 {% for fixture in fixtures %}
                 <tr>
-                    <td>{{ fixture.name }}</td>
+                    <td scope="row">{{ fixture.name }}</td>
                     <td>{{ fixture.marka }}</td>
                     <td>{{ fixture.model }}</td>
                     <td>{{ fixture.piece }}</td>
@@ -101,6 +102,7 @@ Demirbaş Listesi
                 {% endfor %}
             </tbody>
         </table>
+      </div>
     </div>
     <!-- Modals for each report -->
   {% for fixture in fixtures %}
@@ -338,54 +340,54 @@ Demirbaş Listesi
       </div>
     </div>
   </div>
+  <script src="{% static '/js/tinyhtml.js' %}"></script>
   <!-- Update Modal End -->
 
   <!-- View Modal -->
-  <div
-  class="modal fade"
-  id="viewModal{{ fixture.id }}"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel{{ fixture.id }}"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="viewModalLabel{{ fixture.id }}">
-          fixture Detayları
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- fixture details here -->
-        <p><strong>Demirbaş Adı: </strong> {{ fixture.name }}</p>
-        <p><strong>Demirbaş Marka: </strong> {{ fixture.marka }}</p>
-        <p><strong>Demirbaş Model: </strong> {{ fixture.model }}</p>
-        <p><strong>Demirbaş Adet: </strong> {{ fixture.piece }}</p>
-        <p><strong>Demirbaş Birim Fiyatı: </strong> {{ fixture.unitprice }}</p>
-        <p><strong>Demirbaş Vergi Oranı: </strong> {{ fixture.taxrate }}</p>
-        <p><strong>Demirbaş Toplam Fiyat: </strong> {{ fixture.totalprice }}</p>
-        <p><strong>Demirbaş Alış Şekli: </strong>{{ fixture.typeofaddition }}</p>
-        <p><strong>Demirbaş Alım Tarihi: </strong> {{ fixture.dateofaddition }}</p>
-        <p><strong>Demirbaş Bulunduğu Yer: </strong> {{ fixture.where }}</p>
-        <p><strong>Demirbaş Zimmeli Kişi: </strong> {{ fixture.custodian }}</p>
-        <p><strong>Demirbaş Barkod Numarası: </strong> {{ fixture.barcode }}</p>
-        <p><strong>Demirbaş Firma Adı: </strong> {{ fixture.companyName }}</p>
-        <p><strong>Demirbaş Firma Yetkilisi: </strong> {{ fixture.companyOfficial }}</p>
-        <p><strong>Demirbaş Firma Telefon Numarası: </strong> {{ fixture.companyPhone }}</p>
-        <p><strong>Demirbaş Firma Email Adresi: </strong> {{ fixture.companyEmail }}</p>
-        <p><strong>Demirbaş Firma Adresi: </strong> {{ fixture.companyAddress|safe }}</p>
-        <p><strong>Demirbaş Alım Belgesi: </strong> <a href="{{fixture.fixtureFile.url}}" target="_blank">{{ fixture.fixtureFile }}</a></p>
-        <p><strong>Demirbaş Açıklama: </strong> {{fixture.fixtureDescription|safe}}</p>
-        <!-- Add more details as needed -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+  <div class="modal fade" id="viewModal{{ fixture.id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel{{ fixture.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="viewModalLabel{{ fixture.id }}">Fixture Detayları</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-light">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <p><strong>Demirbaş Adı:</strong> {{ fixture.name }}</p>
+                <p><strong>Demirbaş Marka:</strong> {{ fixture.marka }}</p>
+                <p><strong>Demirbaş Model:</strong> {{ fixture.model }}</p>
+                <p><strong>Demirbaş Adet:</strong> {{ fixture.piece }}</p>
+              </div>
+              <div class="col-md-6 mb-3">
+                <p><strong>Demirbaş Birim Fiyatı:</strong> {{ fixture.unitprice }}</p>
+                <p><strong>Demirbaş Vergi Oranı:</strong> {{ fixture.taxrate }}</p>
+                <p><strong>Demirbaş Toplam Fiyat:</strong> {{ fixture.totalprice }}</p>
+                <p><strong>Demirbaş Alış Şekli:</strong> {{ fixture.typeofaddition }}</p>
+              </div>
+              <div class="col-12 mb-3">
+                <p><strong>Demirbaş Alım Tarihi:</strong> {{ fixture.dateofaddition }}</p>
+                <p><strong>Demirbaş Bulunduğu Yer:</strong> {{ fixture.where }}</p>
+                <p><strong>Demirbaş Zimmeli Kişi:</strong> {{ fixture.custodian }}</p>
+                <p><strong>Demirbaş Barkod Numarası:</strong> {{ fixture.barcode }}</p>
+                <p><strong>Demirbaş Firma Adı:</strong> {{ fixture.companyName }}</p>
+                <p><strong>Demirbaş Firma Yetkilisi:</strong> {{ fixture.companyOfficial }}</p>
+                <p><strong>Demirbaş Firma Telefon Numarası:</strong> {{ fixture.companyPhone }}</p>
+                <p><strong>Demirbaş Firma Email Adresi:</strong> {{ fixture.companyEmail }}</p>
+                <p><strong>Demirbaş Firma Adresi:</strong> {{ fixture.companyAddress|safe }}</p>
+                <p><strong>Demirbaş Alım Belgesi:</strong> <a href="{{fixture.fixtureFile.url}}" target="_blank">{{ fixture.fixtureFile }}</a></p>
+                <p><strong>Demirbaş Açıklama:</strong> {{ fixture.fixtureDescription|safe }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
   <!-- View Modal End -->
   {% endfor %}
 </div>
