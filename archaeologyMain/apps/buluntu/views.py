@@ -20,13 +20,23 @@ RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
 def set_buluntu(request: HttpRequest) -> HttpResponse:
     context = {}
 
+    buluntuFormObject = {}
+   
+    
+    # test purpose
+    buluntuFormObject["5"] = C14Form()
+    buluntuFormObject["6"] = ToprakForm()
+
+    context["form"] = GeneralBuluntuForm
+    context['buluntuForms'] = buluntuFormObject
+    
     if request.method == "POST":
         print("POST OBJECT:", request.POST)
 
         incame_data = request.POST
 
         buluntuForm = GeneralBuluntuForm(incame_data)
-        
+
         context["errors"] = {}
 
         if buluntuForm.is_valid():
@@ -42,7 +52,7 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
             return render(request, "buluntu/create.html", context)
 
     elif request.method == "GET":
-        context["form"] = GeneralBuluntuForm
+
         return render(request, "buluntu/create.html", context)
 # ends
 
