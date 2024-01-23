@@ -76,18 +76,58 @@ Demirbaş Listesi
             <td>{{ fixture.custodian }}</td>
             {% if request.user.is_superuser or request.user.isModerator == True %}
             <td>
-              <a href="#" class="mb-2 me-3" data-bs-toggle="modal" data-bs-target="#deletealert{{ fixture.id }}"><i
-                  class="fa-solid fa-trash text-danger"></i></a>
-              <a href="#" class="mb-2 me-3" data-bs-toggle="modal" data-bs-target="#updateModal{{ fixture.id }}"><i
-                  class="fa-solid fa-pencil"></i></a>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal{{ fixture.id }}"><i
-                  class="fa-solid fa-magnifying-glass"></i></a>
+              <div class="d-flex flex-column flex-md-row text-center">
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#deletealert{{ fixture.id }}">
+                  <i class="fa-solid fa-trash text-danger"></i>
+                </a>
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#updateModal{{ fixture.id }}">
+                  <i id="modal_open" class="fa-solid fa-pencil"></i>
+                </a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal{{ fixture.id }}">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+              </div>
             </td>
             {% endif %}
           </tr>
           {% endfor %}
         </tbody>
       </table>
+    </div>
+    <div class="text-center">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          {% if fixtures.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ fixtures.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% endif %}
+
+          <li class="page-item disabled">
+            <span class="page-link">Page {{ fixtures.number }} of {{ fixtures.paginator.num_pages }}</span>
+          </li>
+
+          {% if fixtures.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ fixtures.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ fixtures.paginator.num_pages }}" aria-label="Last">
+              <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
     </div>
   </div>
   <!-- Modals for each report -->
@@ -299,9 +339,10 @@ Demirbaş Listesi
           <p><strong>Demirbaş Firma Telefon: </strong> {{ fixture.companyPhone }}</p>
           <p><strong>Demirbaş Firma Email Adresi: </strong> {{ fixture.companyEmail }}</p>
           <p><strong>Demirbaş Firma Adresi: </strong> {{ fixture.companyAddress|safe }}</p>
-          <p><strong>Demirbaş Alım Belgesi: </strong> <a href="{{fixture.fixturefile.url}}" target="_blank">{{ fixture.fixtureFile }}</a></p>
+          <p><strong>Demirbaş Alım Belgesi: </strong> <a href="{{fixture.fixturefile.url}}" target="_blank">{{
+              fixture.fixtureFile }}</a></p>
           <p><strong>Demirbaş Açıklama: </strong> {{ fixture.fixtureDescription|safe }}</p>
-        <!-- Fixture details end -->
+          <!-- Fixture details end -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>

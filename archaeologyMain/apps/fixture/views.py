@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from django.contrib import messages
-
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
 from .models import Fixture
@@ -43,13 +43,15 @@ def set_fixture(request: HttpRequest) -> HttpResponse:
 @login_required(login_url="homepage")
 def fixture_list(request: HttpRequest) -> HttpResponse:
     fixture_filter = FixtureFilter(request.GET, queryset=Fixture.objects.all())
-
+    paginator = Paginator(fixture_filter.qs, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     updateForms = {
         fixture.id: FixtureForm(instance=fixture) for fixture in fixture_filter.qs
     }
     context = {
         "form": fixture_filter.form,
-        "fixtures": fixture_filter.qs,
+        "fixtures": page_obj,
         "updateForms": updateForms,
     }
 
