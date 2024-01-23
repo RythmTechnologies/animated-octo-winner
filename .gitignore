@@ -9,7 +9,7 @@ archaeologyMain/Uploads/
 
 # Ignore python virtual env
 env/
-
+archaeologyMain/db.sqlite3
 # Ignore DsStore
 **/.DS_Store
 archaeologyMain/tavsanli-41bb0a89bf6a.json
