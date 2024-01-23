@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 
 # For TypeHint
@@ -55,10 +56,15 @@ def delete_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
 @login_required(login_url="homepage")
 def get_rapor_list(request):
     rapor_filter = RaporAcmaFilter(request.GET, queryset=AcmaRapor.objects.all())
+    
+    paginator = Paginator(rapor_filter.qs, 10)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     updateForms = {rapor.id: AcmaRaporForm(instance=rapor) for rapor in rapor_filter.qs}
     context = {
         "form": rapor_filter.form,
-        "rapors": rapor_filter.qs,
+        "rapors": page_obj,
         "updateForms": updateForms,
     }
     return render(request, "rapor/list.html", context)
