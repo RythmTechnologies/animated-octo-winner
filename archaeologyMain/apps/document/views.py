@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-
+from django.core.paginator import Paginator
 from .filters import DocumentFilter
 from .forms import *
 from .models import *
@@ -35,14 +35,22 @@ def get_document(request: HttpRequest) -> HttpResponseRedirect:
 
 
 @login_required(login_url="homepage")
-def get_document_list(request: HttpRequest) -> HttpResponse:
-    document_filter = DocumentFilter(
-        request.GET, queryset=DocumentCreateModel.objects.all()
-    )
+def get_document_list(request):
+    document_list = DocumentCreateModel.objects.all()
+    document_filter = DocumentFilter(request.GET, queryset=document_list)
 
-    updateForms = {document.id: DocumentForm(instance = document) for document in document_filter.qs}
 
-    context = {"form": document_filter.form, "documents": document_filter.qs, "updateForms": updateForms}
+    paginator = Paginator(document_filter.qs, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    updateForms = {document.id: DocumentForm(instance=document) for document in page_obj}
+
+    context = {
+        "form": document_filter.form,
+        "documents": page_obj,
+        "updateForms": updateForms
+    }
 
     return render(request, "document/list.html", context)
 

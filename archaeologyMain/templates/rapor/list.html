@@ -31,214 +31,197 @@
   <!-- Django Filter End -->
 
   <div class="card mt-5 p-5">
-    <table class="table table-striped" id="tablo">
-      <!-- Tablo başlıkları -->
-      <thead>
-        <tr>
-          <th>Rapor Başlık</th>
-          <th>Rapor Açıklama</th>
-          <th>Rapor Tipi</th>
-          <th>Buluntu Yeri</th>
-          <th>Raporu Dolduran</th>
-          <th>Rapor Tarihi</th>
-          <th>Veriyi Giren</th>
-          {% if request.user.is_superuser or request.user.isModerator == True %}
-          <th>İşlemler</th>
+    <div class="table-responsive">
+      <table class="table table-striped" id="tablo">
+        <!-- Tablo başlıkları -->
+        <thead>
+          <tr>
+            <th scope="col">Rapor Başlık</th>
+            <th scope="col">Rapor Açıklama</th>
+            <th scope="col">Rapor Tipi</th>
+            <th scope="col">Buluntu Yeri</th>
+            <th scope="col">Raporu Dolduran</th>
+            <th scope="col">Rapor Tarihi</th>
+            <th scope="col">Veriyi Giren</th>
+            {% if request.user.is_superuser or request.user.isModerator == True %}
+            <th scope="col">İşlemler</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <!-- Tablo verileri -->
+        <tbody>
+          {% for rapor in rapors %}
+          <tr>
+            <td scope="row">{{ rapor.title }}</td>
+            <td>{{ rapor.rapordetail|safe }}</td>
+            <td>{{ rapor.rapor_type }}</td>
+            <td>{{ rapor.placebuluntu }}</td>
+            <td>{{ rapor.owner }}</td>
+            <td>{{ rapor.rapordate }}</td>
+            <td>{{ rapor.user }}</td>
+            {% if request.user.is_superuser or request.user.isModerator == True %}
+            <td>
+              <div class="d-flex flex-column flex-md-row text-center">
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#deletealert{{ rapor.id }}">
+                  <i class="fa-solid fa-trash text-danger"></i>
+                </a>
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#updateModal{{ rapor.id }}">
+                  <i id="modal_open" class="fa-solid fa-pencil"></i>
+                </a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal{{ rapor.id }}">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+              </div>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    <div class="text-center">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          {% if rapors.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page=1" aria-label="First">
+                <span aria-hidden="true">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ rapors.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
           {% endif %}
-        </tr>
-      </thead>
-      <!-- Tablo verileri -->
-      <tbody>
-        {% for rapor in rapors %}
-        <tr>
-          <td>{{ rapor.title }}</td>
-          <td>{{ rapor.rapordetail|safe }}</td>
-          <td>{{ rapor.rapor_type }}</td>
-          <td>{{ rapor.placebuluntu }}</td>
-          <td>{{ rapor.owner }}</td>
-          <td>{{ rapor.rapordate }}</td>
-          <td>{{ rapor.user }}</td>
-          {% if request.user.is_superuser or request.user.isModerator == True %}
-          <td>
-            <a
-              href="#"
-              class="mb-2 me-3"
-              data-bs-toggle="modal"
-              data-bs-target="#deletealert{{ rapor.id }}"
-              ><i class="fa-solid fa-trash text-danger"></i
-            ></a>
-            <a
-              href="#"
-              class="mb-2 me-3"
-              data-bs-toggle="modal"
-              data-bs-target="#updateModal{{ rapor.id }}"
-              ><i class="fa-solid fa-pencil"></i
-            ></a>
-            <a
-              href="#"
-              data-bs-toggle="modal"
-              data-bs-target="#viewModal{{ rapor.id }}"
-              ><i class="fa-solid fa-magnifying-glass"></i
-            ></a>
-          </td>
+
+          <li class="page-item disabled">
+            <span class="page-link">Page {{ rapors.number }} of {{ rapors.paginator.num_pages }}</span>
+          </li>
+
+          {% if rapors.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ rapors.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ rapors.paginator.num_pages }}" aria-label="Last">
+                <span aria-hidden="true">&raquo;&raquo;</span>
+              </a>
+            </li>
           {% endif %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </ul>
+      </nav>
+    </div>
   </div>
-  <!-- Modals for each report -->
-  {% for rapor in rapors %}
-  <!-- Modal Delete -->
-  <div
-    class="modal fade"
-    id="deletealert{{ rapor.id }}"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">
-            Silmek İstediğinizden Emin Misiniz?
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Vazgeç
-          </button>
-          <a href="{% url 'delete-rapor' rapor.id %}"
-            ><button type="button" class="btn btn-danger">Sil</button></a
-          >
-        </div>
+</div>
+<!-- Modals for each report -->
+{% for rapor in rapors %}
+<!-- Modal Delete -->
+<div class="modal fade" id="deletealert{{ rapor.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Silmek İstediğinizden Emin Misiniz?
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Vazgeç
+        </button>
+        <a href="{% url 'delete-rapor' rapor.id %}"><button type="button" class="btn btn-danger">Sil</button></a>
       </div>
     </div>
   </div>
-  <!-- Modal Delete End -->
+</div>
+<!-- Modal Delete End -->
 
-  <!-- Update Modal -->
-  <div
-    class="modal fade"
-    id="updateModal{{ rapor.id }}"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="updateModalLabel{{ rapor.id }}"
-    aria-hidden="true"
-  >
-    <div
-      class="modal-dialog"
-      role="document"
-      style="max-width: 900px; max-height: 1500px"
-    >
-      <div class="modal-content">
-        <form
-          method="post"
-          action="{% url 'update-rapor' rapor.id %}"
-          class="update-form"
-          enctype="multipart/form-data"
-        >
-          {% csrf_token %}
-          <div class="modal-header">
-            <h5 class="modal-title" id="updateModalLabel{{ rapor.id }}">
-              Rapor Güncelle
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            {% for form_id, form in updateForms.items %} 
-            {% if form_id == rapor.id %}
-            <div class="row justify-content-between mt-3 p-3">
-              <div class="col-md-12">
-                  <div class="d-flex align-items-center mb-4">
-                      {% for radio in form.rapor_type %}
-                          <div class="form-check form-check-inline">
-                              {{ radio }}
-                          </div>
-                      {% endfor %}
-                  </div>
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal{{ rapor.id }}" tabindex="-1" role="dialog"
+  aria-labelledby="updateModalLabel{{ rapor.id }}" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
+    <div class="modal-content">
+      <form method="post" action="{% url 'update-rapor' rapor.id %}" class="update-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel{{ rapor.id }}">
+            Rapor Güncelle
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% for form_id, form in updateForms.items %}
+          {% if form_id == rapor.id %}
+          <div class="row justify-content-between mt-3 p-3">
+            <div class="col-md-12">
+              <div class="d-flex align-items-center mb-4">
+                {% for radio in form.rapor_type %}
+                <div class="form-check form-check-inline">
+                  {{ radio }}
+                </div>
+                {% endfor %}
               </div>
-              <div class="col-md-6">
-                  <div class="row">
-                      <div class="col-md-6">
-                          <label for="id_placebuluntu">Buluntu Yeri</label>
-                          {{form.placebuluntu}}
-                      </div>
-                      <div class="col-md-6">
-                          <label for="id_rapordate">Rapor Tarihi</label>
-                          {{ form.rapordate }}
-                      </div>
-                      <div class="col-md-12">
-                          <label for="id_title">Başlık</label>
-                          {{form.title}}
-                      </div>
-                  </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_placebuluntu">Buluntu Yeri</label>
+                  {{form.placebuluntu}}
+                </div>
+                <div class="col-md-6">
+                  <label for="id_rapordate">Rapor Tarihi</label>
+                  {{ form.rapordate }}
+                </div>
+                <div class="col-md-12">
+                  <label for="id_title">Başlık</label>
+                  {{form.title}}
+                </div>
               </div>
-              <div class="col-md-6">
-                  <div class="row">
-                      <div class="col-md-12">
-                          <label for="id_owner">Formu Dolduran</label>
-                          {{form.owner}}
-                      </div>
-                      <div class="col-md-12">
-                          <label for="id_user">Veri Giren</label>
-                          {{form.user}}
-                      </div>
-                  </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label for="id_owner">Formu Dolduran</label>
+                  {{form.owner}}
+                </div>
+                <div class="col-md-12">
+                  <label for="id_user">Veri Giren</label>
+                  {{form.user}}
+                </div>
               </div>
+            </div>
           </div>
           <div class="card-header mt-3">
             Rapor Detay
-        </div>
-        {{form.rapordetail}}
-        <div class="card-header mt-3">
+          </div>
+          {{form.rapordetail}}
+          <div class="card-header mt-3">
             Evrak Yükleme
-        </div>
-        {{form.file}}
+          </div>
+          {{form.file}}
           {% endif %}
           {% endfor %}
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Kapat
-            </button>
-            <button type="submit" class="btn btn-primary">Kaydet</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Kapat
+          </button>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+      </form>
     </div>
   </div>
-  <script src="{% static '/js/tinyhtml.js' %}"></script>
-  <!-- Update Modal End -->
-  
-  <!-- View Modal -->
-  <div
-  class="modal fade"
-  id="viewModal{{ rapor.id }}"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="viewModalLabel{{ rapor.id }}"
-  aria-hidden="true"
->
+</div>
+<script src="{% static '/js/tinyhtml.js' %}"></script>
+<!-- Update Modal End -->
+
+<!-- View Modal -->
+<div class="modal fade" id="viewModal{{ rapor.id }}" tabindex="-1" role="dialog"
+  aria-labelledby="viewModalLabel{{ rapor.id }}" aria-hidden="true">
   <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
     <div class="modal-content">
       <div class="modal-header">
@@ -265,7 +248,7 @@
     </div>
   </div>
 </div>
-  <!-- View Modal End -->
-  {% endfor %}
+<!-- View Modal End -->
+{% endfor %}
 </div>
 {% endblock site-content %}
