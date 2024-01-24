@@ -14,28 +14,28 @@ Demirbaş Listesi
   <form method="get" action="{% url 'fixture-liste' %}">
     <div class="card p-5 mt-5">
       <div class="card-header">Detaylı Arama</div>
-      <div class="row justify-content-center align-items-center mt-5 mb-5">
-        <div class="col-md-2">
-          <label for="id_name" class="mb-2">Demirbaş Adı</label>
+      <div class="row justify-content-center align-items-center mt-4 mb-4 mt-md-5 mb-md-5 gy-2">
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_name" class="mb-1 text-nowrap">Demirbaş Adı</label>
           {{form.name}}
         </div>
-        <div class="col-md-2">
-          <label for="id_marka" class="mb-2">Demirbaş Marka</label>
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_marka" class="mb-1 text-nowrap">Demirbaş Marka</label>
           {{form.marka}}
         </div>
-        <div class="col-md-2">
-          <label for="id_model" class="mb-2">Demirbaş Model</label>
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_model" class="mb-1 text-nowrap">Demirbaş Model</label>
           {{form.model}}
         </div>
-        <div class="col-md-2">
-          <label for="id_piece" class="mb-2">Demirbaş Adet</label>
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_piece" class="mb-1 text-nowrap">Demirbaş Adet</label>
           {{form.piece}}
         </div>
-        <div class="col-md-2">
-          <label for="id_piece" class="mb-2">Demirbaş Zimmetli Kişi</label>
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_piece" class="mb-1 text-nowrap">Demirbaş Zimmetli Kişi</label>
           {{form.custodian}}
         </div>
-        <div class="col-md-1">
+        <div class="col-lg-1 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
           <button type="submit" class="btn btn-success">Filtrele</button>
         </div>
       </div>
@@ -49,16 +49,16 @@ Demirbaş Listesi
         <!-- Tablo başlıkları -->
         <thead>
           <tr>
-            <th scope="col">Demirbaş Adı</th>
-            <th scope="col">Marka</th>
-            <th scope="col">Model</th>
-            <th scope="col">Adet</th>
-            <th scope="col">Toplam Fiyat</th>
-            <th scope="col">Alım Tarihi</th>
-            <th scope="col">Bulunduğu Yer</th>
-            <th scope="col">Zimmetli Kişi</th>
+            <th class="text-nowrap" scope="col">Demirbaş Adı</th>
+            <th class="text-nowrap" scope="col">Marka</th>
+            <th class="text-nowrap" scope="col">Model</th>
+            <th class="text-nowrap" scope="col">Adet</th>
+            <th class="text-nowrap" scope="col">Toplam Fiyat</th>
+            <th class="text-nowrap" scope="col">Alım Tarihi</th>
+            <th class="text-nowrap" scope="col">Bulunduğu Yer</th>
+            <th class="text-nowrap" scope="col">Zimmetli Kişi</th>
             {% if request.user.is_superuser or request.user.isModerator == True %}
-            <th>İşlemler</th>
+            <th class="text-nowrap">İşlemler</th>
             {% endif %}
           </tr>
         </thead>
@@ -71,8 +71,12 @@ Demirbaş Listesi
             <td>{{ fixture.model }}</td>
             <td>{{ fixture.piece }}</td>
             <td>{{ fixture.totalprice }}</td>
-            <td>{{ fixture.dateofaddition }}</td>
-            <td>{{ fixture.where }}</td>
+            <td class="text-nowrap">{{ fixture.dateofaddition }}</td>
+            <td>
+              <div class="truncate truncate-3-lines">
+                {{ fixture.where }}
+              </div>
+            </td>
             <td>{{ fixture.custodian }}</td>
             {% if request.user.is_superuser or request.user.isModerator == True %}
             <td>

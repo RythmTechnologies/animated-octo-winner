@@ -87,10 +87,10 @@ nav .container-fluid {
 
 .instruactionElements textarea {
 
-    width: 50%;
+  width: 50%;
 }
 
-.instruactionElements select { 
+.instruactionElements select {
   width: 50%;
 }
 .instruactionElements .additional-element-container {
@@ -132,4 +132,31 @@ nav .container-fluid {
 .errorlist li {
 
   list-style-type: none;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.truncate-1-lines {
+  -webkit-line-clamp: 1;
+}
+
+.truncate-2-lines {
+  -webkit-line-clamp: 2;
+}
+
+.truncate-3-lines {
+  -webkit-line-clamp: 3;
+}
+
+.truncate-4-lines {
+  -webkit-line-clamp: 4;
+}
+
+.truncate-5.lines {
+  -webkit-line-clamp: 5;
 }

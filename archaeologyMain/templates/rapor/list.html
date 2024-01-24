@@ -5,24 +5,25 @@
   <form method="get" action="{% url 'rapor-liste' %}" enctype="multipart/form-data">
     <div class="card p-5 mt-5">
       <div class="card-header">Detaylı Arama</div>
-      <div class="row justify-content-center align-items-center mt-5 mb-5">
-        <div class="col-md-2">
-          <label for="id_title" class="mb-2">Rapor Başlık</label>
+      <div class="row justify-content-center align-items-center mt-4 mb-4 mt-md-5 mb-md-5 gy-2">
+        <div class=" col-sm-6 col-lg-2">
+          <label for="id_title" class="mb-1 text-nowrap">Rapor Başlık</label>
           {{ form.title }}
         </div>
-        <div class="col-md-2">
-          <label for="id_rapordetail" class="mb-2">Rapor Açıklama</label>
+        <div class=" col-sm-6 col-lg-2">
+          <label for="id_rapordetail" class="mb-1 text-nowrap">Rapor Açıklama</label>
           {{ form.rapordetail }}
         </div>
-        <div class="col-md-2">
-          <label for="id_owner" class="mb-2">Formu Dolduran</label>
+        <div class=" col-sm-6 col-lg-2">
+          <label for="id_owner" class="mb-1 text-nowrap">Formu Dolduran</label>
           {{ form.owner }}
         </div>
-        <div class="col-md-2">
-          <label for="id_rapordate" class="mb-2">Rapor Tarihi</label>
+        <div class=" col-sm-6 col-lg-2">
+          <label for="id_rapordate" class="mb-1 text-nowrap">Rapor Tarihi</label>
           {{ form.rapordate }}
         </div>
-        <div class="col-md-1">
+        <div
+          class="col-lg-1 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
           <button type="submit" class="btn btn-success">Filtrele</button>
         </div>
       </div>
@@ -36,15 +37,15 @@
         <!-- Tablo başlıkları -->
         <thead>
           <tr>
-            <th scope="col">Rapor Başlık</th>
-            <th scope="col">Rapor Açıklama</th>
-            <th scope="col">Rapor Tipi</th>
-            <th scope="col">Buluntu Yeri</th>
-            <th scope="col">Raporu Dolduran</th>
-            <th scope="col">Rapor Tarihi</th>
-            <th scope="col">Veriyi Giren</th>
+            <th class="text-nowrap" scope="col">Rapor Başlık</th>
+            <th class="text-nowrap" scope="col">Rapor Açıklama</th>
+            <th class="text-nowrap" scope="col">Rapor Tipi</th>
+            <th class="text-nowrap" scope="col">Buluntu Yeri</th>
+            <th class="text-nowrap" scope="col">Raporu Dolduran</th>
+            <th class="text-nowrap" scope="col">Rapor Tarihi</th>
+            <th class="text-nowrap" scope="col">Veriyi Giren</th>
             {% if request.user.is_superuser or request.user.isModerator == True %}
-            <th scope="col">İşlemler</th>
+            <th class="text-nowrap" scope="col">İşlemler</th>
             {% endif %}
           </tr>
         </thead>
@@ -53,11 +54,15 @@
           {% for rapor in rapors %}
           <tr>
             <td scope="row">{{ rapor.title }}</td>
-            <td>{{ rapor.rapordetail|safe }}</td>
+            <td>
+              <div class="truncate truncate-3-lines">{{ rapor.rapordetail|safe }}</div>
+            </td>
             <td>{{ rapor.rapor_type }}</td>
-            <td>{{ rapor.placebuluntu }}</td>
+            <td>
+              <div class="truncate truncate-3-lines">{{ rapor.placebuluntu }}</div>
+            </td>
             <td>{{ rapor.owner }}</td>
-            <td>{{ rapor.rapordate }}</td>
+            <td class="text-nowrap">{{ rapor.rapordate }}</td>
             <td>{{ rapor.user }}</td>
             {% if request.user.is_superuser or request.user.isModerator == True %}
             <td>
@@ -78,21 +83,21 @@
           {% endfor %}
         </tbody>
       </table>
-      </div>
+    </div>
     <div class="text-center">
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
           {% if rapors.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?page=1" aria-label="First">
-                <span aria-hidden="true">&laquo;&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?page={{ rapors.previous_page_number }}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ rapors.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
           {% endif %}
 
           <li class="page-item disabled">
@@ -100,16 +105,16 @@
           </li>
 
           {% if rapors.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{ rapors.next_page_number }}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?page={{ rapors.paginator.num_pages }}" aria-label="Last">
-                <span aria-hidden="true">&raquo;&raquo;</span>
-              </a>
-            </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ rapors.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ rapors.paginator.num_pages }}" aria-label="Last">
+              <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+          </li>
           {% endif %}
         </ul>
       </nav>
