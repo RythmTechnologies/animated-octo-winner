@@ -15,24 +15,25 @@ Evrak Listesi
   <form method="get" action="{% url 'document-liste' %}">
     <div class="card p-5 mt-5">
       <div class="card-header">Detaylı Arama</div>
-      <div class="row justify-content-center align-items-center mt-5 mb-5">
-        <div class="col-md-2">
-          <label for="id_docno" class="mb-2">Evrak No</label>
+      <div class="row justify-content-center align-items-center mt-4 mb-4 mt-md-5 mb-md-5 gy-2">
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_docno" class="mb-1 text-nowrap">Evrak No</label>
           {{form.docno}}
         </div>
-        <div class="col-md-2">
-          <label for="id_relevantunit" class="mb-2">İlgili Birim</label>
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_relevantunit" class="mb-1 text-nowrap">İlgili Birim</label>
           {{form.relevantunit}}
         </div>
-        <div class="col-md-2">
-          <label for="id_docdate" class="mb-2">Evrak Tarihi</label>
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_docdate" class="mb-1 text-nowrap">Evrak Tarihi</label>
           {{form.docdate}}
         </div>
-        <div class="col-md-2">
-          <label for="id_docsubject" class="mb-2">Evrak Konusu</label>
+        <div class="col-sm-6 col-lg-2">
+          <label for="id_docsubject" class="mb-1 text-nowrap">Evrak Konusu</label>
           {{form.docsubject}}
         </div>
-        <div class="col-md-1">
+        <div
+          class="col-lg-1 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
           <button type="submit" class="btn btn-success">Filtrele</button>
         </div>
       </div>
@@ -45,14 +46,14 @@ Evrak Listesi
         <!-- Tablo başlıkları -->
         <thead>
           <tr>
-            <th scope="col">Evrak No</th>
-            <th scope="col">Evrak Tarihi</th>
-            <th scope="col">İlgili Birim</th>
-            <th scope="col">İlgili Kurum</th>
-            <th scope="col">Evrak Konusu</th>
-            <th scope="col">Evrak Detayı</th>
+            <th clsas="text-nowrap" scope="col">Evrak No</th>
+            <th clsas="text-nowrap" scope="col">Evrak Tarihi</th>
+            <th clsas="text-nowrap" scope="col">İlgili Birim</th>
+            <th clsas="text-nowrap" scope="col">İlgili Kurum</th>
+            <th clsas="text-nowrap" scope="col">Evrak Konusu</th>
+            <th clsas="text-nowrap" scope="col">Evrak Detayı</th>
             {% if request.user.is_superuser or request.user.isModerator == True %}
-            <th scope="col">İşlemler</th>
+            <th class="text-nowrap" scope="col">İşlemler</th>
             {% endif %}
           </tr>
         </thead>
@@ -61,11 +62,15 @@ Evrak Listesi
           {% for document in documents %}
           <tr>
             <td scope="row">{{ document.docno }}</td>
-            <td>{{ document.docdate }}</td>
+            <td class="text-nowrap">{{ document.docdate }}</td>
             <td>{{ document.relevantunit }}</td>
             <td>{{ document.relevantinstitution }}</td>
-            <td>{{ document.docsubject }}</td>
-            <td>{{ document.detail|slice:":10"|safe }}</td>
+            <td>
+              <div class="truncate truncate-3-lines">{{ document.docsubject }}</div>
+            </td>
+            <td>
+              <div class="truncate truncate-3-lines">{{ document.detail|safe }}</div>
+            </td>
             {% if request.user.is_superuser or request.user.isModerator == True %}
             <td>
               <div class="d-flex flex-column flex-md-row text-center">
@@ -90,16 +95,16 @@ Evrak Listesi
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
           {% if documents.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?page=1" aria-label="First">
-                <span aria-hidden="true">&laquo;&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?page={{ documents.previous_page_number }}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documents.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
           {% endif %}
 
           <li class="page-item disabled">
@@ -107,16 +112,16 @@ Evrak Listesi
           </li>
 
           {% if documents.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{ documents.next_page_number }}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="?page={{ documents.paginator.num_pages }}" aria-label="Last">
-                <span aria-hidden="true">&raquo;&raquo;</span>
-              </a>
-            </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documents.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documents.paginator.num_pages }}" aria-label="Last">
+              <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+          </li>
           {% endif %}
         </ul>
       </nav>
