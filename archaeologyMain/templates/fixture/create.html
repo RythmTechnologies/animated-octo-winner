@@ -200,5 +200,12 @@
   };
   </script>
   <script src="{% static 'js/tinyhtml.js' %}"></script>
+  <script>
+    flatpickr("#id_dateofaddition", {
+        dateFormat: "d-m-Y",
+        locale: "tr"
+        
+    });
+    </script>
   {% endblock site-content %}
 </div>

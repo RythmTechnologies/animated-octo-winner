@@ -6,7 +6,8 @@ archaeologyMain/Uploads/
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
-
+__pycache__
+db.sqlite3
 # Ignore python virtual env
 env/
 

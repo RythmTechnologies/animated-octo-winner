@@ -348,6 +348,12 @@
     $(`#${modalId}`).find('input, select, textarea').prop('disabled', true);
   }
 </script>
+<script>
+  flatpickr("#id_rapordate", {
+      dateFormat: "d-m-Y",
+      locale: "tr"
+  });
+</script>
 <script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
 
 {% endblock site-content %}
