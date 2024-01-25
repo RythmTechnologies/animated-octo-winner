@@ -1,8 +1,22 @@
 {% extends "base.html" %} {% load static %} {% block site-title %} Rapor Listesi
 {% endblock site-title %} {% block site-content %}
 <div class="container">
+
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+        <div class="alert alert-success mt-5" role="alert" id="alertDiv">
+          {{ message }}
+        </div>
+      {% endif %}
+      {% if message.tags == 'error' or message.tags == 'warning' %}
+        <div class="alert alert-danger mt-5" role="alert" id="alertDiv">
+          {{ message }}
+        </div>
+      {% endif %}
+    {% endfor %}
+
   <!-- Django Filter Start -->
-  <form method="get" action="{% url 'rapor-liste' %}" enctype="multipart/form-data">
+  <form id="filterForm" method="get" action="{% url 'rapor-liste' %}" enctype="multipart/form-data">
     <div class="card p-5 mt-5">
       <div class="card-header">Detaylı Arama</div>
       <div class="row justify-content-center align-items-center mt-4 mb-4 mt-md-5 mb-md-5 gy-2">
@@ -23,8 +37,12 @@
           {{ form.rapordate }}
         </div>
         <div
-          class="col-lg-1 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
-          <button type="submit" class="btn btn-success">Filtrele</button>
+          class="col-lg-2 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
+          
+          <div class="btn-group" role="group" aria-label="Filtreleme İşlemleri">
+            <button id="clearFilter" type="button" class="btn btn-secondary">Temizle</button>
+            <button type="submit" class="btn btn-success">Filtrele</button>
+          </div>
         </div>
       </div>
     </div>
@@ -163,7 +181,7 @@
           {% if form_id == rapor.id %}
           <div class="row justify-content-between mt-3 p-3">
             <div class="col-md-12">
-              <div class="d-flex align-items-center mb-4">
+              <div class="d-flex align-items-center mb-4 justify-content-center flex-wrap">
                 {% for radio in form.rapor_type %}
                 <div class="form-check form-check-inline">
                   {{ radio }}
@@ -207,7 +225,12 @@
           <div class="card-header mt-3">
             Evrak Yükleme
           </div>
-          {{form.file}}
+          <div class="form-control mb-3 rounded">
+            şu anki:
+            <a href="{{rapor.file.url}}">{{rapor.file}}</a> <br>
+            <label for="id_files"> Değiştir </label>
+            <input type="file" name="file" class="form-control mb-3 rounded" placeholder="Evrak Yükleme" id="id_files">
+          </div>
           {% endif %}
           {% endfor %}
         </div>
@@ -229,31 +252,102 @@
   aria-labelledby="viewModalLabel{{ rapor.id }}" aria-hidden="true">
   <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="viewModalLabel{{ rapor.id }}">
-          Rapor Detayları
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Rapor details here -->
-        <p><strong>Rapor Başlık:</strong> {{ rapor.title }}</p>
-        <p><strong>Rapor Tipi:</strong> {{ rapor.rapor_type }}</p>
-        <p><strong>Rapor Detay:</strong> {{ rapor.rapordetail|safe }}</p>
-        <p><strong>Buluntu Yeri:</strong> {{ rapor.placebuluntu }}</p>
-        <p><strong>Raporu Dolduran:</strong> {{ rapor.owner }}</p>
-        <p><strong>Rapor Tarihi:</strong> {{ rapor.rapordate }}</p>
-        <p><strong>Rapor Dosyası:</strong> <a href="{{rapor.file.url}}" target="_blank">{{ rapor.file }}</a></p>
-        <p><strong>Veriyi Giren:</strong> {{ rapor.user }}</p>
-        <!-- Add more details as needed -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-      </div>
+      <form id="viewForm{{ rapor.id }}" class="update-form" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel{{ rapor.id }}">
+            Rapor Detayları
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% for form_id, form in updateForms.items %}
+          {% if form_id == rapor.id %}
+          <div class="row justify-content-between p-3 pt-0">
+            <div class="col-md-12">
+              <div class="d-flex align-items-center justify-content-center flex-wrap mb-4">
+                {% for radio in form.rapor_type %}
+                <div class="form-check form-check-inline">
+                  {{ radio }}
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_placebuluntu">Buluntu Yeri</label>
+                  {{form.placebuluntu}}
+                </div>
+                <div class="col-md-6">
+                  <label for="id_rapordate">Rapor Tarihi</label>
+                  {{ form.rapordate }}
+                </div>
+                <div class="col-md-12">
+                  <label for="id_title">Başlık</label>
+                  {{form.title}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label for="id_owner">Formu Dolduran</label>
+                  {{form.owner}}
+                </div>
+                <div class="col-md-12">
+                  <label for="id_user">Veri Giren</label>
+                  {{form.user}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-between mt-3 p-3">
+            <div class="col-md-12">
+              <div class="card-header mt-3">
+                <label for="">Rapor Detay</label>
+              </div>
+              <div id="raporDetail{{ rapor.id }}" style="background-color: var(--bs-secondary-bg);" class="form-control mb-3 rounded">
+                {{ rapor.rapordetail|safe }}
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card-header mt-3">
+                <label for="">Evrak</label>
+              </div>
+              <div class="form-control mb-3 rounded">
+                <a href="{{rapor.file.url}}" target="_blank">{{rapor.file}}</a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Kapat
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 <!-- View Modal End -->
 {% endfor %}
 </div>
+
+<script>
+  $(document).ready(function () {
+    // Tüm inputları devre dışı bırak
+    {% for rapor in rapors %}
+      disableFormFields('viewModal{{ rapor.id }}');
+      $(`#raporDetail{{ rapor.id }}`).find('p').css('margin', '0')
+    {% endfor %}
+  });
+
+  function disableFormFields(modalId) {
+    $(`#${modalId}`).find('input, select, textarea').prop('disabled', true);
+  }
+</script>
+<script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
+
 {% endblock site-content %}

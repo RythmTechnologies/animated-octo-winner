@@ -11,32 +11,35 @@ Demirbaş Listesi
 
 
   <!-- Django Filter Start -->
-  <form method="get" action="{% url 'fixture-liste' %}">
+  <form id="filterForm" method="get" action="{% url 'fixture-liste' %}">
     <div class="card p-5 mt-5">
       <div class="card-header">Detaylı Arama</div>
       <div class="row justify-content-center align-items-center mt-4 mb-4 mt-md-5 mb-md-5 gy-2">
-        <div class="col-sm-6 col-lg-2">
+        <div class="col-sm-6 col-xl-2">
           <label for="id_name" class="mb-1 text-nowrap">Demirbaş Adı</label>
           {{form.name}}
         </div>
-        <div class="col-sm-6 col-lg-2">
+        <div class="col-sm-6 col-xl-2">
           <label for="id_marka" class="mb-1 text-nowrap">Demirbaş Marka</label>
           {{form.marka}}
         </div>
-        <div class="col-sm-6 col-lg-2">
+        <div class="col-sm-6 col-xl-2">
           <label for="id_model" class="mb-1 text-nowrap">Demirbaş Model</label>
           {{form.model}}
         </div>
-        <div class="col-sm-6 col-lg-2">
+        <div class="col-sm-6 col-xl-2">
           <label for="id_piece" class="mb-1 text-nowrap">Demirbaş Adet</label>
           {{form.piece}}
         </div>
-        <div class="col-sm-6 col-lg-2">
+        <div class="col-sm-6 col-xl-2">
           <label for="id_piece" class="mb-1 text-nowrap">Demirbaş Zimmetli Kişi</label>
           {{form.custodian}}
         </div>
-        <div class="col-lg-1 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
-          <button type="submit" class="btn btn-success">Filtrele</button>
+        <div class="col-xl-2 d-inline-flex d-xl-inline-block align-items-center justify-content-center align-self-end mt-3">
+          <div class="btn-group" role="group" aria-label="Filtreleme İşlemleri">
+            <button id="clearFilter" type="button" class="btn btn-secondary">Temizle</button>
+            <button type="submit" class="btn btn-success">Filtrele</button>
+          </div>  
         </div>
       </div>
     </div>
@@ -358,4 +361,5 @@ Demirbaş Listesi
   {% endfor %}
 </div>
 <script src="{% static 'js/calculateModal.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
 {% endblock site-content %}
