@@ -425,10 +425,7 @@ Evrak Listesi
   function disableFormFields(modalId) {
     $(`#${modalId}`).find('input, select, textarea').prop('disabled', true);
   }
-
-  // Filtreleme Formunu Temizle
-  $('#clearFilter').on('click', () => {
-    $(`#filterForm`).find('input, select, textarea').prop('value', '');
-  })
 </script>
+<script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
+
 {% endblock site-content %}

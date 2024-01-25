@@ -361,14 +361,5 @@ Demirbaş Listesi
   {% endfor %}
 </div>
 <script src="{% static 'js/calculateModal.js' %}"></script>
-<script>
-  $(document).ready(function() {
-    
-    
-    // Filtreleme Formunu Temizle
-    $('#clearFilter').on('click', () => {
-    $(`#filterForm`).find('input, select, textarea').prop('value', '');
-  })
-  })
-</script>
+<script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
 {% endblock site-content %}
