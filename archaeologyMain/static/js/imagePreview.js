@@ -1,14 +1,36 @@
 const create_preview_element = function(id) {
 
-    const element = document.createElement("img")
-    element.style.width = "100%";
-    element.style.maxWidth = "200" + "px";
-    element.style.maxHeight = "200" + "px";
-    element.style.objectFit = "cover";
+    const previewElement = document.createElement("img")
 
-    element.id = `preview-${id}`
+    previewElement.style.width = "100%";
+    previewElement.style.maxWidth = "200" + "px";
+    previewElement.style.height = "200" + "px";
+    previewElement.style.maxHeight = "200" + "px";
+    previewElement.style.objectFit = "cover";
 
-    return element
+    previewElement.id = `preview-${id}`
+
+    return previewElement
+  }
+
+
+  const create_clear_element = function(element, previewElement) {
+
+    const clearElement = document.createElement("input")
+    
+    clearElement.style.display = "none"
+    clearElement.type = 'button'
+    clearElement.value = "Temizle"
+    clearElement.id = `clear-preview-${element.id}`
+    
+    clearElement.onclick = function() {
+        element.value = ""
+        previewElement.removeAttribute('src')
+        clearElement.style.display = "none"
+    }
+
+
+    return clearElement
   }
   
   
@@ -32,7 +54,7 @@ const create_preview_element = function(id) {
     if (element.type === 'file' && element.id.startsWith("id")) { 
 
     const previewElement = create_preview_element(element.id)
-    const clearElement = document.createElement('input')
+    const clearElement = create_clear_element(element, previewElement)
 
     element.onchange = function(event) {
         update_preview_image(element.id, event.target.files[0])
@@ -40,19 +62,6 @@ const create_preview_element = function(id) {
     }
 
     element.insertAdjacentElement("afterend", previewElement)
-
-
-    clearElement.style.display = "none"
-    clearElement.type = 'button'
-    clearElement.value = "Temizle"
-    clearElement.id = `clear-preview-${element.id}`
-    
-    clearElement.onclick = function() {
-        element.value = ""
-        previewElement.src = ""
-        clearElement.style.display = "none"
-    }
-
     element.insertAdjacentElement("afterend", clearElement)
 } 
 })
