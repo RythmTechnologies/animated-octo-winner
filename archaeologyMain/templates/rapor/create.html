@@ -40,9 +40,11 @@ Rapor Ekle
                                 <label for="id_placebuluntu">Buluntu Yeri</label>
                                 {{form.placebuluntu}}
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 ">
+                                
                                 <label for="id_rapordate">Rapor Tarihi</label>
                                 {{form.rapordate}}
+                        
                             </div>
                             <div class="col-md-12">
                                 <label for="id_title">Başlık</label>
@@ -87,5 +89,13 @@ Rapor Ekle
 
 
 </div>
+<script>
+    flatpickr("#id_rapordate", {
+        dateFormat: "d-m-Y",
+        locale: "tr",
+        
+
+    });
+</script>
 <script src="{% static 'js/tinyhtml.js' %}"></script>
 {% endblock site-content %}

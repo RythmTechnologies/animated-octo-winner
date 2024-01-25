@@ -128,7 +128,12 @@
 
 
   </div>
-
+  <script>
+    flatpickr("#id_docdate", {
+      dateFormat: "d-m-Y",
+      locale: "tr"
+    });
+    </script>
   <script src="{% static '/js/tinyhtml.js' %}"></script>
   <script src="{% static '/js/buluntu.js' %}"></script>
   {% endblock site-content %}

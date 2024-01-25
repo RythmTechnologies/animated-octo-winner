@@ -361,5 +361,11 @@ Demirbaş Listesi
   {% endfor %}
 </div>
 <script src="{% static 'js/calculateModal.js' %}"></script>
+<script>
+  flatpickr("#id_dateofaddition", {
+      dateFormat: "d-m-Y",
+      locale: "tr"
+  });
+  </script>
 <script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
 {% endblock site-content %}
