@@ -245,17 +245,22 @@ class Type(models.Model):
 
 
 """Küçük Buluntu Detay Sayfaları"""
-class Toprak(models.Model):
 
-    piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
-    status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
+class BaseForm(models.Model):
+   
+   piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
+   status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
+
+
+
+class Toprak(BaseForm):
     # ölçüler
     amount = models.CharField(("Miktar"), max_length=50)
     flotasyonBefore = models.CharField(("Flotasyon Öncesi Miktar"), max_length=50)
     flotasyonAfter = models.CharField(("Flotasyon Sonrası Miktar"), max_length=50)
     defination = models.TextField(("Tanım"))
 
-class C14(models.Model):
+class C14(BaseForm):
 
     AMOUNT_CHOICES = (
 
@@ -264,10 +269,7 @@ class C14(models.Model):
         (3, "Korunmuş Ahşap Örneği")
     )
 
-    piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
-    status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
     type = models.ForeignKey(Type, verbose_name=("Tür"), on_delete=models.CASCADE)
-
     # diğer bilgiler
     amount = models.CharField(("Miktar"), choices=AMOUNT_CHOICES, max_length=50)
     defination = models.TextField(("Tanım"))
