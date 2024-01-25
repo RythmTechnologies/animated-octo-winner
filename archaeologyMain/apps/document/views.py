@@ -36,7 +36,7 @@ def get_document(request: HttpRequest) -> HttpResponseRedirect:
 
 @login_required(login_url="homepage")
 def get_document_list(request):
-    document_list = DocumentCreateModel.objects.all()
+    document_list = DocumentCreateModel.objects.all().defer('file')
     document_filter = DocumentFilter(request.GET, queryset=document_list)
 
 

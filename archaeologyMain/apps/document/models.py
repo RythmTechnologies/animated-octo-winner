@@ -41,7 +41,7 @@ class DocumentCreateModel(models.Model):
     user = models.ForeignKey(
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
-    files = models.FileField(("Evrak Yükleme"), upload_to="document", storage=drive_storage, max_length=100)
+    file = models.FileField(("Evrak Yükleme"), upload_to="document", storage=drive_storage, max_length=100)
     detail = HTMLField(("Evrak Detay"))
 
     def __str__(self) -> str:

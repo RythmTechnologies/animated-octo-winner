@@ -18,7 +18,7 @@ from .models import *
 
 # Rapor Start
 @login_required(login_url="homepage")
-def get_rapor(request: HttpRequest) -> HttpResponse:
+def add_rapor(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form = AcmaRaporForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
@@ -30,7 +30,7 @@ def get_rapor(request: HttpRequest) -> HttpResponse:
         else:
             print("Forms Errors:", form.errors)
             messages.error(request, "Lütfen Form'u Eksiksiz Doldurunuz!")
-            return redirect("set-rapor")
+            return redirect("create-rapor")
     else:
         form = AcmaRaporForm(user=request.user)
 
@@ -47,17 +47,19 @@ def delete_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
             or request.user.isModerator
         ):
             rapor.delete()
+            messages.success(request, "Rapor Başarıyla Silinmiştir!")
             return redirect("rapor-liste")
     except Exception as e:
         print("Hata Silme", e)
+        messages.error(request, "Rapor silinirken bir hata oldu!")
         return redirect("rapor-liste")
 
 
 @login_required(login_url="homepage")
 def get_rapor_list(request):
-    rapor_filter = RaporAcmaFilter(request.GET, queryset=AcmaRapor.objects.all())
+    rapor_filter = RaporAcmaFilter(request.GET, queryset=AcmaRapor.objects.all().defer('file'))
 
-    paginator = Paginator(rapor_filter.qs, 10)
+    paginator = Paginator(rapor_filter.qs, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -78,11 +80,11 @@ def update_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
         form = AcmaRaporForm(request.POST, request.FILES, instance=rapor)
         if form.is_valid():
             print("gelen error",form.errors)
+            messages.success(request, "Rapor başarıyla güncellendi!")
             form.save()
-            return redirect("rapor-liste")
         else:
             messages.error(request, "Lütfen Formu Doğru Giriniz!")
-            return redirect("rapor-liste")
+        return redirect("rapor-liste")
 
 
 # Rapor End

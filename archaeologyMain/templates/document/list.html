@@ -12,7 +12,7 @@ Evrak Listesi
 
 
   <!-- Django Filter Start -->
-  <form method="get" action="{% url 'document-liste' %}">
+  <form id="filterForm" method="get" action="{% url 'document-liste' %}">
     <div class="card p-5 mt-5">
       <div class="card-header">Detaylı Arama</div>
       <div class="row justify-content-center align-items-center mt-4 mb-4 mt-md-5 mb-md-5 gy-2">
@@ -33,8 +33,11 @@ Evrak Listesi
           {{form.docsubject}}
         </div>
         <div
-          class="col-lg-1 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
-          <button type="submit" class="btn btn-success">Filtrele</button>
+          class="col-lg-2 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
+          <div class="btn-group" role="group" aria-label="Filtreleme İşlemleri">
+            <button id="clearFilter" type="button" class="btn btn-secondary">Temizle</button>
+            <button type="submit" class="btn btn-success">Filtrele</button>
+          </div>
         </div>
       </div>
     </div>
@@ -46,12 +49,12 @@ Evrak Listesi
         <!-- Tablo başlıkları -->
         <thead>
           <tr>
-            <th clsas="text-nowrap" scope="col">Evrak No</th>
-            <th clsas="text-nowrap" scope="col">Evrak Tarihi</th>
-            <th clsas="text-nowrap" scope="col">İlgili Birim</th>
-            <th clsas="text-nowrap" scope="col">İlgili Kurum</th>
-            <th clsas="text-nowrap" scope="col">Evrak Konusu</th>
-            <th clsas="text-nowrap" scope="col">Evrak Detayı</th>
+            <th class="text-nowrap" scope="col">Evrak No</th>
+            <th class="text-nowrap" scope="col">Evrak Tarihi</th>
+            <th class="text-nowrap" scope="col">İlgili Birim</th>
+            <th class="text-nowrap" scope="col">İlgili Kurum</th>
+            <th class="text-nowrap" scope="col">Evrak Konusu</th>
+            <th class="text-nowrap" scope="col">Evrak Detayı</th>
             {% if request.user.is_superuser or request.user.isModerator == True %}
             <th class="text-nowrap" scope="col">İşlemler</th>
             {% endif %}
@@ -170,20 +173,20 @@ Evrak Listesi
             {% for form_id, form in updateForms.items %}
             {% if form_id == document.id %}
             <div class="card">
-              <div class="row p-3">
+              <div class="row justify-content-center p-3">
 
                 <div class="col-md-6">
                   <div class="card-header">Evrak Tipi</div>
                   <div class="row justify-content-between p-3">
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                       <label for="id_incomingdoc" class="form-label">Gelen Evrak</label>
                       {{form.incomingdoc}}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                       <label for="id_outgoingdoc" class="form-label">Giden Evrak</label>
                       {{form.outgoingdoc}}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                       <label for="id_amount" class="form-label">Tutanak</label>
                       {{form.amount}}
                     </div>
@@ -193,15 +196,15 @@ Evrak Listesi
                 <div class="col-md-6">
                   <div class="card-header">Öncelik</div>
                   <div class="row justify-content-between p-3">
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                       <label for="id_high" class="form-label">Yüksek</label>
                       {{form.high}}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                       <label for="id_middle" class="form-label">Orta</label>
                       {{form.middle}}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                       <label for="id_low" class="form-label">Düşük</label>
                       {{form.low}}
                     </div>
@@ -257,10 +260,12 @@ Evrak Listesi
 
             {{ form.detail }}
             <div class="card-header mt-3">Evrak Yükleme</div>
-            {{form.files}}
-
-
-
+            <div class="form-control mb-3 rounded">
+              Şu anki:
+              <a href="{{document.file.url}}">{{document.file}}</a> <br>
+              <label for="id_file"> Değiştir </label>
+              <input type="file" name="file" class="form-control mb-3 rounded" placeholder="Evrak Yükleme" id="id_file">
+            </div>
             {% endif %}
             {% endfor %}
           </div>
@@ -282,38 +287,148 @@ Evrak Listesi
     aria-labelledby="viewModalLabel{{ document.id }}" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewModalLabel{{ document.id }}">
-            Rapor Detayları
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <!-- Document details here -->
-          <p><strong>Gelen Evrak: </strong> {{ document.incomingdoc }}</p>
-          <p><strong>Giden Evrak: </strong> {{ document.outgoingdoc }}</p>
-          <p><strong>Tutanak: </strong> {{ document.amount }}</p>
-          <p><strong>Yüksek: </strong> {{ document.high }}</p>
-          <p><strong>Orta: </strong> {{ document.middle }}</p>
-          <p><strong>Düşük: </strong> {{ document.low }}</p>
-          <p><strong>Evrak No: </strong> {{ document.docno }}</p>
-          <p><strong>Evrak Tarihi: </strong> {{ document.docdate }}</p>
-          <p><strong>Evrak Sayısı: </strong> {{ document.doccount }}</p>
-          <p><strong>İlgili Birim: </strong> {{ document.relevantunit }}</p>
-          <p><strong>İlgili Kurum: </strong> {{ document.relevantinstitution }}</p>
-          <p><strong>Evrak Konusu: </strong> {{ document.docsubject }}</p>
-          <p><strong>Formu Dolduran: </strong> {{ document.user }}</p>
-          <p><strong>Evrak: </strong><a href="{{document.files.url}}" target="_blank">{{ document.files }}</a></p>
-          <p><strong>Evrak Tarihi: </strong> {{ document.detail|safe }}</p>
-          <!-- Document Details End -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-        </div>
+        <form id="viewForm{{ document.id }}" class="update-form" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateModalLabel{{ document.id }}">
+              Evrak Detayları
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% for form_id, form in updateForms.items %}
+            {% if form_id == document.id %}
+            <div class="card">
+              <div class="row justify-content-center p-3">
+                <div class="col-md-6">
+                  <div class="card-header">Evrak Tipi</div>
+                  <div class="row justify-content-between p-3">
+                    <div class="col-sm-4">
+                      <label for="id_incomingdoc" class="form-label">Gelen Evrak</label>
+                      {{form.incomingdoc}}
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="id_outgoingdoc" class="form-label">Giden Evrak</label>
+                      {{form.outgoingdoc}}
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="id_amount" class="form-label">Tutanak</label>
+                      {{form.amount}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="card-header">Öncelik</div>
+                  <div class="row justify-content-between p-3">
+                    <div class="col-sm-4">
+                      <label for="id_high" class="form-label">Yüksek</label>
+                      {{form.high}}
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="id_middle" class="form-label">Orta</label>
+                      {{form.middle}}
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="id_low" class="form-label">Düşük</label>
+                      {{form.low}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="id_docno" class="form-label">Evrak No</label>
+                  {{form.docno}}
+
+                </div>
+
+                <div class="col-md-4">
+                  <label for="id_docdate" class="form-label">Evrak Tarihi</label>
+                  {{form.docdate}}
+                </div>
+
+
+                <div class="col-md-4">
+                  <label for="id_doccount" class="form-label">Evrak Sayısı</label>
+                  {{form.doccount}}
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <label for="id_relevantunit" class="form-label">İlgili Birim</label>
+                    {{form.relevantunit}}
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="id_relevantinstitution" class="form-label">İlgili Kurum</label>
+                    {{form.relevantinstitution}}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="id_docsubject">Evrak Konusu</label>
+                    {{form.docsubject}}
+                  </div>
+                  <div class="col-md-6">
+                    <label for="id_user">Formu Dolduran</label>
+                    {{form.user}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content between mt-3 p-3">
+              <div class="col-md-12">
+                <div class="card-header mt-3">
+                  <label>Rapor Detay</label>
+                </div>
+                <div id="documentDetail{{ document.id }}" style="background-color: var(--bs-secondary-bg);"
+                  class="form-control mb-3 rounded">
+                  {{ document.detail|safe }}
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="card-header mt-3">
+                  <label for="">Evrak</label>
+                </div>
+                <div class="form-control mb-3 rounded">
+                  <a href="{{document.file.url}}" target="_blank"> {{document.file}}</a>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Kapat
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
   <!-- View Modal End -->
   {% endfor %}
 </div>
+
+<script>
+  $(document).ready(function () {
+    // Tüm inputları devre dışı bırak
+    {% for document in documents %}
+    disableFormFields('viewModal{{ document.id }}');
+    $(`#documentDetail{{ document.id }}`).find('p').css('margin', '0')
+    {% endfor %}
+  });
+
+  function disableFormFields(modalId) {
+    $(`#${modalId}`).find('input, select, textarea').prop('disabled', true);
+  }
+
+  // Filtreleme Formunu Temizle
+  $('#clearFilter').on('click', () => {
+    $(`#filterForm`).find('input, select, textarea').prop('value', '');
+  })
+</script>
 {% endblock site-content %}
