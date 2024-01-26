@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 
 from tinymce.models import HTMLField
 
+from apps.logger.models import LoggableMixin
+
 from django.db import models
 
 from apps.specuser.models import *
@@ -34,7 +36,7 @@ class BuluntuYeri(models.Model):
         return self.name
 
 
-class AcmaRapor(models.Model):
+class AcmaRapor(LoggableMixin, models.Model):
     RAPOR_CHOICES = (
         ("daily", "Günlük"),
         ("weekly", "Haftalık"),
@@ -56,6 +58,17 @@ class AcmaRapor(models.Model):
     owner = models.CharField("Formu Dolduran", max_length=150)
     rapordetail = HTMLField("Rapor Detay")
     file = models.FileField("Evrak Yükleme", upload_to="raporfiles",storage=drive_storage,max_length=100)
+
+
+    def save(self, *args, **kwargs):
+        self.save_with_log(*args, **kwargs)
+
+
+    def delete(self, *args, **kwargs):
+        self.delete_with_log(*args, **kwargs)
+        
+    def __name__(self) ->str:
+        return "Rapor" 
 
     def __str__(self) -> str:
         return self.title

@@ -21,7 +21,7 @@ def get_document(request: HttpRequest) -> HttpResponseRedirect:
         if form.is_valid():
             document = form.save(commit=False)
             document.user = request.user
-            document.save()
+            document.save_with_log(user=request.user)
             messages.success(request, "Rapor Başarıyla Eklenmiştir!")
             return redirect("document-liste")
         else:
@@ -60,7 +60,8 @@ def delete_document(request: HttpRequest, id : int) -> HttpResponseRedirect:
     try:
         document = DocumentCreateModel.objects.filter(id = id ).first()
         if request.user.is_authenticated and request.user.is_superuser or request.user.isModerator:
-            document.delete()
+            document.user = request.user
+            document.delete_with_log(user=request.user)
             return redirect("document-liste")
     except Exception as error:
         print("Hata Mesajı Document Silinme", error)
@@ -72,7 +73,9 @@ def update_document(request: HttpRequest, id : int) -> HttpResponseRedirect:
         form = DocumentForm(request.POST, request.FILES, instance=document)
         if form.is_valid():
             print("gelen error",form.errors)
-            form.save()
+            document = form.save(commit=False)
+            document.user = request.user
+            document.save_with_log(user=request.user)
             return redirect("document-liste")
         else:
             messages.error(request, "Lütfen Formu Doğru Giriniz!")

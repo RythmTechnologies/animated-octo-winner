@@ -1,11 +1,10 @@
 import os
 
 from tinymce.models import HTMLField
-
 from dotenv import load_dotenv
-
 from django.db import models
 from apps.specuser.models import *
+from apps.logger.models import LoggableMixin
 
 load_dotenv()
 
@@ -25,7 +24,7 @@ public_permission = GoogleDriveFilePermission(
 
 drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
 
-class DocumentCreateModel(models.Model):
+class DocumentCreateModel(LoggableMixin,models.Model):
     incomingdoc = models.BooleanField(("Gelen Evrak"), default=False)
     outgoingdoc = models.BooleanField(("Giden Evrak"), default=False)
     amount = models.BooleanField(("Tutanak"), default=False)
@@ -44,5 +43,20 @@ class DocumentCreateModel(models.Model):
     file = models.FileField(("Evrak Yükleme"), upload_to="document", storage=drive_storage, max_length=100)
     detail = HTMLField(("Evrak Detay"))
 
+
+
+    def save(self, *args, **kwargs):
+        self.save_with_log(*args, **kwargs)
+
+
+    def delete(self, *args, **kwargs):
+        self.delete_with_log(*args, **kwargs)
+        
+    def __name__(self) ->str:
+        return "Döküman" 
+
     def __str__(self) -> str:
         return self.docsubject
+    
+    
+    

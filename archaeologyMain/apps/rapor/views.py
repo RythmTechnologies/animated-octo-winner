@@ -24,7 +24,7 @@ def add_rapor(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             rapor = form.save(commit=False)
             rapor.user = request.user
-            rapor.save()
+            rapor.save_with_log(user=request.user)
             messages.success(request, "Rapor Başarıyla Eklenmiştir!")
             return redirect("rapor-liste")
         else:
@@ -46,7 +46,8 @@ def delete_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
             and request.user.is_superuser
             or request.user.isModerator
         ):
-            rapor.delete()
+            rapor.user=request.user
+            rapor.delete_with_log(user=request.user)
             messages.success(request, "Rapor Başarıyla Silinmiştir!")
             return redirect("rapor-liste")
     except Exception as e:
@@ -79,9 +80,10 @@ def update_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
         print("DENEME:",request.FILES)
         form = AcmaRaporForm(request.POST, request.FILES, instance=rapor)
         if form.is_valid():
-            print("gelen error",form.errors)
+            update_rapor = form.save(commit=False)
+            update_rapor.user=request.user
+            update_rapor.save_with_log(user=request.user)
             messages.success(request, "Rapor başarıyla güncellendi!")
-            form.save()
         else:
             messages.error(request, "Lütfen Formu Doğru Giriniz!")
         return redirect("rapor-liste")
