@@ -31,10 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
-# Application definition
-
-INSTALLED_APPS = [
+DJANGO_DEFAULT = [
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -42,17 +39,23 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+THIRD_PARTY= [
     "gdstorage",
+    "colorfield",
+    "django_filters",
+    "tinymce",
+]
+PROJECT_APPLICATIONS = [
     "apps.specuser",
     "apps.buluntu",
     "apps.document",
     "apps.fixture",
     "apps.main",
     "apps.rapor",
-    "colorfield",
-    "django_filters",
-    "tinymce",
+    "apps.logger",
 ]
+INSTALLED_APPS = DJANGO_DEFAULT + THIRD_PARTY + PROJECT_APPLICATIONS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -225,7 +228,7 @@ JAZZMIN_SETTINGS = {
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
 }
 
-DATE_INPUT_FORMATS = ["%Y-%m-%d"]
+DATE_INPUT_FORMATS = ["%d-%m-%Y"]
 USE_L10N = False
 
 WSGI_APPLICATION = "archaeologyMain.wsgi.application"
@@ -234,14 +237,20 @@ WSGI_APPLICATION = "archaeologyMain.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "postgres2",
+#         "USER": "postgres2",
+#         "PASSWORD": "postgres",
+#         "HOST": "db",
+#         "PORT": 5432,
+#     }
+# }
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres2",
-        "USER": "postgres2",
-        "PASSWORD": "postgres",
-        "HOST": "db",
-        "PORT": 5432,
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

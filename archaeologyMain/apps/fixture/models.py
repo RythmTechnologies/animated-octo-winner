@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-
+from apps.logger.models import LoggableMixin
 from tinymce.models import HTMLField
 
 from django.db import models
@@ -39,7 +39,7 @@ class CustomTaxRate(models.Model):
         return self.name
 
 
-class Fixture(models.Model):
+class Fixture(LoggableMixin,models.Model):
     user = models.ForeignKey(
         SiteUser, verbose_name=("Kullanıcı"), on_delete=models.CASCADE
     )
@@ -68,6 +68,15 @@ class Fixture(models.Model):
         ("Demirbaş Alım Belgesi"), upload_to="fixture",storage=drive_storage, max_length=100
     )
     fixtureDescription = HTMLField(("Demirbaş Açıklama"), max_length=900)
+
+    def save(self, *args, **kwargs):
+        self.save_with_log(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.delete_with_log(*args, **kwargs)
+
+    def __name__(self) -> str:
+        return "Demirbaş"
 
     def __str__(self) -> str:
         return self.name
