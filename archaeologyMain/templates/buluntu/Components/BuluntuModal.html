@@ -1,4 +1,4 @@
-{% for id, buluntuForm in buluntuForms.items %}
+{% for id, form in buluntuForms.items %}
   
 <div class="modal fade" id="buluntu-{{id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -10,10 +10,17 @@
         
         <div class="modal-body">
 
-            {% for field in buluntuForm %}
-              
-    
-            {% endfor %}
+      
+          {% if id == '5' %}
+                {% include './Forms/_c14_form.html' with form=form %}
+          {% endif %}
+        
+
+          {% if id == '6' %}
+                {% include './Forms/_toprak_form.html' with form=form %}
+          {% endif %}
+
+  
            
         </div>
 

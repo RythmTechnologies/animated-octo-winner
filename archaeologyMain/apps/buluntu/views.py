@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.http import require_http_methods
 # Formlar
 from .forms import *
 from .models import *
@@ -17,6 +17,7 @@ RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
 
 # add buluntu starts
 @login_required(login_url="homepage")
+@require_http_methods(["GET", "POST"])
 def set_buluntu(request: HttpRequest) -> HttpResponse:
     context = {}
 
@@ -26,6 +27,7 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
     # test purpose
     buluntuFormObject["5"] = C14Form()
     buluntuFormObject["6"] = ToprakForm()
+    
 
     context["form"] = GeneralBuluntuForm
     context['buluntuForms'] = buluntuFormObject
