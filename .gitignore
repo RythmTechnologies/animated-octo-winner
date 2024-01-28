@@ -10,6 +10,7 @@ __pycache__
 db.sqlite3
 # Ignore python virtual env
 env/
+venv/
 
 # Ignore DsStore
 **/.DS_Store

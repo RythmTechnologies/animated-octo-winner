@@ -47,6 +47,25 @@ THIRD_PARTY= [
     "tinymce",
 ]
 PROJECT_APPLICATIONS = [
+    "apps.main",
+    "apps.specuser",
+    "apps.buluntu",
+    "apps.document",
+    "apps.fixture",
+    "apps.rapor",
+    "apps.logger",
+]
+# INSTALLED_APPS = DJANGO_DEFAULT + THIRD_PARTY + PROJECT_APPLICATIONS
+
+INSTALLED_APPS = [
+    "jazzmin",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "gdstorage",
     "apps.specuser",
     "apps.buluntu",
     "apps.document",
@@ -54,9 +73,10 @@ PROJECT_APPLICATIONS = [
     "apps.main",
     "apps.rapor",
     "apps.logger",
+    "colorfield",
+    "django_filters",
+    "tinymce",
 ]
-INSTALLED_APPS = DJANGO_DEFAULT + THIRD_PARTY + PROJECT_APPLICATIONS
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -237,22 +257,22 @@ WSGI_APPLICATION = "archaeologyMain.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "postgres2",
-#         "USER": "postgres2",
-#         "PASSWORD": "postgres",
-#         "HOST": "db",
-#         "PORT": 5432,
-#     }
-# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres2",
+        "USER": "postgres2",
+        "PASSWORD": "postgres",
+        "HOST": "db",
+        "PORT": 5432,
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
