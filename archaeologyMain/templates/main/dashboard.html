@@ -1,19 +1,55 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% load static %}
 
-
-{% block site-title %}
-Archaeology Dashboard
-{% endblock site-title %}
+{% block site-title %} Archaeology Dashboard {% endblock site-title %} 
 
 {% block site-content %}
-
-<div class="container">
-    {% for message in messages %}
-    {% if message.tags == 'success' %}
+  <main class="container py-3">
+    {% for message in messages %} {% if message.tags == 'success' %}
     <div class="alert alert-success mt-3" role="alert" id="alertDiv">
-        {{ message }}
+      {{ message }}
     </div>
-    {% endif %}
-    {% endfor %}
-</div>
+    {% endif %} {% endfor %}
+      <div class="row">
+        <section class="col-lg-9"></section>
+        <aside class="col-lg-3">
+          <svg display="none">
+            <symbol id="arrow">
+              <polyline points="7 10,12 15,17 10" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </symbol>
+          </svg>
+          <h5>Log Entries <span class="fs-6 text-secondary">( last 10 )</span></h3>
+          <div id="timeline" class="timeline">
+            <div class="btn-group">
+              <button class="btn text-nowrap" type="button" data-action="expand">Genişlet</button>
+              <button class="btn text-nowrap" type="button" data-action="collapse">Daralt</button>
+            </div>
+            {% for log in logs %}
+              <div class="timeline__item">
+                <div class="timeline__item-header">
+                  <button class="timeline__arrow {% if log.action == 'oluşturuldu'%} text-success {% endif %}{% if log.action == 'güncellendi'%} text-primary {% endif %}{% if log.action == 'silindi'%} text-danger {% endif %}" type="button" id="item{{ log.id }}" aria-labelledby="item{{ log.id }}-name" aria-expanded="false" aria-controls="item{{ log.id }}-ctrld" aria-haspopup="true" data-item="{{ log.id }}">
+                    <svg class="timeline__arrow-icon" viewBox="0 0 24 24" width="24px" height="24px">
+                      <use href="#arrow" />
+                    </svg>
+                  </button>
+                  <span class="timeline__dot {% if log.action == 'oluşturuldu'%} bg-success {% endif %}{% if log.action == 'güncellendi'%} bg-primary {% endif %}{% if log.action == 'silindi'%} bg-danger {% endif %}"></span>
+                  <span id="item{{ log.id }}-name" class="timeline__meta"> 
+                    <time class="timeline__date" datetime="1970-01-01">{{ log.timestamp }}</time><br>
+                    <strong class="timeline__title">{{log.content_type}}</strong>
+                  </span>
+                </div>
+                <div class="timeline__item-body" id="item{{ log.id }}-ctrld" role="region" aria-labelledby="item{{ log.id }}" aria-hidden="true">
+                  <div class="timeline__item-body-content">
+                    <p class="timeline__item-p">{{ log.description }}</p>
+                    <p class="timeline__subitem-p text-end"><strong>@{{ log.user }}</strong></p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </aside>
+      </div>
+  </main>
+
+  <script type="text/javascript" src="{% static 'js/collapsibleTimeline.js' %}"></script>
 {% endblock site-content %}

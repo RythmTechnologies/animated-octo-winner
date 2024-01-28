@@ -347,40 +347,156 @@ Demirbaş Listesi
     aria-labelledby="viewModalLabel{{ fixture.id }}" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 900px; max-height: 1500px">
       <div class="modal-content">
+        <form id="viewForm{{ fixture.id }}" class="update-form"
+        enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="modal-header">
-          <h5 class="modal-title" id="viewModalLabel{{ fixture.id }}">
-            Rapor Detayları
+          <h5 class="modal-title" id="updateModalLabel{{ fixture.id }}">
+            Fixture Detayları
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <!-- Fixture details here -->
-          <p><strong>Demirbaş Kullanıcı: </strong> {{ fixture.user }}</p>
-          <p><strong>Demirbaş Adı: </strong> {{ fixture.name }}</p>
-          <p><strong>Demirbaş Marka: </strong> {{ fixture.marka }}</p>
-          <p><strong>Demirbaş Model: </strong> {{ fixture.model }}</p>
-          <p><strong>Demirbaş Adet: </strong> {{ fixture.piece }}</p>
-          <p><strong>Demirbaş Birim Fiyatı: </strong> {{ fixture.unitprice }}</p>
-          <p><strong>Demirbaş Vergi Oranı: </strong> {{ fixture.taxrate }}</p>
-          <p><strong>Demirbaş Toplam Fiyat: </strong> {{ fixture.totalprice }}</p>
-          <p><strong>Demirbaş Alış Şekli: </strong> {{ fixture.typeofaddition }}</p>
-          <p><strong>Demirbaş Alım Tarihi: </strong> {{ fixture.dateofaddition }}</p>
-          <p><strong>Demirbaş Bulunduğu Yer: </strong> {{ fixture.where }}</p>
-          <p><strong>Demirbaş Zimmetli Kişi: </strong> {{ fixture.custodian }}</p>
-          <p><strong>Demirbaş Barkod Numarası: </strong> {{ fixture.barcode }}</p>
-          <p><strong>Demirbaş Firma Adı: </strong> {{ fixture.companyName }}</p>
-          <p><strong>Demirbaş Firma Yetkilisi: </strong> {{ fixture.companyOfficial }}</p>
-          <p><strong>Demirbaş Firma Telefon: </strong> {{ fixture.companyPhone }}</p>
-          <p><strong>Demirbaş Firma Email Adresi: </strong> {{ fixture.companyEmail }}</p>
-          <p><strong>Demirbaş Firma Adresi: </strong> {{ fixture.companyAddress|safe }}</p>
-          <p><strong>Demirbaş Alım Belgesi: </strong> <a href="{{fixture.fixturefile.url}}" target="_blank">{{
-              fixture.fixtureFile }}</a></p>
-          <p><strong>Demirbaş Açıklama: </strong> {{ fixture.fixtureDescription|safe }}</p>
-          <!-- Fixture details end -->
+          {% for form_id, form in updateForms.items %}
+          {% if form_id == fixture.id %}
+          <div class="row p-3">
+            <div class="col-md-4">
+              <label for="id_name" class="form-label">Demirbaş Adı</label>
+              {{form.name}}
+            </div>
+
+            <div class="col-md-4">
+              <label for="id_marka" class="form-label">Marka</label>
+              {{form.marka}}
+            </div>
+
+            <div class="col-md-4">
+              <label for="id_model" class="form-label">Model</label>
+              {{form.model}}
+            </div>
+
+            <div class="col-md-3">
+              <label for="id_piece" class="form-label">Adet</label>
+              {{form.piece}}
+            </div>
+
+            <div class="col-md-3">
+              <label for="id_unitprice" class="form-label">Birim Fiyatı</label>
+              {{form.unitprice}}
+            </div>
+
+            <div class="col-md-3">
+              <label for="id_taxrate" class="form-label">Tax Rate</label>
+              {{form.taxrate}}
+            </div>
+
+            <div class="col-md-3">
+              <label for="id_totalprice" class="form-label">Toplam Fiyat</label>
+              {{form.totalprice}}
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <label for="id_typeofaddition" class="form-label">Alış Şekli</label>
+                {{form.typeofaddition}}
+              </div>
+
+              <div class="col-md-4">
+                <label for="id_dateofaddition" class="form-label">Alım Tarihi</label>
+                {{form.dateofaddition}}
+              </div>
+
+              <div class="col-md-4">
+                <label for="id_where" class="form-label">Bulunduğu Yer</label>
+                {{form.where}}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="id_custodian" class="form-label">Zimmetli Kişi</label>
+                    {{form.custodian}}
+                  </div>
+                  <div class="col-md-6">
+                    <label for="id_barcode" class="form-label">Barkod Numarası</label>
+                    {{form.barcode}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-header mt-5">Firma Bilgileri</div>
+
+          <div class="card p-4">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="id_companyName" class="form-label">Firma Adı</label>
+                    {{form.companyName}}
+                  </div>
+                  <div class="col-md-6">
+                    <label for="id_companyOfficial" class="form-label">Firma Yetkilisi</label>
+                    {{form.companyOfficial}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="id_companyPhone" class="form-label">Firma Telefon</label>
+                    {{form.companyPhone}}
+                  </div>
+                  <div class="col-md-6">
+                    <label for="id_companyEmail" class="form-label">Firma Email</label>
+                    {{form.companyEmail}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card-header px-3 border-bottom-0">
+                  <label for="id_companyAddress" >Firma Adresi</label>
+                </div>
+                <div id="fixtureDetail{{ fixture.id }}" style="background-color: var(--bs-secondary-bg);"
+                    class="form-control px-3">
+                    {{ fixture.companyAddress|safe }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-header mt-5">Fixture Belge ve Açıklama</div>
+          <div class="card p-4">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card-header px-3 border-bottom-0">
+                  <label>Demirbaş Alım Belgesi</label>
+                </div>
+                <div class="form-control px-3">
+                  <a href="{{fixture.fixtureFile.url}}" target="_blank"> {{fixture.fixtureFile}}</a>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card-header px-3 border-bottom-0">
+                  <label for="id_fixtureDescription">Demirbaş Açıklama</label>
+                </div>
+                <div id="fixtureDetail{{ fixture.id }}" style="background-color: var(--bs-secondary-bg);"
+                  class="form-control px-3">
+                  {{ fixture.fixtureDescription|safe }}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Kapat
+          </button>
         </div>
+      </form>
       </div>
     </div>
   </div>
@@ -388,6 +504,19 @@ Demirbaş Listesi
   {% endfor %}
 </div>
 <script src="{% static 'js/calculateModal.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    // Tüm inputları devre dışı bırak
+    {% for fixture in fixtures %}
+      disableFormFields('viewModal{{ fixture.id }}');
+    $(`#fixtureDetail{{ fixture.id }}`).find('p').css('margin', '0')
+    {% endfor %}
+  });
+
+  function disableFormFields(modalId) {
+    $(`#${modalId}`).find('input, select, textarea').prop('disabled', true);
+  }
+</script>
 <script>
   flatpickr("#id_dateofaddition", {
       dateFormat: "d-m-Y",
