@@ -29,7 +29,7 @@ def set_fixture(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             form = form.save(commit=False)
             form.user = creater
-            form.save()
+            form.save(user=request.user)
             messages.success(request, "Demirbaş Başarıyla Eklenmiştir!")
             return redirect("fixture-liste")
         else:
@@ -62,7 +62,11 @@ def fixture_list(request: HttpRequest) -> HttpResponse:
 def delete_fixture(request: HttpRequest, id: int) -> HttpResponseRedirect:
     fixture = Fixture.objects.filter(id = id).first()
     if request.user.is_authenticated and request.user.is_superuser or request.user.isModerator:
-        fixture.delete()
+        
+        fixture.delete_with_log(user=request.user)
+
+        messages.success(request,f'Demirbaşınız silindi')
+        
         return redirect("fixture-liste")
     else:
         messages.error(request, "Lütfen Giriş Yapınız")
@@ -75,7 +79,8 @@ def update_fixture(request: HttpRequest, id: int) -> HttpResponseRedirect:
     if request.method == "POST":
         form = FixtureForm(request.POST,request.FILES, instance=fixture)
         if form.is_valid():
-            form.save()
+            updated_fixture = form.save(commit=False)
+            updated_fixture.save(user=request.user) 
             return redirect("fixture-liste")
         else:
             messages.error(request, "Lütfen Formu Doğru Giriniz")

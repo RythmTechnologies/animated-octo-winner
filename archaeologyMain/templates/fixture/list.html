@@ -8,7 +8,34 @@ Demirbaş Listesi
 
 {% block site-content %}
 <div class="container">
-
+  {% if messages %}
+  <div class="messages">
+      {% for message in messages %}
+          <!-- Bootstrap alert sınıflarını kullanarak mesajları stilize edin -->
+          {% if message.tags == 'success' %}
+              <div class="alert alert-success" role="alert">
+                  {{ message }}
+              </div>
+          {% elif message.tags == 'error' %}
+              <div class="alert alert-danger" role="alert">
+                  {{ message }}
+              </div>
+          {% elif message.tags == 'warning' %}
+              <div class="alert alert-warning" role="alert">
+                  {{ message }}
+              </div>
+          {% elif message.tags == 'info' %}
+              <div class="alert alert-info" role="alert">
+                  {{ message }}
+              </div>
+          {% else %}
+              <div class="alert alert-primary" role="alert">
+                  {{ message }}
+              </div>
+          {% endif %}
+      {% endfor %}
+  </div>
+{% endif %}
 
   <!-- Django Filter Start -->
   <form id="filterForm" method="get" action="{% url 'fixture-liste' %}">
@@ -74,7 +101,7 @@ Demirbaş Listesi
             <td>{{ fixture.model }}</td>
             <td>{{ fixture.piece }}</td>
             <td>{{ fixture.totalprice }}</td>
-            <td class="text-nowrap">{{ fixture.dateofaddition }}</td>
+            <td class="text-nowrap">{{ fixture.dateofaddition|date:"d F Y"  }}</td>
             <td>
               <div class="truncate truncate-3-lines">
                 {{ fixture.where }}

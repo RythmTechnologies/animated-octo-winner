@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-
+from apps.logger.models import LogEntry
 from django.contrib.auth.decorators import login_required
 
 
@@ -44,7 +44,9 @@ def get_index(request: HttpRequest) -> RedirectOrResponse:
 # Dashboard Start
 @login_required(login_url="homepage")
 def get_dashboard(request: HttpRequest) -> HttpResponse:
-    return render(request, "main/dashboard.html")
+    context = {}
+    context['logs'] = LogEntry.objects.all().order_by('-timestamp')[:10]
+    return render(request, "main/dashboard.html", context)
 # Dashboard End
 
 
