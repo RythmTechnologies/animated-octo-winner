@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-dark-subtle">
     <div class="container-fluid">
-        
+
         <a class="navbar-brand" href="{% url 'dashboard' %}">Tavşanlı Höyük 2023</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,27 +9,27 @@
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
+
             <ul class="w-100 navbar-nav mb-2 mt-2 m-xxl-0 justify-content-around" id="ul-items">
 
                 <li class="nav-item mt-3 mb-3 m-lg-0">
 
                     <form action="">
 
-                        
+
                     <div class="input-group search-bar">
 
                         <input type="search" name="ara" class="form-control" style="margin-bottom: 0 !important;">
                         <button class="btn btn-outline-secondary" type="submit">Ara</button>
-                        
+
                     </div>
-               
+
                      </form>
 
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link 
+                    <a class="nav-link
                      {% if request.path == '/dashboard' %}
                       active
                     {% endif %}" aria-current="page" href="{% url 'dashboard' %}"><i class="fa-solid fa-house"></i>
@@ -104,7 +104,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == '' %}
                         active
@@ -115,10 +114,13 @@
                         </li>
                     </ul>
                 </li>
-
+                <div class="ms-1">
+                    <button class="btn btn-outline-success" id="darkModeToggle"><i class="fa-solid fa-moon"></i> / <i
+                            class="fa-solid fa-sun"></i></button>
+                </div>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Oturum</a>
-                    
+
                     <ul class="dropdown-menu">
 
                         {% if request.user.is_superuser %}
@@ -138,11 +140,11 @@
 
 
 
-            
+
 
             </ul>
 
-            
+
         </div>
 
     </div>
