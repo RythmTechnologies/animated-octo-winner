@@ -12,6 +12,7 @@ WORKDIR /home/archaeology
 # Bağımlılıkları kopyala ve kur
 COPY requirements.txt /home/archaeology
 
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Adım 2: Uygulama kodunu kopyala
