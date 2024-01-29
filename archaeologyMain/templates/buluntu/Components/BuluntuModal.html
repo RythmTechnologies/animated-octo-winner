@@ -10,7 +10,11 @@
         
         <div class="modal-body">
 
-      
+          {% if id == '1' %}
+                {% include './Forms/_pismis_toprak_form.html' with form=form %}
+          {% endif %}
+
+
           {% if id == '5' %}
                 {% include './Forms/_c14_form.html' with form=form %}
           {% endif %}
