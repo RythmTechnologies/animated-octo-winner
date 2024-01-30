@@ -54,6 +54,7 @@ PROJECT_APPLICATIONS = [
     "apps.fixture",
     "apps.rapor",
     "apps.logger",
+    "apps.testfield",
 ]
 # INSTALLED_APPS = DJANGO_DEFAULT + THIRD_PARTY + PROJECT_APPLICATIONS
 
@@ -73,6 +74,7 @@ INSTALLED_APPS = [
     "apps.main",
     "apps.rapor",
     "apps.logger",
+    "apps.testfield",
     "colorfield",
     "django_filters",
     "tinymce",

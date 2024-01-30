@@ -32,6 +32,7 @@ urlpatterns = [
     path('buluntu/', include('apps.buluntu.urls')),
     path('fixture/', include('apps.fixture.urls')),
     path('rapor/', include('apps.rapor.urls')),
+    path('testfield/', include('apps.testfield.urls')),
     re_path(r'^.*/$', get_notFound, name='404'),
 ]
 
