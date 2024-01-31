@@ -1,21 +1,27 @@
+const updateClasses = function(elementName) {
+
+    document.querySelectorAll(`${elementName},input,textarea,select,option`).forEach(function (element) {
+
+        if (element.id === "id_date") {
+  
+            element.type = "date"
+        }
+  
+        if (["id_plankareNo", 'id_noResult', 'id_secondaryNo'].includes(element.id)) {
+  
+            element.setAttribute('readonly', 'true')
+        }
+  
+        element.classList.add('form-control')
+        element.classList.add('mb-3')
+    })
+
+}
+
 window.onload = function() {
 
-  document.querySelectorAll('#submit-buluntu,input,textarea,select,option').forEach(function (element) {
-
-      if (element.id === "id_date") {
-
-          element.type = "date"
-      }
-
-      if (["id_plankareNo", 'id_noResult', 'id_secondaryNo'].includes(element.id)) {
-
-          element.disabled = true
-      }
-
-      element.classList.add('form-control')
-      element.classList.add('mb-3')
-  })
-
+   // trigger
+   updateClasses('#submit-buluntu')
 
   // plankare starts
   const plankareX = document.getElementById('id_plankareX')
@@ -57,14 +63,16 @@ window.onload = function() {
           // reset
           if (option == "küçük buluntu") {
 
-              kucukBuluntuNo.disabled = false
+              kucukBuluntuNo.removeAttribute('readonly')
               flag = "/"
               
               if (!buluntuNo.value) { buluntuNo.focus()}
               else if (!kucukBuluntuNo.value) {kucukBuluntuNo.focus()}
 
           } else {
-              kucukBuluntuNo.disabled = true
+              // sıfırla
+              kucukBuluntuNo.value = ""
+              kucukBuluntuNo.setAttribute('readonly', 'true')
               flag = ""
           } 
           
@@ -149,17 +157,35 @@ window.onload = function() {
  
 
 // dropdown change
-document.getElementById('id_buluntuForms').addEventListener('change', function () {
+document.getElementById('id_buluntuForms').addEventListener('change', async function () {
     // Seçilen seçeneği al
     let selectedOption = this.value;
+    
+    const api = await fetch(`http://127.0.0.1:8000/buluntu/forms/${selectedOption}`)
+    const api_response = await api.text()
+
+    console.log("TEST APİ:", api_response)
 
     if (selectedOption) {
-        const heading = document.getElementById(`target-buluntu-${selectedOption}`)
+        const modalId = "#buluntu-modal";
+
+        const targetContainer = document.getElementById('ek-modal')
+        targetContainer.innerHTML = api_response;
+
+        const heading = document.getElementById(`target-buluntu`)
         heading.innerText += ` (${buluntuNoSonuc.value})`
-        const modalId = '#buluntu-' + selectedOption;
+
+        updateClasses("ek-modal")
+
         const modal = new bootstrap.Modal(document.querySelector(modalId));
         modal.show();
+
+
     }
 });
+
+
+
+
 
 }

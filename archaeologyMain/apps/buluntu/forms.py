@@ -6,29 +6,8 @@ class GeneralBuluntuForm(forms.ModelForm):
     class Meta:
         model = SetGeneralBuluntu
         fields = "__all__"
-        exclude = ["user"]
+        exclude = ["processedBy"]
 
-"""
-class ToprakForm(forms.ModelForm):
-
-    class Meta:
-        model = Toprak
-        fields = "__all__"
-
-
-class C14Form(forms.ModelForm):
-
-    class Meta:
-        model = C14
-        fields = "__all__"
-
-
-class PismikToprakForm(forms.ModelForm):
-        class Meta:
-            model = PismisToprak
-            fields = "__all__"
-
-"""
 
 
 class ToprakForm(forms.ModelForm):

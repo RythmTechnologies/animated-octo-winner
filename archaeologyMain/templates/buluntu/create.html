@@ -42,9 +42,10 @@
 
     {% endif %}
 
-   
-    {% include "./Components/BuluntuModal.html" %}
-    <form action="{% url 'set-buluntu' %}" method="post" enctype="multipart/form-data">
+  
+    <form id="buluntuForm" action="{% url 'set-buluntu' %}" method="post" enctype="multipart/form-data">
+    
+    <div id="ek-modal"></div>
 
     <div class="card" id="genel-buluntu">
 
@@ -373,8 +374,8 @@
 
 
             <div>
-              <label for="{{form.processedBy.auto_id}}">{{form.processedBy.label}}</label>
-              <input disabled name="{{form.processedBy.auto_id}}" value="{{request.user.username}}">
+              <label for="id_processedBy">Veri Giren</label>
+              <input type="text" readonly name="id_processedBy" value="{{request.user.username}}">
            </div>
 
            <div>
