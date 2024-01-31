@@ -38,7 +38,7 @@
         </div>
         <div
           class="col-lg-2 d-inline-flex d-lg-inline-block align-items-center justify-content-center align-self-end mt-3">
-          
+
           <div class="btn-group" role="group" aria-label="Filtreleme İşlemleri">
             <button id="clearFilter" type="button" class="btn btn-secondary">Temizle</button>
             <button type="submit" class="btn btn-success">Filtrele</button>
@@ -347,12 +347,6 @@
   function disableFormFields(modalId) {
     $(`#${modalId}`).find('input, select, textarea').prop('disabled', true);
   }
-</script>
-<script>
-  flatpickr("#id_rapordate", {
-      dateFormat: "d-m-Y",
-      locale: "tr"
-  });
 </script>
 <script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
 

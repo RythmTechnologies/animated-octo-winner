@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} 
+{% extends "base.html" %} {% load static %}
 
 {% block site-title %}
   Demirbaş Ekle
@@ -173,15 +173,15 @@
       // Form elemanlarını tanımlama
       const piece = document.getElementById("id_piece");
       const unitprice = document.getElementById("id_unitprice");
-      const taxrate = document.getElementById("id_taxrate"); 
+      const taxrate = document.getElementById("id_taxrate");
       const totalprice = document.getElementById("id_totalprice");
-  
+
       // Toplam fiyatı hesaplayan fonksiyon
       function calculateTotal() {
           // Form alanlarından sayısal değerleri al
           const pieceValue = parseInt(piece.value) || 0;
           const unitpriceValue = parseFloat(unitprice.value) || 0;
-          
+
           // Tax rate'i seçilen opsiyondan al ve çarpan olarak kullan
           const taxrateValue = parseFloat(taxrate.options[taxrate.selectedIndex].value) / 100 + 1;
 
@@ -189,23 +189,16 @@
           const result = pieceValue * unitpriceValue * taxrateValue;
           totalprice.value = result.toFixed(2); // Sonucu 2 ondalık basamağa yuvarla
       }
-  
+
       // Event listener'ları ekle
       piece.addEventListener('input', calculateTotal);
       unitprice.addEventListener('input', calculateTotal);
       taxrate.addEventListener('change', calculateTotal);
-  
+
       // İlk yükleme için toplam fiyatı hesapla
-      calculateTotal(); 
+      calculateTotal();
   };
   </script>
   <script src="{% static 'js/tinyhtml.js' %}"></script>
-  <script>
-    flatpickr("#id_dateofaddition", {
-        dateFormat: "d-m-Y",
-        locale: "tr"
-        
-    });
-    </script>
   {% endblock site-content %}
 </div>

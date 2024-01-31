@@ -250,7 +250,7 @@ JAZZMIN_SETTINGS = {
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
 }
 
-DATE_INPUT_FORMATS = ["%d-%m-%Y"]
+DATE_INPUT_FORMATS = ["%Y-%m-%d"]
 USE_L10N = False
 
 WSGI_APPLICATION = "archaeologyMain.wsgi.application"
