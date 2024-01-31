@@ -66,7 +66,7 @@ Demirbaş Listesi
           <div class="btn-group" role="group" aria-label="Filtreleme İşlemleri">
             <button id="clearFilter" type="button" class="btn btn-secondary">Temizle</button>
             <button type="submit" class="btn btn-success">Filtrele</button>
-          </div>  
+          </div>
         </div>
       </div>
     </div>
@@ -517,11 +517,5 @@ Demirbaş Listesi
     $(`#${modalId}`).find('input, select, textarea').prop('disabled', true);
   }
 </script>
-<script>
-  flatpickr("#id_dateofaddition", {
-      dateFormat: "d-m-Y",
-      locale: "tr"
-  });
-  </script>
 <script type="text/javascript" src="{% static 'js/clearFilters.js' %}"></script>
 {% endblock site-content %}

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block site-title %}
-  Evrak Ekle 
+  Evrak Ekle
 {% endblock site-title %}
 
 {% block site-content %}
@@ -110,7 +110,7 @@
       </div>
 
         <div class="card-header mt-3">Evrak Detay</div>
-        
+
         {{ form.detail }}
 
         <div class="card-header mt-3">Evrak Yükleme</div>
@@ -128,12 +128,6 @@
 
 
   </div>
-  <script>
-    flatpickr("#id_docdate", {
-      dateFormat: "d-m-Y",
-      locale: "tr"
-    });
-    </script>
   <script src="{% static '/js/tinyhtml.js' %}"></script>
   <script src="{% static '/js/buluntu.js' %}"></script>
   {% endblock site-content %}
