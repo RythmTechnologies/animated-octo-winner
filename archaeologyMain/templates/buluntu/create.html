@@ -42,11 +42,11 @@
 
     {% endif %}
 
+   
     {% include "./Components/BuluntuModal.html" %}
-
     <form action="{% url 'set-buluntu' %}" method="post" enctype="multipart/form-data">
-      
-    <div class="card">
+
+    <div class="card" id="genel-buluntu">
 
         <div class="card-header">
           Buluntu Kayıt Formu Genel Bilgiler
@@ -118,7 +118,7 @@
             
 
             <div class="col-md-3">
-              <label for="id_type" class="form-label">Buluntu Türü</label>
+              <label for="{{form.type.auto_id}}" class="form-label">Buluntu Türü</label>
               {{form.type}}
             </div>
             

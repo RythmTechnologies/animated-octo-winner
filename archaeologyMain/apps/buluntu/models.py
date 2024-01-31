@@ -223,7 +223,7 @@ class SetGeneralBuluntu(models.Model):
 
 
 
-"""eser, durum, tür"""
+"""eser, durum, tür ve hayvan türü"""
 class Piece(models.Model):
     name = models.CharField(("Eser Adı"), max_length=50)
 
@@ -237,40 +237,178 @@ class Status(models.Model):
         return self.status
     
 
-class Type(models.Model):
+class Tur(models.Model):
     type = models.CharField(("Tür"), max_length=50)
 
     def __str__(self) -> str:
         return self.type
 
+class AnimalType(models.Model):
 
-"""Küçük Buluntu Detay Sayfaları"""
-
-class BaseForm(models.Model):
-   
-   piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
-   status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
-
+     type = models.CharField(("Tür"), max_length=50)
+    
+     def __str__(self) -> str:
+         return self.type
 
 
-class Toprak(BaseForm):
-    # ölçüler
-    amount = models.CharField(("Miktar"), max_length=50)
-    flotasyonBefore = models.CharField(("Flotasyon Öncesi Miktar"), max_length=50)
-    flotasyonAfter = models.CharField(("Flotasyon Sonrası Miktar"), max_length=50)
-    defination = models.TextField(("Tanım"))
+class YapimTeknik(models.Model):
+    type = models.CharField(("Yapım Tekniği"), max_length=50)
 
-class C14(BaseForm):
+    def __str__(self) -> str:
+        return self.type
 
-    AMOUNT_CHOICES = (
+"""Renkler iç astar, dış astar hamur / çekirdek rengi """
 
-        (1, "Analiz Tüpü"),
-        (2, "Plastik Kutu"),
-        (3, "Korunmuş Ahşap Örneği")
-    )
+class DisAstar(models.Model):
 
-    type = models.ForeignKey(Type, verbose_name=("Tür"), on_delete=models.CASCADE)
-    # diğer bilgiler
-    amount = models.CharField(("Miktar"), choices=AMOUNT_CHOICES, max_length=50)
-    defination = models.TextField(("Tanım"))
+    data = models.CharField(("Dış Astar Rengi"), max_length=50)
 
+    def __str__(self):
+        return self.data
+    
+class IcAstar(models.Model):
+
+    data = models.CharField(("İç Astar Rengi"), max_length=50)
+
+    def __str__(self):
+        return self.data
+    
+
+class HamurRenk(models.Model):
+
+    data = models.CharField(("Hamur / Çekirdek Rengi"), max_length=50)
+
+    def __str__(self):
+        return self.data
+
+
+""" Hamur Özellikleri """
+
+class KatkiBoyut(models.Model):
+
+    data = models.CharField(("Katkı Boyutu"), max_length=50)
+    
+    def __str__(self):
+        return self.data
+
+
+class Gozeneklilik(models.Model):
+
+    data = models.CharField(("Gözeneklilik"), max_length=50)
+    
+    def __str__(self):
+        return self.data
+    
+
+class Sertlik(models.Model):
+
+    data = models.CharField(("Sertlik"), max_length=50)
+    
+    def __str__(self):
+        return self.data
+    
+class Firinlama(models.Model):
+
+    data = models.CharField(("Fırınlama"), max_length=50)
+
+    def __str__(self):
+        return self.data
+    
+
+class KatkiTur(models.Model):
+
+    data = models.CharField(("Katkı Türü"), max_length=50)
+
+    def __str__(self):
+        return self.data
+    
+class YuzeyUygulamalari(models.Model):
+
+    data = models.CharField(("Yüzey Uygulamaları"), max_length=50)
+
+    def __str__(self):
+        return self.data
+    
+
+
+"""Bezeme Alanı"""
+
+class Bezeme(models.Model):
+    data = models.CharField(("Bezeme"), max_length=50, default = "")
+
+    def __str__(self):
+        return self.data
+    
+
+class BezemeAlani(models.Model):
+        
+    data = models.CharField(("Bezeme"), max_length=50, default = "")
+
+    def __str__(self):
+        return self.data
+    
+class BezemeTuru(models.Model):
+        
+    data = models.CharField(("Bezeme"), max_length=50, default = "")
+
+    def __str__(self):
+        return self.data
+    
+
+class Test(models.Model):
+        
+        AMOUNT_CHOICES = (
+
+            (1, "Analiz Tüpü"),
+            (2, "Plastik Kutu"),
+            (3, "Korunmuş Ahşap Örneği")
+        )
+             
+        # türler
+        piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
+        status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
+        type = models.ForeignKey(Tur, verbose_name=("Tür"), on_delete=models.CASCADE)
+        animalType = models.ForeignKey(AnimalType, verbose_name=("Hayvan Türü"), on_delete=models.CASCADE, default = "")
+        yapimTeknik = models.ForeignKey(YapimTeknik, verbose_name=("Yapım Tekniği"), on_delete=models.CASCADE, default = "")
+        # choices 
+        c14_choices = models.CharField(("Miktar"), choices=AMOUNT_CHOICES, max_length=50)
+
+        # ölçüler
+        amount = models.CharField(("Miktar"), max_length=50)
+        flotasyonBefore = models.CharField(("Flotasyon Öncesi Miktar"), max_length=50)
+        flotasyonAfter = models.CharField(("Flotasyon Sonrası Miktar"), max_length=50)
+        defination = models.TextField(("Tanım"))
+        
+        width = models.CharField(("Yükseklik"), max_length=50)
+        height = models.CharField(("Genişlik"), max_length=50)
+        length = models.CharField(("Uzunluk"), max_length=50)
+        size = models.CharField(("Kalınlık"), max_length=50)
+        diameter = models.CharField(("Çap"), max_length=50)
+        weight = models.CharField(("Ağırlık"), max_length=50)
+
+        agizCap = models.CharField(("Ağız Çapı"), max_length=50,  default = "")
+        kaideDip = models.CharField(("Kaide Dip Çapı"), max_length=50, default = "")
+        govdeGenislik = models.CharField(("Gövde Genişliği"), max_length=50, default = "")
+        kulpGenislik = models.CharField(("Kulp Genişliği Çapı"), max_length=50, default = "")
+        cidarKalinlik = models.CharField(("Cidar Kalınlığı"), max_length=50, default = "")
+        
+        # renkler
+        disAstar = models.ForeignKey(DisAstar, verbose_name=("Dış Astar Rengi"), on_delete=models.CASCADE)
+        icAstar = models.ForeignKey(IcAstar, verbose_name=("İç Astar Rengi"), on_delete=models.CASCADE)
+        hamurRenk = models.ForeignKey(HamurRenk, verbose_name=("Hamur / Çekirdek Rengi"), on_delete=models.CASCADE)
+       
+        # hamur
+        firinlama = models.ForeignKey(Firinlama, verbose_name=("Fırınlama"), on_delete=models.CASCADE, default = "")
+        katkiTur = models.ForeignKey(KatkiTur, verbose_name=("Katkı Türü"), on_delete=models.CASCADE, default = "")
+        yuzeyUygulamari = models.ForeignKey(YuzeyUygulamalari, verbose_name=("Yüzey Uygulamaları"), on_delete=models.CASCADE, default = "")
+        katki =  models.ForeignKey(KatkiBoyut, verbose_name=("Katkı Boyutu"), on_delete=models.CASCADE)
+        gozeneklik = models.ForeignKey(Gozeneklilik, verbose_name=("Gözeneklilik"), on_delete=models.CASCADE)
+        sertlik = models.ForeignKey(Sertlik, verbose_name=("Sertlik"), on_delete=models.CASCADE)
+
+        # bezeme
+        bezeme = models.ForeignKey(Bezeme, verbose_name=("Bezeme"), on_delete=models.CASCADE, default= "")
+        bezemeAlani = models.ForeignKey(BezemeAlani, verbose_name=("Bezeme Alanı"), on_delete=models.CASCADE, default = "")
+        bezemeTuru = models.ForeignKey(BezemeTuru, verbose_name=("Bezeme Türü"), on_delete=models.CASCADE, default = "")
+
+        # class Meta:
+        #     abstract = True
