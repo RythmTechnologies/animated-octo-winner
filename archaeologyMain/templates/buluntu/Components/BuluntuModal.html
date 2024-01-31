@@ -1,14 +1,15 @@
-{% for id, form in buluntuForms.items %}
-  
-<div class="modal fade" id="buluntu-{{id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="target-buluntu-{{id}}">Genel Bilgiler</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        
-        <div class="modal-body">
+<div class="modal fade" id="buluntu-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="target-buluntu">Genel Bilgiler</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">
+
+      {% for id, form in buluntuForms.items %}
+
 
   
           {% if id == '1' %}
@@ -29,15 +30,25 @@
 
           {% endif %}
           
-          <input type="hidden" name="entryId" value="{{id}}">
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success">Onayla</button>
-        </div>
-      </div>
-    </div>
+        {% endfor %}
+          
+  <input type="hidden" name="entryId" value="{{id}}">
   </div>
 
-  {% endfor %}
+        
+  <div class="modal-footer">
+          <button type="button" class="btn btn-success">Onayla</button>
+  </div>
+      
+
+</div>
+</div>
+  
+</div>
+
+
+
+
+
+
 
