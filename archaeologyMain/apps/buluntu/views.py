@@ -25,8 +25,11 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
    
     
     # test purpose
+    buluntuFormObject["1"] = PismikToprakForm()
+    buluntuFormObject["2"] = KemikForm()
     buluntuFormObject["5"] = C14Form()
     buluntuFormObject["6"] = ToprakForm()
+    buluntuFormObject["7"] = CanakComlekForm()
     
 
     context["form"] = GeneralBuluntuForm
@@ -48,9 +51,7 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
 
         else:
             context["errors"]["buluntuForm"] = buluntuForm.errors
-
-            context["form"] = buluntuForm
-
+            context['form'] = buluntuForm
             return render(request, "buluntu/create.html", context)
 
     elif request.method == "GET":

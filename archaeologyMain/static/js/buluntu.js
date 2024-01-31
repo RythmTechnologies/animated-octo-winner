@@ -26,11 +26,14 @@ window.onload = function() {
   const buluntuNo = document.getElementById('id_no')
   const buluntuNoSonuc = document.getElementById('id_noResult')
   const kucukBuluntuNo = document.getElementById('id_secondaryNo')
-  const buluntuTur = document.getElementById('id_type')
+  const buluntuTur = document.querySelector("#genel-buluntu #id_type")
 
   let flag = "";
 
   const set_value_for_input = function(action) {
+    
+
+
 
       let displayValue = `${plankareX.value} ${plankareY.value}` || "";
 
@@ -41,7 +44,7 @@ window.onload = function() {
 
 
       const option = buluntuTur.value.toLowerCase()
-
+      console.log("OPTİOOOON:", option)
 
       switch(action) {
 
@@ -50,7 +53,7 @@ window.onload = function() {
           plankareNo.value = `${plankareX.value} ${plankareY.value}`
           break;
 
-          case "bulunuTur":
+          case "buluntuTur":
           // reset
           if (option == "küçük buluntu") {
 
@@ -124,10 +127,10 @@ window.onload = function() {
       if (!buluntuNo.value) {kucukBuluntuNo.focus()}
   })
 
-  // buluntu türü dropdown
+  //buluntu türü dropdown
   buluntuTur.addEventListener('change', function (e) {
 
-      set_value_for_input("bulunuTur")
+      set_value_for_input("buluntuTur")
   })
 
 
@@ -151,7 +154,8 @@ document.getElementById('id_buluntuForms').addEventListener('change', function (
     let selectedOption = this.value;
 
     if (selectedOption) {
-
+        const heading = document.getElementById(`target-buluntu-${selectedOption}`)
+        heading.innerText += ` (${buluntuNoSonuc.value})`
         const modalId = '#buluntu-' + selectedOption;
         const modal = new bootstrap.Modal(document.querySelector(modalId));
         modal.show();

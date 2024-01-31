@@ -4,28 +4,32 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Genel Bilgiler</h1>
+          <h1 class="modal-title fs-5" id="target-buluntu-{{id}}">Genel Bilgiler</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         
         <div class="modal-body">
 
-          {% if id == '1' %}
-                {% include './Forms/_pismis_toprak_form.html' with form=form %}
-          {% endif %}
-
-
-          {% if id == '5' %}
-                {% include './Forms/_c14_form.html' with form=form %}
-          {% endif %}
-        
-
-          {% if id == '6' %}
-                {% include './Forms/_toprak_form.html' with form=form %}
-          {% endif %}
-
   
-           
+          {% if id == '1' %}
+
+              {% include './Forms/_pismis_toprak_form.html' with form=form %}
+
+          {% elif id == '5' %}
+
+                 {% include './Forms/_c14_form.html' with form=form %}
+
+          {% elif id == '6' %}
+
+                {% include './Forms/_toprak_form.html' with form=form %}
+
+          {% else %}
+
+            {{form}}
+
+          {% endif %}
+          
+          <input type="hidden" name="entryId" value="{{id}}">
         </div>
 
         <div class="modal-footer">
