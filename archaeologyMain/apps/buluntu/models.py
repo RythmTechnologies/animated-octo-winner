@@ -107,7 +107,7 @@ class BuluntuPeriod(models.Model):
 
 
 class SetColour(models.Model):
-    colorName = models.CharField(("Renk Adı"), max_length=20)
+    colorName = models.CharField(("Renk Adı"), max_length=20, default = "Kırmızı")
     color = ColorField(default="#FF0000", verbose_name="Renk Kodu", unique=True)
 
     def __str__(self) -> str:
@@ -115,6 +115,7 @@ class SetColour(models.Model):
 
 
 """buluntu ekle modeli"""
+
 class SetGeneralBuluntu(models.Model):
 
     class Meta:
@@ -123,21 +124,21 @@ class SetGeneralBuluntu(models.Model):
 
 
     INVENTORY_CHOICES = (
-        (1, "Etutluk"),
-        (2, "Envanterlik"),
-        (3, "Analiz"),
-        (4, "Diğer"),
+        ("1", "Etutluk"),
+        ("2", "Envanterlik"),
+        ("3", "Analiz"),
+        ("4", "Diğer"),
     )
 
     BULUNTU_FORM_CHOICES = (
 
-        (1, "Pişmiş Toprak"),
-        (2, "Kemik"),
-        (3, "Taş"),
-        (4, "Metal"),
-        (5, "C14"),
-        (6, "Toprak Örneği"),
-        (7, "Çanak Çömlek")
+        ("1", "Pişmiş Toprak"),
+        ("2", "Kemik"),
+        ("3", "Taş"),
+        ("4", "Metal"),
+        ("5", "C14"),
+        ("6", "Toprak Örneği"),
+        ("7", "Çanak Çömlek")
     )
 
     storage = "Buluntu/Images"
@@ -146,9 +147,6 @@ class SetGeneralBuluntu(models.Model):
     letter_choices = generate_letters()
     number_choices = generate_numbers()
 
-    user = models.ForeignKey(
-        SiteUser, verbose_name=("Kullanıcı"), on_delete=models.CASCADE
-    )
     year = models.IntegerField(
         ("Yıl Bilgisi"), choices=year_choices, default=current_year
     )
@@ -165,10 +163,10 @@ class SetGeneralBuluntu(models.Model):
 
     no = models.IntegerField(("Buluntu No"))
     noResult = models.CharField(("Buluntu No Sonuç"), max_length=50, null=True)
-    secondaryNo = models.IntegerField(("Küçük Buluntu No"))
+    secondaryNo = models.CharField(("Küçük Buluntu No"), default = "")
 
     type = models.ForeignKey(
-        BuluntuTypes, to_field="buluntu", verbose_name=("Tür"), on_delete=models.CASCADE
+        BuluntuTypes, to_field="buluntu", verbose_name=("Buluntu Türü"), on_delete=models.CASCADE
     )
 
     nivo = models.CharField(("Açılış Nivosu"), max_length=50)
@@ -214,12 +212,12 @@ class SetGeneralBuluntu(models.Model):
     # küçük buluntu
     buluntuForms = models.CharField(("Küçük Buluntu Formu"), max_length=50, choices=BULUNTU_FORM_CHOICES)
     filledBy = models.CharField(("Formu Dolduran"), max_length=50)
-    processedBy = models.CharField(("Veri Giren"), max_length=50)
+    processedBy = models.ForeignKey(SiteUser, verbose_name=("Veri Giren"), on_delete=models.CASCADE)
     
 
 
     def __str__(self) -> str:
-        return str(self.no)
+        return f"{self.type} - {self.noResult}"
 
 
 
@@ -245,7 +243,7 @@ class Tur(models.Model):
 
 class AnimalType(models.Model):
 
-     type = models.CharField(("Tür"), max_length=50)
+     type = models.CharField(("Hayvan Türü"), max_length=50)
     
      def __str__(self) -> str:
          return self.type
@@ -342,14 +340,14 @@ class Bezeme(models.Model):
 
 class BezemeAlani(models.Model):
         
-    data = models.CharField(("Bezeme"), max_length=50, default = "")
+    data = models.CharField(("Bezeme Alanı"), max_length=50, default = "")
 
     def __str__(self):
         return self.data
     
 class BezemeTuru(models.Model):
         
-    data = models.CharField(("Bezeme"), max_length=50, default = "")
+    data = models.CharField(("Bezeme Türü"), max_length=50, default = "")
 
     def __str__(self):
         return self.data
@@ -359,9 +357,9 @@ class Test(models.Model):
         
         AMOUNT_CHOICES = (
 
-            (1, "Analiz Tüpü"),
-            (2, "Plastik Kutu"),
-            (3, "Korunmuş Ahşap Örneği")
+            ('1', "Analiz Tüpü"),
+            ('2', "Plastik Kutu"),
+            ('3', "Korunmuş Ahşap Örneği")
         )
              
         # türler
