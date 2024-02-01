@@ -1,30 +1,11 @@
-import os
-
 from tinymce.models import HTMLField
-from dotenv import load_dotenv
 from django.db import models
 from apps.specuser.models import *
 from apps.logger.models import LoggableMixin
+from apps.main.mixin import TimeBasedStampModel
 
-load_dotenv()
 
-from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
-
-permission =  GoogleDriveFilePermission(
-   GoogleDrivePermissionRole.READER,
-   GoogleDrivePermissionType.USER,
-   os.getenv("EMAIL")
-)
-
-public_permission = GoogleDriveFilePermission(
-    GoogleDrivePermissionRole.READER,
-    GoogleDrivePermissionType.ANYONE,
-    None
-)
-
-drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
-
-class DocumentCreateModel(LoggableMixin,models.Model):
+class DocumentCreateModel(LoggableMixin,TimeBasedStampModel):
     incomingdoc = models.BooleanField(("Gelen Evrak"), default=False)
     outgoingdoc = models.BooleanField(("Giden Evrak"), default=False)
     amount = models.BooleanField(("Tutanak"), default=False)
@@ -40,7 +21,7 @@ class DocumentCreateModel(LoggableMixin,models.Model):
     user = models.ForeignKey(
         SiteUser, verbose_name=("Formu Dolduran"), on_delete=models.CASCADE
     )
-    file = models.FileField(("Evrak Yükleme"), upload_to="document", storage=drive_storage, max_length=100)
+    file = models.FileField(("Evrak Yükleme"), upload_to="document", max_length=100)
     detail = HTMLField(("Evrak Detay"))
 
 
@@ -51,12 +32,12 @@ class DocumentCreateModel(LoggableMixin,models.Model):
 
     def delete(self, *args, **kwargs):
         self.delete_with_log(*args, **kwargs)
-        
+
     def __name__(self) ->str:
-        return "Döküman" 
+        return "Döküman"
 
     def __str__(self) -> str:
         return self.docsubject
-    
-    
-    
+
+
+

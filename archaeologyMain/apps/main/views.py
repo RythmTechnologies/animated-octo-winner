@@ -1,16 +1,9 @@
 from django.shortcuts import render, redirect
-
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from apps.logger.models import LogEntry
 from django.contrib.auth.decorators import login_required
-
-
-# For TypeHint
-import typing as t
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-
-RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
+from .mixin import HttpRequest, RedirectOrResponse, HttpResponse
 
 # Homepage Start
 def get_index(request: HttpRequest) -> RedirectOrResponse:

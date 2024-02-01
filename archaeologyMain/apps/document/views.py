@@ -1,16 +1,12 @@
-# For TypeHint
-import typing as t
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
+from apps.main.mixin import HttpRequest, HttpResponseRedirect
 from .filters import DocumentFilter
 from .forms import *
 from .models import *
 
-RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
 
 
 # Document Start

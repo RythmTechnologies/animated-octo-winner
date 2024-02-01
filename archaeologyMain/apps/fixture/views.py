@@ -8,12 +8,7 @@ from .models import Fixture
 from .filters import FixtureFilter
 from .forms import FixtureForm
 from apps.specuser.models import SiteUser
-
-# For TypeHint
-import typing as t
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-
-RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
+from apps.main.mixin import HttpRequest, HttpResponse,HttpResponseRedirect
 
 
 # Demirbas Add Start
@@ -62,11 +57,11 @@ def fixture_list(request: HttpRequest) -> HttpResponse:
 def delete_fixture(request: HttpRequest, id: int) -> HttpResponseRedirect:
     fixture = Fixture.objects.filter(id = id).first()
     if request.user.is_authenticated and request.user.is_superuser or request.user.isModerator:
-        
+
         fixture.delete_with_log(user=request.user)
 
         messages.success(request,f'Demirbaşınız silindi')
-        
+
         return redirect("fixture-liste")
     else:
         messages.error(request, "Lütfen Giriş Yapınız")
@@ -80,7 +75,7 @@ def update_fixture(request: HttpRequest, id: int) -> HttpResponseRedirect:
         form = FixtureForm(request.POST,request.FILES, instance=fixture)
         if form.is_valid():
             updated_fixture = form.save(commit=False)
-            updated_fixture.save(user=request.user) 
+            updated_fixture.save(user=request.user)
             return redirect("fixture-liste")
         else:
             messages.error(request, "Lütfen Formu Doğru Giriniz")

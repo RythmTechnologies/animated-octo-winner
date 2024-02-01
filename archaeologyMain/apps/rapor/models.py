@@ -1,7 +1,3 @@
-import os
-
-from dotenv import load_dotenv
-
 from tinymce.models import HTMLField
 
 from apps.logger.models import LoggableMixin
@@ -10,33 +6,17 @@ from django.db import models
 
 from apps.specuser.models import *
 
-load_dotenv()
-
-from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
-
-permission =  GoogleDriveFilePermission(
-   GoogleDrivePermissionRole.READER,
-   GoogleDrivePermissionType.USER,
-   os.getenv("EMAIL")
-)
-
-public_permission = GoogleDriveFilePermission(
-    GoogleDrivePermissionRole.READER,
-    GoogleDrivePermissionType.ANYONE,
-    None
-)
-
-drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
+from apps.main.mixin import TimeBasedStampModel
 
 
-class BuluntuYeri(models.Model):
+class BuluntuYeri(TimeBasedStampModel):
     name = models.CharField(("Buluntu Yeri"), max_length=150)
 
     def __str__(self) -> str:
         return self.name
 
 
-class AcmaRapor(LoggableMixin, models.Model):
+class AcmaRapor(LoggableMixin, TimeBasedStampModel):
     RAPOR_CHOICES = (
         ("daily", "Günlük"),
         ("weekly", "Haftalık"),
@@ -57,7 +37,7 @@ class AcmaRapor(LoggableMixin, models.Model):
     title = models.CharField("Başlık", max_length=150)
     owner = models.CharField("Formu Dolduran", max_length=150)
     rapordetail = HTMLField("Rapor Detay")
-    file = models.FileField("Evrak Yükleme", upload_to="raporfiles",storage=drive_storage,max_length=100)
+    file = models.FileField("Evrak Yükleme", upload_to="raporfiles",max_length=100)
 
 
     def save(self, *args, **kwargs):
@@ -66,9 +46,9 @@ class AcmaRapor(LoggableMixin, models.Model):
 
     def delete(self, *args, **kwargs):
         self.delete_with_log(*args, **kwargs)
-        
+
     def __name__(self) ->str:
-        return "Rapor" 
+        return "Rapor"
 
     def __str__(self) -> str:
         return self.title

@@ -1,29 +1,12 @@
 import datetime
-import os
 import string
 
 from apps.specuser.models import SiteUser
 from colorfield.fields import ColorField
 from django.db import models
-from dotenv import load_dotenv
 
-load_dotenv()
 
-from gdstorage.storage import (GoogleDriveFilePermission,GoogleDrivePermissionRole,GoogleDrivePermissionType, GoogleDriveStorage)
 
-permission =  GoogleDriveFilePermission(
-   GoogleDrivePermissionRole.READER,
-   GoogleDrivePermissionType.USER,
-   os.getenv("EMAIL")
-)
-
-public_permission = GoogleDriveFilePermission(
-    GoogleDrivePermissionRole.READER,
-    GoogleDrivePermissionType.ANYONE,
-    None
-)
-
-drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
 """
 Aşağıdaki modeller buluntu kayıt form genel bilgiler'i kapsar
 """
@@ -193,7 +176,7 @@ class SetGeneralBuluntu(models.Model):
     phase = models.CharField(("Evre"), max_length=50)
     period = models.ForeignKey(
         BuluntuPeriod, verbose_name=("Dönem"), on_delete=models.CASCADE)
-    
+
 
     # genel tanımlamar
     definition = models.TextField(("Tanım"))
@@ -204,16 +187,16 @@ class SetGeneralBuluntu(models.Model):
     inventories = models.CharField(("Etutluk / Envanter"), max_length=50, choices=INVENTORY_CHOICES)
 
     # görseller
-    eskiz = models.ImageField(("Eskiz"), upload_to=storage, storage=drive_storage, blank=True)
-    picture = models.ImageField(("Fotoğraf"), upload_to=storage, storage=drive_storage, blank=True)
-    draw = models.ImageField(("Çizim"), upload_to=storage, storage=drive_storage, blank=True)
-    orto = models.ImageField(("OrtoFoto"), upload_to=storage, storage=drive_storage, blank=True)
+    eskiz = models.ImageField(("Eskiz"), upload_to=storage, blank=True)
+    picture = models.ImageField(("Fotoğraf"), upload_to=storage, blank=True)
+    draw = models.ImageField(("Çizim"), upload_to=storage, blank=True)
+    orto = models.ImageField(("OrtoFoto"), upload_to=storage, blank=True)
 
     # küçük buluntu
     buluntuForms = models.CharField(("Küçük Buluntu Formu"), max_length=50, choices=BULUNTU_FORM_CHOICES)
     filledBy = models.CharField(("Formu Dolduran"), max_length=50)
     processedBy = models.ForeignKey(SiteUser, verbose_name=("Veri Giren"), on_delete=models.CASCADE)
-    
+
 
 
     def __str__(self) -> str:
@@ -227,13 +210,13 @@ class Piece(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
+
 class Status(models.Model):
     status = models.CharField(("Durum"), max_length=50)
 
     def __str__(self) -> str:
         return self.status
-    
+
 
 class Tur(models.Model):
     type = models.CharField(("Tür"), max_length=50)
@@ -244,7 +227,7 @@ class Tur(models.Model):
 class AnimalType(models.Model):
 
      type = models.CharField(("Hayvan Türü"), max_length=50)
-    
+
      def __str__(self) -> str:
          return self.type
 
@@ -263,14 +246,14 @@ class DisAstar(models.Model):
 
     def __str__(self):
         return self.data
-    
+
 class IcAstar(models.Model):
 
     data = models.CharField(("İç Astar Rengi"), max_length=50)
 
     def __str__(self):
         return self.data
-    
+
 
 class HamurRenk(models.Model):
 
@@ -285,7 +268,7 @@ class HamurRenk(models.Model):
 class KatkiBoyut(models.Model):
 
     data = models.CharField(("Katkı Boyutu"), max_length=50)
-    
+
     def __str__(self):
         return self.data
 
@@ -293,25 +276,25 @@ class KatkiBoyut(models.Model):
 class Gozeneklilik(models.Model):
 
     data = models.CharField(("Gözeneklilik"), max_length=50)
-    
+
     def __str__(self):
         return self.data
-    
+
 
 class Sertlik(models.Model):
 
     data = models.CharField(("Sertlik"), max_length=50)
-    
+
     def __str__(self):
         return self.data
-    
+
 class Firinlama(models.Model):
 
     data = models.CharField(("Fırınlama"), max_length=50)
 
     def __str__(self):
         return self.data
-    
+
 
 class KatkiTur(models.Model):
 
@@ -319,14 +302,14 @@ class KatkiTur(models.Model):
 
     def __str__(self):
         return self.data
-    
+
 class YuzeyUygulamalari(models.Model):
 
     data = models.CharField(("Yüzey Uygulamaları"), max_length=50)
 
     def __str__(self):
         return self.data
-    
+
 
 
 """Bezeme Alanı"""
@@ -336,39 +319,39 @@ class Bezeme(models.Model):
 
     def __str__(self):
         return self.data
-    
+
 
 class BezemeAlani(models.Model):
-        
+
     data = models.CharField(("Bezeme Alanı"), max_length=50, default = "")
 
     def __str__(self):
         return self.data
-    
+
 class BezemeTuru(models.Model):
-        
+
     data = models.CharField(("Bezeme Türü"), max_length=50, default = "")
 
     def __str__(self):
         return self.data
-    
+
 
 class Test(models.Model):
-        
+
         AMOUNT_CHOICES = (
 
             ('1', "Analiz Tüpü"),
             ('2', "Plastik Kutu"),
             ('3', "Korunmuş Ahşap Örneği")
         )
-             
+
         # türler
         piece = models.ForeignKey(Piece, verbose_name=("Eser Adı"), on_delete=models.CASCADE)
         status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE)
         type = models.ForeignKey(Tur, verbose_name=("Tür"), on_delete=models.CASCADE)
         animalType = models.ForeignKey(AnimalType, verbose_name=("Hayvan Türü"), on_delete=models.CASCADE, default = "")
         yapimTeknik = models.ForeignKey(YapimTeknik, verbose_name=("Yapım Tekniği"), on_delete=models.CASCADE, default = "")
-        # choices 
+        # choices
         c14_choices = models.CharField(("Miktar"), choices=AMOUNT_CHOICES, max_length=50)
 
         # ölçüler
@@ -376,7 +359,7 @@ class Test(models.Model):
         flotasyonBefore = models.CharField(("Flotasyon Öncesi Miktar"), max_length=50)
         flotasyonAfter = models.CharField(("Flotasyon Sonrası Miktar"), max_length=50)
         defination = models.TextField(("Tanım"))
-        
+
         width = models.CharField(("Yükseklik"), max_length=50)
         height = models.CharField(("Genişlik"), max_length=50)
         length = models.CharField(("Uzunluk"), max_length=50)
@@ -389,12 +372,12 @@ class Test(models.Model):
         govdeGenislik = models.CharField(("Gövde Genişliği"), max_length=50, default = "")
         kulpGenislik = models.CharField(("Kulp Genişliği Çapı"), max_length=50, default = "")
         cidarKalinlik = models.CharField(("Cidar Kalınlığı"), max_length=50, default = "")
-        
+
         # renkler
         disAstar = models.ForeignKey(DisAstar, verbose_name=("Dış Astar Rengi"), on_delete=models.CASCADE)
         icAstar = models.ForeignKey(IcAstar, verbose_name=("İç Astar Rengi"), on_delete=models.CASCADE)
         hamurRenk = models.ForeignKey(HamurRenk, verbose_name=("Hamur / Çekirdek Rengi"), on_delete=models.CASCADE)
-       
+
         # hamur
         firinlama = models.ForeignKey(Firinlama, verbose_name=("Fırınlama"), on_delete=models.CASCADE, default = "")
         katkiTur = models.ForeignKey(KatkiTur, verbose_name=("Katkı Türü"), on_delete=models.CASCADE, default = "")
