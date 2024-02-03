@@ -1,37 +1,18 @@
-import os
-
-from dotenv import load_dotenv
 from apps.logger.models import LoggableMixin
 from tinymce.models import HTMLField
 
 from django.db import models
 from apps.specuser.models import *
+from apps.main.mixin import TimeBasedStampModel
 
-load_dotenv()
-
-from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, GoogleDriveFilePermission
-
-permission =  GoogleDriveFilePermission(
-   GoogleDrivePermissionRole.READER,
-   GoogleDrivePermissionType.USER,
-   os.getenv("EMAIL")
-)
-
-public_permission = GoogleDriveFilePermission(
-    GoogleDrivePermissionRole.READER,
-    GoogleDrivePermissionType.ANYONE,
-    None
-)
-
-drive_storage = GoogleDriveStorage(permissions=(permission, public_permission, ))
-class FixtureGainType(models.Model):
+class FixtureGainType(TimeBasedStampModel):
     input = models.CharField(("Alış Type"), max_length=50)
 
     def __str__(self) -> str:
         return self.input
 
 
-class CustomTaxRate(models.Model):
+class CustomTaxRate(TimeBasedStampModel):
     name = models.CharField(("Verginin Adı"), max_length=50)
     rate = models.DecimalField(("Vergi Oranı (%)"), max_digits=6, decimal_places=2, unique = True)
 
@@ -39,7 +20,7 @@ class CustomTaxRate(models.Model):
         return self.name
 
 
-class Fixture(LoggableMixin,models.Model):
+class Fixture(LoggableMixin, TimeBasedStampModel):
     user = models.ForeignKey(
         SiteUser, verbose_name=("Kullanıcı"), on_delete=models.CASCADE
     )
@@ -65,7 +46,7 @@ class Fixture(LoggableMixin,models.Model):
     companyEmail = models.EmailField(("Firma E-Mail"), max_length=254)
     companyAddress = HTMLField(("Firma Adresi"))
     fixtureFile = models.FileField(
-        ("Demirbaş Alım Belgesi"), upload_to="fixture",storage=drive_storage, max_length=100
+        ("Demirbaş Alım Belgesi"), upload_to="fixture", max_length=100
     )
     fixtureDescription = HTMLField(("Demirbaş Açıklama"), max_length=900)
 

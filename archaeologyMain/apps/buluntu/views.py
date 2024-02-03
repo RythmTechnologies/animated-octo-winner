@@ -8,11 +8,8 @@ from .models import *
 
 from apps.specuser.models import *
 
-# For TypeHint
-import typing as t
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-
-RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
+# Mixin
+from apps.main.mixin import HttpRequest, HttpResponse
 
 
 # add buluntu starts
@@ -22,11 +19,11 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
     context = {}
 
     buluntuFormObject = {}
-   
+
 
     context["form"] = GeneralBuluntuForm
     context['buluntuForms'] = buluntuFormObject
-    
+
     if request.method == "POST":
         print("POST OBJECT:", request.POST)
 
@@ -37,7 +34,7 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
         context["errors"] = {}
 
         if buluntuForm.is_valid():
-            
+
             buluntuForm = buluntuForm.save(commit=False)
             buluntuForm.processedBy = request.user
             buluntuForm.save()
@@ -72,7 +69,7 @@ def get_buluntu_form(request: HttpRequest, id: int) -> HttpResponse:
            buluntuFormObject["7"] = CanakComlekForm()
 
     context['buluntuForms'] = buluntuFormObject
-    
+
 
 
     return render(request, 'buluntu/Components/BuluntuModal.html', context)

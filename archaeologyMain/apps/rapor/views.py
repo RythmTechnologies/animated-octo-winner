@@ -3,14 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator
-
-
-# For TypeHint
-import typing as t
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-
-RedirectOrResponse = t.Union[HttpResponseRedirect, HttpResponse]
-
+from apps.main.mixin import HttpRequest, HttpResponse,HttpResponseRedirect
 from .forms import AcmaRaporForm
 from .filters import RaporAcmaFilter
 from .models import *

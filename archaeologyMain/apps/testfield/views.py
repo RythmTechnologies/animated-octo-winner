@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import DynamicForm
+from apps.main.mixin import HttpRequest, RedirectOrResponse
 
 
-def custom_form_view(request):
+def custom_form_view(request: HttpRequest) -> RedirectOrResponse:
     form = DynamicForm()
     if request.method == "POST":
         form = DynamicForm(request.POST)
