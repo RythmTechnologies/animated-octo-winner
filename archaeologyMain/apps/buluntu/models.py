@@ -354,6 +354,11 @@ class Formlar(models.Model):
 
      name = models.CharField(("Form Adı"), max_length=50)
 
+
+     def __str__(self):
+         return self.name
+     
+
 class RelatedField(models.Model):
 
     fieldName = models.CharField(("Alan Adı"), max_length=50)
