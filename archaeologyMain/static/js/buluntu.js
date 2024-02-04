@@ -50,7 +50,6 @@ window.onload = function() {
 
 
       const option = buluntuTur.value.toLowerCase()
-      console.log("OPTİOOOON:", option)
 
       switch(action) {
 
@@ -149,6 +148,7 @@ window.onload = function() {
    const colorDropdown = document.getElementById('id_colour')
    const colorPreview = document.getElementById('id_palet')  
 
+   colorPreview.setAttribute('disabled', 'true')
    colorDropdown.onchange = function(event) {
 
           colorPreview.value = event.target.value;
