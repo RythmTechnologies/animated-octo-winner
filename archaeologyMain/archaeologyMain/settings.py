@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "gdstorage",
     "apps.specuser",
     "apps.buluntu",
     "apps.document",
