@@ -144,7 +144,7 @@ class SetGeneralBuluntu(models.Model):
 
     no = models.IntegerField(("Buluntu No"))
     noResult = models.CharField(("Buluntu No Sonuç"), max_length=50, null=True)
-    secondaryNo = models.CharField(("Küçük Buluntu No"), default = "")
+    secondaryNo = models.CharField(("Küçük Buluntu No"), default = "", max_length=150)
 
     type = models.ForeignKey(
         BuluntuTypes, to_field="buluntu", verbose_name=("Buluntu Türü"), on_delete=models.CASCADE
@@ -338,7 +338,7 @@ class BezemeTuru(models.Model):
 class Miktar(models.Model):
 
     data = models.CharField(("Miktar"), max_length=50)
-    
+
     def __str__(self):
         return self.data
 
@@ -347,7 +347,7 @@ class Miktar(models.Model):
 
 
 class Formlar(models.Model):
-     
+
      class Meta:
         verbose_name = "Buluntu Form"
         verbose_name_plural = "Buluntu Formu"
@@ -357,7 +357,7 @@ class Formlar(models.Model):
 
      def __str__(self):
          return self.name
-     
+
 
 class RelatedField(models.Model):
 

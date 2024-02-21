@@ -2,7 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
-from apps.main.mixin import HttpRequest, HttpResponseRedirect
+from apps.main.mixin import HttpRequest, HttpResponseRedirect, HttpResponse
+from django.template.loader import render_to_string
+from xhtml2pdf import pisa
+from io import BytesIO
 from .filters import DocumentFilter
 from .forms import *
 from .models import *
@@ -77,3 +80,27 @@ def update_document(request: HttpRequest, id : int) -> HttpResponseRedirect:
             messages.error(request, "Lütfen Formu Doğru Giriniz!")
             return redirect("document-liste")
 # Document End
+
+# Print PDF Start
+@login_required(login_url="homepage")
+def print_document(request: HttpRequest, id: int) -> HttpResponseRedirect:
+    document = DocumentCreateModel.objects.filter(id=id).first()
+
+    context = {
+        'document': document,
+    }
+
+    html_string = render_to_string('document/print.html', context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{document.id}.pdf"'
+
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html_string.encode("UTF-8")), result)
+
+    if not pdf.err:
+        response.write(result.getvalue())
+        return response
+    else:
+        return HttpResponse("PDF oluşturulurken bir hata oluştu.")
+# Print PDF End
