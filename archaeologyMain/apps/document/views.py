@@ -4,8 +4,7 @@ from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from apps.main.mixin import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.template.loader import render_to_string
-from xhtml2pdf import pisa
-from io import BytesIO
+from weasyprint import HTML
 from .filters import DocumentFilter
 from .forms import *
 from .models import *
@@ -86,21 +85,15 @@ def update_document(request: HttpRequest, id : int) -> HttpResponseRedirect:
 def print_document(request: HttpRequest, id: int) -> HttpResponseRedirect:
     document = DocumentCreateModel.objects.filter(id=id).first()
 
-    context = {
-        'document': document,
-    }
+    html_string = render_to_string('document/print.html', {'document': document})
 
-    html_string = render_to_string('document/print.html', context)
+    html = HTML(string=html_string)
+    pdf = html.write_pdf()
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{document.id}.pdf"'
+    # PDF dosyasını HTTP response olarak döndür
+    response = HttpResponse(pdf, content_type='application/pdf')
+    
+    response['Content-Disposition'] = f'attachment; filename="evrak_{document.id}.pdf"'
 
-    result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html_string.encode("UTF-8")), result)
-
-    if not pdf.err:
-        response.write(result.getvalue())
-        return response
-    else:
-        return HttpResponse("PDF oluşturulurken bir hata oluştu.")
+    return response
 # Print PDF End
