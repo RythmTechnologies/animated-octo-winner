@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Evrak Detayları</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: .25rem;
+        }
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0,0,0,.03);
+            border-bottom: 1px solid rgba(0,0,0,.125);
+            text-align: center;
+        }
+        .card-body {
+            flex: 1 1 auto;
+            padding: 1.25rem;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .col-md-6 {
+            flex: 0 0 auto;
+            width: 50%;
+        }
+        .col-12 {
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        .form-label {
+            display: inline-block;
+            margin-bottom: .5rem;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .form-control[readonly] {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            background-color: transparent;
+        }
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header text-center">
+                Evrak Detayları
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Evrak No:</label>
+                        <div class="form-control" readonly>{{ document.docno }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Evrak Tarihi:</label>
+                        <div class="form-control" readonly>{{ document.docdate|date:"d.m.Y" }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Evrak Sayısı:</label>
+                        <div class="form-control" readonly>{{ document.doccount }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">İlgili Birim:</label>
+                        <div class="form-control" readonly>{{ document.relevantunit }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">İlgili Kurum:</label>
+                        <div class="form-control" readonly>{{ document.relevantinstitution }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Formu Dolduran:</label>
+                        <div class="form-control" readonly>{{ document.user.username }}</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Evrak Konusu:</label>
+                        <div class="form-control" readonly>{{ document.docsubject }}</div>
+                    </div>
+                    <div class="col-12 document-detail">
+                        <label class="form-label">Evrak Detay:</label>
+                        <div>{{ document.detail|safe }}</div>
+                    </div>
+                    <div class="col-12 document-file">
+                        <label class="form-label">Evrak Dosyası:</label>
+                        <div><a href="{{ document.file.url }}" target="_blank">Dosyayı Görüntüle</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

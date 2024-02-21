@@ -83,8 +83,11 @@ Evrak Listesi
                 <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#updateModal{{ document.id }}">
                   <i id="modal_open" class="fa-solid fa-pencil"></i>
                 </a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal{{ document.id }}">
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#viewModal{{ document.id }}">
                   <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#printalert{{ document.id }}">
+                  <i class="fa-solid fa-file-pdf"></i>
                 </a>
               </div>
             </td>
@@ -132,6 +135,29 @@ Evrak Listesi
   </div>
   <!-- Modals for each report -->
   {% for document in documents %}
+   <!-- Print Modal Start -->
+   <div class="modal fade" id="printalert{{ document.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="exampleModalLabel">
+           PDF Aktarmak İstediğinizden Emin Misiniz?
+         </h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-footer justify-content-center">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+           Vazgeç
+         </button>
+         <a href="{% url 'download-document' document.id %}"><button type="button"
+             class="btn btn-danger">Aktar</button></a>
+       </div>
+     </div>
+   </div>
+ </div>
+ <!-- Print Modal End -->
+
   <!-- Modal Delete -->
   <div class="modal fade" id="deletealert{{ document.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
