@@ -191,7 +191,7 @@ class SetGeneralBuluntu(models.Model):
     orto = models.ImageField(("OrtoFoto"), upload_to=storage, blank=True)
 
     # küçük buluntu
-    buluntuForms = models.CharField(("Küçük Buluntu Formu"), max_length=50, choices=BULUNTU_FORM_CHOICES)
+    buluntuForms = models.ForeignKey("buluntuForm.Formlar", verbose_name=("Küçük Buluntu"), default="1", on_delete=models.CASCADE)
     filledBy = models.CharField(("Formu Dolduran"), max_length=50)
     processedBy = models.ForeignKey(SiteUser, verbose_name=("Veri Giren"), on_delete=models.CASCADE)
 
@@ -342,22 +342,27 @@ class Miktar(models.Model):
     def __str__(self):
         return self.data
 
+# Diğer
+class Cinsi(models.Model):
+    data = models.CharField(("Cinsi"), max_length=50)
 
-"""Küçük Buluntu Modelleri"""
+
+class Hammade(models.Model):
+    data = models.CharField(("Ham Madde"), max_length=50)
 
 
-class Formlar(models.Model):
+class YongalamaUrunu(models.Model):
+    data = models.CharField(("Yongalama Ürünü"), max_length=50)
+
+"""Küçük Buluntu Modelleri (Deneysel)"""
      
-     class Meta:
-        verbose_name = "Buluntu Form"
-        verbose_name_plural = "Buluntu Formu"
+"""
+class RelatedGenelField(models.Model):
 
-     name = models.CharField(("Form Adı"), max_length=50)
-
-
-     def __str__(self):
-         return self.name
-     
+      piece = models.ForeignKey(Piece, verbose_name=("Eser"), on_delete=models.CASCADE, null = True)
+      status = models.ForeignKey(Status, verbose_name=("Durum"), on_delete=models.CASCADE, null = True)
+      animalType = models.ForeignKey(AnimalType, verbose_name=("Hayvan Türü"), on_delete=models.CASCADE, null = True)
+      form = models.ForeignKey(Formlar, on_delete=models.CASCADE, related_name='related_general')
 
 class RelatedField(models.Model):
 
@@ -366,7 +371,9 @@ class RelatedField(models.Model):
     # Diğer alanlar
     form = models.ForeignKey(Formlar, on_delete=models.CASCADE, related_name='related_fields')
 
-
+    def __str__(self) -> str:
+        return self.fieldName
+    
 class RelatedDropDown(models.Model):
 
     data = models.ForeignKey(Miktar, verbose_name=("Miktar"), on_delete=models.CASCADE, blank=True)
@@ -375,22 +382,33 @@ class RelatedDropDown(models.Model):
 
 class RelatedBezemesgKey(models.Model):
 
-    bezeme = models.ForeignKey(Bezeme, on_delete=models.CASCADE, related_name='mtm', blank=True)
-    bezemeAlani = models.ForeignKey(BezemeAlani, on_delete=models.CASCADE, related_name='mtm', blank=True)
-    bezemeTuru = models.ForeignKey(BezemeTuru, on_delete=models.CASCADE, related_name='mtm', blank=True)
-    form = models.ForeignKey(Formlar, on_delete=models.CASCADE)
+    bezeme = models.ForeignKey(Bezeme, on_delete=models.CASCADE, null=True, blank=True)
+    bezemeAlani = models.ForeignKey(BezemeAlani, on_delete=models.CASCADE, null=True, blank=True)
+    bezemeTuru = models.ForeignKey(BezemeTuru, on_delete=models.CASCADE, null=True, blank=True)
+    form = models.ForeignKey(Formlar, on_delete=models.CASCADE, related_name='related_bezemes')
 
-
+    
 
 class RelatedHamurKey(models.Model):
 
-    katkiBoyut = models.ForeignKey(KatkiBoyut, on_delete=models.CASCADE, related_name='hamur_mtm', blank=True)
-    gozeneklilik = models.ForeignKey(Gozeneklilik, on_delete=models.CASCADE, related_name='hamur_mtm', blank=True)
-    sertlik = models.ForeignKey(Sertlik, on_delete=models.CASCADE, related_name='hamur_mtm', blank=True)
-    firinlama = models.ForeignKey(Firinlama, on_delete=models.CASCADE, related_name='hamur_mtm', blank=True)
-    katkiTur = models.ForeignKey(KatkiTur, on_delete=models.CASCADE, related_name='hamur_mtm', blank=True)
-    yuzeyUygulamalari = models.ForeignKey(YuzeyUygulamalari, on_delete=models.CASCADE, related_name='hamur_mtm', blank=True)
-    form = models.ForeignKey(Formlar, on_delete=models.CASCADE)
+    katkiBoyut = models.ForeignKey(KatkiBoyut, on_delete=models.CASCADE, null=True, blank=True)
+    gozeneklilik = models.ForeignKey(Gozeneklilik, on_delete=models.CASCADE, null=True, blank=True)
+    sertlik = models.ForeignKey(Sertlik, on_delete=models.CASCADE, null=True, blank=True)
+    firinlama = models.ForeignKey(Firinlama, on_delete=models.CASCADE, null=True, blank=True)
+    katkiTur = models.ForeignKey(KatkiTur, on_delete=models.CASCADE, null=True, blank=True)
+    yuzeyUygulamalari = models.ForeignKey(YuzeyUygulamalari, on_delete=models.CASCADE, null=True, blank=True)
+    form = models.ForeignKey(Formlar, on_delete=models.CASCADE, related_name="related_hamurs")
+
+
+
+class RelatedRenk(models.Model):
+
+      icAstar = models.ForeignKey(IcAstar, verbose_name=("İç Astar Rengi"), null = True, on_delete=models.CASCADE)
+      disAstar = models.ForeignKey(DisAstar, verbose_name=("Dış Astar Rengi"), null = True, on_delete=models.CASCADE)
+      hamur = models.ForeignKey(HamurRenk, verbose_name=("Hamur / Çekirdek Rengi"), null = True, on_delete=models.CASCADE)
+      form = models.ForeignKey(Formlar, on_delete=models.CASCADE, related_name="related_renks")
+
+
 
 
 
@@ -451,3 +469,4 @@ class Test(models.Model):
 
         # class Meta:
         #     abstract = True
+"""

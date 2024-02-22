@@ -6,6 +6,10 @@ from django.views.decorators.http import require_http_methods
 from .forms import *
 from .models import *
 
+# Küçük buluntu formları
+from apps.buluntuForm.models import Formlar
+
+
 from apps.specuser.models import *
 
 # Mixin
@@ -18,11 +22,8 @@ from apps.main.mixin import HttpRequest, HttpResponse
 def set_buluntu(request: HttpRequest) -> HttpResponse:
     context = {}
 
-    buluntuFormObject = {}
-
-
     context["form"] = GeneralBuluntuForm
-    context['buluntuForms'] = buluntuFormObject
+
 
     if request.method == "POST":
         print("POST OBJECT:", request.POST)
@@ -52,24 +53,47 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
 # ends
 
 
+from apps.buluntuForm.forms import *
+
 @require_http_methods(["GET"])
-def get_buluntu_form(request: HttpRequest, id: int) -> HttpResponse:
-    context = {}
-    buluntuFormObject = {}
+def get_buluntu_form(request: HttpRequest, formId: int) -> HttpResponse:
 
-    if id == '1':
-        buluntuFormObject["1"] = PismikToprakForm()
-    elif id == '2':
-         buluntuFormObject["2"] = KemikForm()
-    elif id == '5':
-        buluntuFormObject["5"] = C14Form()
-    elif id == "6":
-            buluntuFormObject["6"] = ToprakForm()
-    elif id == '7':
-           buluntuFormObject["7"] = CanakComlekForm()
+    data = {}
+    data['form'] = {}
 
-    context['buluntuForms'] = buluntuFormObject
+    print("FORM ID:", formId)
+    # TODO FORMLARA GORE OZEL ALANLARIN GELMESI
+    try:
+
+        kucuk_buluntu = Formlar.objects.get(id = formId)
+        data['buluntu'] = kucuk_buluntu
+
+        form = CombinedForms(kucuk_buluntu)
+        data['buluntuform'] = form
+
+        
+        # related_name chain yapıalcak
+
+    except:
+         
+         data['error'] = {"response": "Böyle bir buluntu mevcut değil."}
+
+
+    return render(request, 'buluntu/Components/BuluntuModal.html', data)
 
 
 
-    return render(request, 'buluntu/Components/BuluntuModal.html', context)
+
+
+@require_http_methods(["GET"])
+def get_buluntu_test(request: HttpRequest) -> HttpResponse:
+     
+     context = {}
+     context["form"] = GeneralBuluntuForm
+
+     x = Formlar.objects.all()
+     context['buluntuForms'] = x
+
+
+     return render(request, 'buluntu/create.html', context)
+     
