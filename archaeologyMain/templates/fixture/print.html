@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demirbaş Detayları</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        .card-body {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        .fixture-detail-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-between">
+            <div class="col-md-3">
+                <img src="{% static 'logo/logo.jpeg' %}" alt="Logo" class="mb-3"> <!-- Logo yolu -->
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+                <p class="fs-3">Tarih:{{ fixture.dateofaddition }}</p>
+               
+            </div>
+        </div>
+        <div class="text-center mb-4">
+            <h1>Demirbaş Detayları</h1>
+        </div>
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Demirbaş Detayları</h2>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Demirbaş Adı:</label>
+                        <p class="form-control bg-light">{{ fixture.name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Marka:</label>
+                        <p class="form-control bg-light">{{ fixture.marka }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Model:</label>
+                        <p class="form-control bg-light">{{ fixture.model }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Adet:</label>
+                        <p class="form-control bg-light">{{ fixture.piece }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Birim Fiyatı:</label>
+                        <p class="form-control bg-light">{{ fixture.unitprice }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Vergi Oranı:</label>
+                        <p class="form-control bg-light">{{ fixture.taxrate }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Toplam Fiyat:</label>
+                        <p class="form-control bg-light">{{ fixture.totalprice }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Alış Şekli:</label>
+                        <p class="form-control bg-light">{{ fixture.typeofaddition }}</p>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Bulunduğu Yer:</label>
+                        <p class="form-control bg-light">{{ fixture.where }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Zimmetli Kişi:</label>
+                        <p class="form-control bg-light">{{ fixture.custodian }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Barkod Numarası:</label>
+                        <p class="form-control bg-light">{{ fixture.barcode }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Firma Adı:</label>
+                        <p class="form-control bg-light">{{ fixture.companyName }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Firma Yetkilisi:</label>
+                        <p class="form-control bg-light">{{ fixture.companyOfficial }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Firma Telefon:</label>
+                        <p class="form-control bg-light">{{ fixture.companyPhone }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Firma E-Mail:</label>
+                        <p class="form-control bg-light">{{ fixture.companyEmail }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Firma Adresi:</label>
+                        <p class="form-control">{{ fixture.companyAddress|safe }}</p>
+                    </div>
+            
+                    <div class="col-md-6">
+                        <label class="fixture-detail-label">Demirbaş Açıklama:</label>
+                        <p class="form-control ">{{ fixture.fixtureDescription|safe }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

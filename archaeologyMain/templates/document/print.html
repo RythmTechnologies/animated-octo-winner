@@ -10,8 +10,17 @@
 <body>
     <div class="container mt-4">
         <!-- Logo ve Başlık -->
+        <div class="row justify-content-between">
+            <div class="col-md-3">
+                <img src="{% static 'logo/logo.jpeg' %}" alt="Logo" class="mb-3"> <!-- Logo yolu -->
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+                <p class="fs-3">Tarih:{{ document.docdate }}</p>
+               
+            </div>
+            
+        </div>
         <div class="text-center mb-4">
-            <img src="{% static 'logo/logo.jpeg' %}" alt="Logo" class="mb-3"> <!-- Logo yolu -->
             <h1>Evrak Detayları</h1>
         </div>
         
@@ -29,10 +38,7 @@
                         <div class="form-control" readonly>{{ document.docno }}</div>
                     </div>
                     <!-- Evrak Tarihi -->
-                    <div class="col-md-6">
-                        <label class="form-label">Evrak Tarihi:</label>
-                        <div class="form-control" readonly>{{ document.docdate|date:"d.m.Y" }}</div>
-                    </div>
+                    
                     <!-- Evrak Sayısı -->
                     <div class="col-md-6">
                         <label class="form-label">Evrak Sayısı:</label>

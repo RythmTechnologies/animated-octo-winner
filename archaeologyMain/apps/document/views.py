@@ -87,6 +87,5 @@ def update_document(request: HttpRequest, id : int) -> HttpResponseRedirect:
 def get_html_content(request,id):
     # Belirli bir document_id için belgeyi al
     document = DocumentCreateModel.objects.get(id=id)
-    
     html_content = render_to_string('document/print.html', {'document': document})
     return HttpResponse(html_content, content_type="text/html")
