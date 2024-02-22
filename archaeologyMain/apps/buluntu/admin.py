@@ -15,6 +15,16 @@ admin.site.register(BuluntuPeriod)
 admin.site.register((Piece, Status, Tur, AnimalType, YapimTeknik, DisAstar, IcAstar, HamurRenk))
 admin.site.register((KatkiBoyut, Gozeneklilik, Sertlik, Firinlama, KatkiTur, YuzeyUygulamalari, Bezeme, BezemeAlani, BezemeTuru))
 
+"""ADMIN INLINE MODELS"""
+# genel bilgiler
+
+"""
+class RelatedGeneraldInline(admin.StackedInline):
+    verbose_name = "Genel Bilgi"
+    verbose_name_plural = "Genel Bilgiler"
+
+    model = RelatedGenelField
+    extra = 0
 
 # custom inputs
 class RelatedFieldInline(admin.TabularInline):
@@ -43,6 +53,7 @@ class RelatedBezemesInline(admin.StackedInline):
     model = RelatedBezemesgKey
     extra = 0
 
+# hamur özellikleri
 class RelatedHamursInline(admin.StackedInline):
     verbose_name = "Hamur Özelliği"
     verbose_name_plural = "Hamur Özellikleri"
@@ -50,13 +61,19 @@ class RelatedHamursInline(admin.StackedInline):
     model = RelatedHamurKey
     extra = 0
 
+# ic/dıs astar
+class RelatedRenkInline(admin.StackedInline):
+    verbose_name = "Renk Özelliği"
+    verbose_name_plural = "Renk Özellikleri"
+    
+    model = RelatedRenk
+    extra = 0
 
 # combine et
 class FormlarAdmin(admin.ModelAdmin):
-    inlines = [RelatedFieldInline, RelatedBezemesInline, RelatedHamursInline, RelatedDropDownInline]
+    inlines = [RelatedGeneraldInline, RelatedFieldInline, RelatedBezemesInline, RelatedRenkInline, RelatedHamursInline, RelatedDropDownInline]
 
 
 admin.site.register(Formlar, FormlarAdmin)
 
-
-
+"""

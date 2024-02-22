@@ -160,7 +160,6 @@ window.onload = function() {
 document.getElementById('id_buluntuForms').addEventListener('change', async function () {
     // Seçilen seçeneği al
     let selectedOption = this.value;
-    
     const api = await fetch(`http://127.0.0.1:8000/buluntu/forms/${selectedOption}`)
     const api_response = await api.text()
 
