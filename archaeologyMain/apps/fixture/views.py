@@ -9,7 +9,7 @@ from .filters import FixtureFilter
 from .forms import FixtureForm
 from apps.specuser.models import SiteUser
 from apps.main.mixin import HttpRequest, HttpResponse,HttpResponseRedirect
-
+from django.template.loader import render_to_string
 
 # Demirbas Add Start
 @login_required(login_url="homepage")
@@ -83,3 +83,9 @@ def update_fixture(request: HttpRequest, id: int) -> HttpResponseRedirect:
 
 
 # Demirbaş End
+@login_required(login_url="homepage")
+def get_html_content(request,id):
+    
+    fixture = Fixture.objects.get(id=id)
+    html_content = render_to_string('fixture/print.html', {'fixture': fixture})
+    return HttpResponse(html_content, content_type="text/html")

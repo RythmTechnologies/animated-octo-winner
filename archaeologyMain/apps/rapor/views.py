@@ -7,7 +7,7 @@ from apps.main.mixin import HttpRequest, HttpResponse,HttpResponseRedirect
 from .forms import AcmaRaporForm
 from .filters import RaporAcmaFilter
 from .models import *
-
+from django.template.loader import render_to_string
 
 # Rapor Start
 @login_required(login_url="homepage")
@@ -83,3 +83,9 @@ def update_rapor(request: HttpRequest, id: int) -> HttpResponseRedirect:
 
 
 # Rapor End
+@login_required(login_url="homepage")
+def get_html_content(request,id):
+    
+    acma_rapor = AcmaRapor.objects.get(id=id)
+    html_content = render_to_string('rapor/print.html', {'acma_rapor': acma_rapor})
+    return HttpResponse(html_content, content_type="text/html")

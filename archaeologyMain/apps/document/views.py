@@ -4,10 +4,12 @@ from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from apps.main.mixin import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.template.loader import render_to_string
-from weasyprint import HTML
 from .filters import DocumentFilter
 from .forms import *
 from .models import *
+from xhtml2pdf import pisa
+import io
+
 
 
 
@@ -82,18 +84,8 @@ def update_document(request: HttpRequest, id : int) -> HttpResponseRedirect:
 
 # Print PDF Start
 @login_required(login_url="homepage")
-def print_document(request: HttpRequest, id: int) -> HttpResponseRedirect:
-    document = DocumentCreateModel.objects.filter(id=id).first()
-
-    html_string = render_to_string('document/print.html', {'document': document})
-
-    html = HTML(string=html_string)
-    pdf = html.write_pdf()
-
-    # PDF dosyasını HTTP response olarak döndür
-    response = HttpResponse(pdf, content_type='application/pdf')
-    
-    response['Content-Disposition'] = f'attachment; filename="evrak_{document.id}.pdf"'
-
-    return response
-# Print PDF End
+def get_html_content(request,id):
+    # Belirli bir document_id için belgeyi al
+    document = DocumentCreateModel.objects.get(id=id)
+    html_content = render_to_string('document/print.html', {'document': document})
+    return HttpResponse(html_content, content_type="text/html")

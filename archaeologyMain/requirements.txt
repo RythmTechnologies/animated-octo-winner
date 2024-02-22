@@ -12,11 +12,6 @@ django-googledrive-storage==1.6.0
 django-jazzmin==2.6.0
 django-js-asset==2.2.0
 django-tinymce==3.6.1
-fonttools==4.49.0
-google-api-core==2.10.2
-google-api-python-client==2.114.0
-google-auth==1.35.0
-google-auth-httplib2==0.2.0
 googleapis-common-protos==1.62.0
 html5lib==1.1
 httplib2==0.22.0
@@ -27,12 +22,7 @@ psycopg==3.1.17
 psycopg2==2.9.9
 pyasn1==0.5.1
 pyasn1-modules==0.3.0
-pycairo==1.26.0
-pycparser==2.21
-pydyf==0.8.0
-PyGObject==3.46.0
 pyparsing==3.1.1
-pyphen==0.14.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 requests==2.31.0
@@ -44,6 +34,3 @@ tinycss2==1.2.1
 typing_extensions==4.9.0
 uritemplate==4.1.1
 urllib3==2.1.0
-weasyprint==61.0
-webencodings==0.5.1
-zopfli==0.2.3
