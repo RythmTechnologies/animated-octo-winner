@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Evrak Detayları</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Logo ve Başlık -->
+        <div class="row justify-content-between">
+            <div class="col-md-3">
+                <img src="{% static 'logo/logo.jpeg' %}" alt="Logo" class="mb-3"> <!-- Logo yolu -->
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+                <p class="fs-3">Tarih:{{ document.docdate }}</p>
+               
+            </div>
+            
+        </div>
+        <div class="text-center mb-4">
+            <h1>Evrak Detayları</h1>
+        </div>
+        
+        <!-- Evrak Bilgileri Kartı -->
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>Evrak Detayları</strong>
+            </div>
+            <div class="card-body">
+                <!-- Evrak Bilgileri -->
+                <div class="row g-3">
+                    <!-- Evrak No -->
+                    <div class="col-md-6">
+                        <label class="form-label">Evrak No:</label>
+                        <div class="form-control" readonly>{{ document.docno }}</div>
+                    </div>
+                    <!-- Evrak Tarihi -->
+                    
+                    <!-- Evrak Sayısı -->
+                    <div class="col-md-6">
+                        <label class="form-label">Evrak Sayısı:</label>
+                        <div class="form-control" readonly>{{ document.doccount }}</div>
+                    </div>
+                    <!-- İlgili Birim -->
+                    <div class="col-md-6">
+                        <label class="form-label">İlgili Birim:</label>
+                        <div class="form-control" readonly>{{ document.relevantunit }}</div>
+                    </div>
+                    <!-- İlgili Kurum -->
+                    <div class="col-md-6">
+                        <label class="form-label">İlgili Kurum:</label>
+                        <div class="form-control" readonly>{{ document.relevantinstitution }}</div>
+                    </div>
+                    <!-- Formu Dolduran -->
+                    <div class="col-md-6">
+                        <label class="form-label">Formu Dolduran:</label>
+                        <div class="form-control" readonly>{{ document.user.username }}</div>
+                    </div>
+                    <!-- Evrak Konusu -->
+                    <div class="col-12">
+                        <label class="form-label">Evrak Konusu:</label>
+                        <div class="form-control" readonly>{{ document.docsubject }}</div>
+                    </div>
+                    <!-- Evrak Detay -->
+                    <div class="col-12 document-detail">
+                        <label class="form-label">Evrak Detay:</label>
+                        <div>{{ document.detail|safe }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+</body>
+</html>

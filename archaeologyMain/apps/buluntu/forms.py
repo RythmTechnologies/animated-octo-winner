@@ -10,21 +10,3 @@ class GeneralBuluntuForm(forms.ModelForm):
         exclude = ["processedBy"]
 
 
-"""AŞAĞIDAKI FORMLAR DENEYSELDİR."""
-
-"""
-class RelatedGenelForm(forms.ModelForm):
-
-    class Meta:
-        model = RelatedGenelField
-        fields = "__all__"
-        exclude = ["form"]
-
-class RelatedBezemesgKeyForm(forms.ModelForm):
-
-    class Meta:
-        model = RelatedBezemesgKey
-        fields= "__all__"
-        exclude = ["form"]
-
-"""

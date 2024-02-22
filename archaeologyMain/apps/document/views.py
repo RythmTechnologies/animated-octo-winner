@@ -2,10 +2,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
-from apps.main.mixin import HttpRequest, HttpResponseRedirect
+from apps.main.mixin import HttpRequest, HttpResponseRedirect, HttpResponse
+from django.template.loader import render_to_string
 from .filters import DocumentFilter
 from .forms import *
 from .models import *
+from xhtml2pdf import pisa
+import io
+
 
 
 
@@ -77,3 +81,11 @@ def update_document(request: HttpRequest, id : int) -> HttpResponseRedirect:
             messages.error(request, "Lütfen Formu Doğru Giriniz!")
             return redirect("document-liste")
 # Document End
+
+# Print PDF Start
+@login_required(login_url="homepage")
+def get_html_content(request,id):
+    # Belirli bir document_id için belgeyi al
+    document = DocumentCreateModel.objects.get(id=id)
+    html_content = render_to_string('document/print.html', {'document': document})
+    return HttpResponse(html_content, content_type="text/html")

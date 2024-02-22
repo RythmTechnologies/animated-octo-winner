@@ -7,7 +7,7 @@ Evrak Listesi
 
 
 {% block site-content %}
-
+<script src="{% static '/js/document.js' %}"></script>
 <div class="container">
 
 
@@ -83,8 +83,11 @@ Evrak Listesi
                 <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#updateModal{{ document.id }}">
                   <i id="modal_open" class="fa-solid fa-pencil"></i>
                 </a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#viewModal{{ document.id }}">
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#viewModal{{ document.id }}">
                   <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+                <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#printalert{{ document.id }}">
+                  <button class="text-success" onclick="downloadOtherHTMLAsPDF({{ document.id }})"><i class="fa-solid fa-file-pdf "></i></button>
                 </a>
               </div>
             </td>
@@ -149,6 +152,7 @@ Evrak Listesi
           </button>
           <a href="{% url 'delete-document' document.id %}"><button type="button"
               class="btn btn-danger">Sil</button></a>
+              
         </div>
       </div>
     </div>
