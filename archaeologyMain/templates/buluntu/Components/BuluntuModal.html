@@ -8,32 +8,11 @@
       
       <div class="modal-body">
 
-      {% for id, form in buluntuForms.items %}
 
+        {% include './Forms/_buluntu_form.html' with form=form %}
 
-  
-          {% if id == '1' %}
-
-              {% include './Forms/_pismis_toprak_form.html' with form=form %}
-
-          {% elif id == '5' %}
-
-                 {% include './Forms/_c14_form.html' with form=form %}
-
-          {% elif id == '6' %}
-
-                {% include './Forms/_toprak_form.html' with form=form %}
-
-          {% else %}
-
-            {{form}}
-
-          {% endif %}
-          
-        {% endfor %}
-          
-  <input type="hidden" name="entryId" value="{{id}}">
-  </div>
+        
+      </div>
 
         
   <div class="modal-footer">
