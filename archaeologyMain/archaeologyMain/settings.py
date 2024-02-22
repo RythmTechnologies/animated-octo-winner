@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "apps.specuser",
     "apps.buluntu",
+    "apps.buluntuForm",
     "apps.document",
     "apps.fixture",
     "apps.main",
