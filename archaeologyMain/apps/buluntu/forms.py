@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import modelformset_factory
 from .models import *
 
 
@@ -8,5 +7,12 @@ class GeneralBuluntuForm(forms.ModelForm):
         model = SetGeneralBuluntu
         fields = "__all__"
         exclude = ["processedBy"]
+        widgets = {
+
+            'area': forms.CheckboxSelectMultiple,
+            'type': forms.SelectMultiple(attrs={
+                'class': 'form-select'
+            })
+        }
 
 
