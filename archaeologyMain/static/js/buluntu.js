@@ -1,27 +1,47 @@
 const updateClasses = function(elementName) {
 
-    document.querySelectorAll(`${elementName},input,textarea,select,option`).forEach(function (element) {
+    for (const element of document.querySelectorAll(`${elementName},input,textarea,select,option`)) {
+    
 
         if (element.id === "id_date") {
   
             element.type = "date"
+        }
+
+        if (element.parentNode.id === 'id_type') {
+
+            continue;
         }
   
         if (["id_plankareNo", 'id_noResult', 'id_secondaryNo'].includes(element.id)) {
   
             element.setAttribute('readonly', 'true')
         }
+
+
+        if (['id_area'].includes(element.id)) {
+
+            element.classList.add('d-flex', 'flex-wrap', 'mb-3')
+            element.style.gap = '20px'
+            continue;
+        }
+
+        if (element.type === 'checkbox' && ['area', 'type'].includes(element.name)) {
+
+            element.classList.add('form-check-input')
+            continue;
+        }
   
         element.classList.add('form-control')
         element.classList.add('mb-3')
-    })
-
+    }
 }
 
 window.onload = function() {
 
    // trigger
    updateClasses('#submit-buluntu')
+   updateClasses('#id_area')
 
   // plankare starts
   const plankareX = document.getElementById('id_plankareX')
