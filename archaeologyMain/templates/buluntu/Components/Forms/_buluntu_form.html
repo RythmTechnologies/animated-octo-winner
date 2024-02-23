@@ -1,7 +1,15 @@
 <div class="row p-1">
 
-    {{test}}
-    {{buluntuform}}
+    <p>TEST STARTS</p>
+    <hr>
+
+    {% for field in buluntuform %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+    {% endfor %}
     
 </div>
 
