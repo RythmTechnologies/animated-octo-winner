@@ -30,22 +30,34 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
 
         incame_data = request.POST
 
-        buluntuForm = GeneralBuluntuForm(incame_data)
+        buyuk_buluntu_form = GeneralBuluntuForm(incame_data)
 
+        kucuk_buluntu_form_instance = Formlar.objects.get(id = int(incame_data['buluntuForms']))
+        kucuk_buluntu_form = CombinedForms(instance=kucuk_buluntu_form_instance)
+            
         context["errors"] = {}
 
-        if buluntuForm.is_valid():
+        if buyuk_buluntu_form.is_valid():
 
-            buluntuForm = buluntuForm.save(commit=False)
-            buluntuForm.processedBy = request.user
-            buluntuForm.save()
-
-            return redirect("dashboard")
+            buyuk_buluntu_form = buyuk_buluntu_form.save(commit=False)
+            buyuk_buluntu_form.processedBy = request.user
+            buyuk_buluntu_form.save()
 
         else:
-            context["errors"]["buluntuForm"] = buluntuForm.errors
-            context['form'] = buluntuForm
-            return render(request, "buluntu/create.html", context)
+            context["errors"]["buluntuForm"] = buyuk_buluntu_form.errors
+            context['form'] = buyuk_buluntu_form
+            # return render(request, "buluntu/create.html", context)
+        
+
+        if kucuk_buluntu_form.is_valid():
+            kucuk_buluntu_form.update_fields(incame_data, kucuk_buluntu_form_instance)
+
+        else:
+            print("kücük buluntu formunda hatalar:", kucuk_buluntu_form.errors)
+            kucuk_buluntu_form.update_fields(incame_data, kucuk_buluntu_form_instance)
+
+        return redirect('dashboard')
+    
 
     elif request.method == "GET":
 
@@ -55,7 +67,7 @@ def set_buluntu(request: HttpRequest) -> HttpResponse:
 
 from apps.buluntuForm.forms import *
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "POST"])
 def get_buluntu_form(request: HttpRequest, formId: int) -> HttpResponse:
 
     data = {}
@@ -68,14 +80,15 @@ def get_buluntu_form(request: HttpRequest, formId: int) -> HttpResponse:
         kucuk_buluntu = Formlar.objects.get(id = formId)
         data['buluntu'] = kucuk_buluntu
 
+
         form = CombinedForms(kucuk_buluntu)
         data['buluntuform'] = form
 
         
         # related_name chain yapıalcak
 
-    except:
-         
+    except Exception as e:
+         print("FORMU ALIRKEN HATA:", e)
          data['error'] = {"response": "Böyle bir buluntu mevcut değil."}
 
 
