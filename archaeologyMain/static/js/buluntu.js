@@ -54,17 +54,14 @@ window.onload = function() {
   const kucukBuluntuNo = document.getElementById('id_secondaryNo')
   const buluntuTur = document.querySelector("#genel-buluntu #id_type")
 
-  let flag = "";
+ let flag = "";
 
   const set_value_for_input = function(action) {
     
-
-
-
       let displayValue = `${plankareX.value} ${plankareY.value}` || "";
 
       if (buluntuNo.value) {
-          displayValue = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}`
+          displayValue = `${plankareX.value} ${plankareY.value}-${buluntuNo.value}`
       }
 
 
@@ -77,40 +74,52 @@ window.onload = function() {
           case "plankareY":
           plankareNo.value = `${plankareX.value} ${plankareY.value}`
           break;
-
-          case "buluntuTur":
-          // reset
-          if (option == "küçük buluntu") {
-
-              kucukBuluntuNo.removeAttribute('readonly')
-              flag = "/"
-              
-              if (!buluntuNo.value) { buluntuNo.focus()}
-              else if (!kucukBuluntuNo.value) {kucukBuluntuNo.focus()}
-
-          } else {
-              // sıfırla
-              kucukBuluntuNo.value = ""
-              kucukBuluntuNo.setAttribute('readonly', 'true')
-              flag = ""
-          } 
           
-          if (option == "taş") {
-
-              flag = "c"
-          }
-
-          if (option == "kemik") {
-
-              flag = "b"
-          } 
-
       }
 
 
+      // selected option loop atilacak
+
+      flag = ""
+      const selectedOptions = Array.from(buluntuTur.selectedOptions).map(option => option.value.toLowerCase())
+      for (const option of selectedOptions) {
+
+    
+        if (option == "küçük buluntu") {
+
+            kucukBuluntuNo.removeAttribute('readonly')
+            flag = "/"
+            
+            if (!buluntuNo.value) { buluntuNo.focus()}
+            else if (!kucukBuluntuNo.value) {kucukBuluntuNo.focus()}
+            continue
+        }
+
+        if (option == "taş") {
+
+            flag += ",c"
+            continue
+        
+        }
+
+
+        if (option == "kemik") {
+
+            flag += ",b"
+        }
+
+
+      }
+
+      if (!flag.includes('/')) {
+
+        kucukBuluntuNo.value = ""
+        kucukBuluntuNo.setAttribute('readonly', 'true')
+      }
+
       if (flag.length && option == "küçük buluntu") {
 
-          displayValue = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} ${flag} ${kucukBuluntuNo.value}`
+          displayValue = `${plankareX.value} ${plankareY.value}-${buluntuNo.value} ${flag} ${kucukBuluntuNo.value}`
           
       } else if (flag.length) {
 
@@ -118,6 +127,9 @@ window.onload = function() {
       }
 
       buluntuNoSonuc.value = displayValue
+
+
+ 
   }
 
   // set values for first time
