@@ -1,27 +1,47 @@
 const updateClasses = function(elementName) {
 
-    document.querySelectorAll(`${elementName},input,textarea,select,option`).forEach(function (element) {
+    for (const element of document.querySelectorAll(`${elementName},input,textarea,select,option`)) {
+    
 
         if (element.id === "id_date") {
   
             element.type = "date"
+        }
+
+        if (element.parentNode.id === 'id_type') {
+
+            continue;
         }
   
         if (["id_plankareNo", 'id_noResult', 'id_secondaryNo'].includes(element.id)) {
   
             element.setAttribute('readonly', 'true')
         }
+
+
+        if (['id_area'].includes(element.id)) {
+
+            element.classList.add('d-flex', 'flex-wrap', 'mb-3')
+            element.style.gap = '20px'
+            continue;
+        }
+
+        if (element.type === 'checkbox' && ['area', 'type'].includes(element.name)) {
+
+            element.classList.add('form-check-input')
+            continue;
+        }
   
         element.classList.add('form-control')
         element.classList.add('mb-3')
-    })
-
+    }
 }
 
 window.onload = function() {
 
    // trigger
    updateClasses('#submit-buluntu')
+   updateClasses('#id_area')
 
   // plankare starts
   const plankareX = document.getElementById('id_plankareX')
@@ -34,17 +54,14 @@ window.onload = function() {
   const kucukBuluntuNo = document.getElementById('id_secondaryNo')
   const buluntuTur = document.querySelector("#genel-buluntu #id_type")
 
-  let flag = "";
+ let flag = "";
 
   const set_value_for_input = function(action) {
     
-
-
-
       let displayValue = `${plankareX.value} ${plankareY.value}` || "";
 
       if (buluntuNo.value) {
-          displayValue = `${plankareX.value} ${plankareY.value} ${buluntuNo.value}`
+          displayValue = `${plankareX.value} ${plankareY.value}-${buluntuNo.value}`
       }
 
 
@@ -57,40 +74,52 @@ window.onload = function() {
           case "plankareY":
           plankareNo.value = `${plankareX.value} ${plankareY.value}`
           break;
-
-          case "buluntuTur":
-          // reset
-          if (option == "küçük buluntu") {
-
-              kucukBuluntuNo.removeAttribute('readonly')
-              flag = "/"
-              
-              if (!buluntuNo.value) { buluntuNo.focus()}
-              else if (!kucukBuluntuNo.value) {kucukBuluntuNo.focus()}
-
-          } else {
-              // sıfırla
-              kucukBuluntuNo.value = ""
-              kucukBuluntuNo.setAttribute('readonly', 'true')
-              flag = ""
-          } 
           
-          if (option == "taş") {
-
-              flag = "c"
-          }
-
-          if (option == "kemik") {
-
-              flag = "b"
-          } 
-
       }
 
 
+      // selected option loop atilacak
+
+      flag = ""
+      const selectedOptions = Array.from(buluntuTur.selectedOptions).map(option => option.value.toLowerCase())
+      for (const option of selectedOptions) {
+
+    
+        if (option == "küçük buluntu") {
+
+            kucukBuluntuNo.removeAttribute('readonly')
+            flag = "/"
+            
+            if (!buluntuNo.value) { buluntuNo.focus()}
+            else if (!kucukBuluntuNo.value) {kucukBuluntuNo.focus()}
+            continue
+        }
+
+        if (option == "taş") {
+
+            flag += ",c"
+            continue
+        
+        }
+
+
+        if (option == "kemik") {
+
+            flag += ",b"
+        }
+
+
+      }
+
+      if (!flag.includes('/')) {
+
+        kucukBuluntuNo.value = ""
+        kucukBuluntuNo.setAttribute('readonly', 'true')
+      }
+
       if (flag.length && option == "küçük buluntu") {
 
-          displayValue = `${plankareX.value} ${plankareY.value} ${buluntuNo.value} ${flag} ${kucukBuluntuNo.value}`
+          displayValue = `${plankareX.value} ${plankareY.value}-${buluntuNo.value} ${flag} ${kucukBuluntuNo.value}`
           
       } else if (flag.length) {
 
@@ -98,6 +127,9 @@ window.onload = function() {
       }
 
       buluntuNoSonuc.value = displayValue
+
+
+ 
   }
 
   // set values for first time

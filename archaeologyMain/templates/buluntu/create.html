@@ -181,9 +181,7 @@
                 <label for="id_area" class="form-label">Buluntu Kova Alanı</label>
                 {{form.area}}
 
-                <div class="text-center mb-3">
-                    <span class="text-muted">Çoklu seçim yapmak için CTRL + Sol tık yapın.</span>
-                </div>
+   
             
           </div>
 
@@ -350,9 +348,12 @@
 
 
               <select required name="buluntuForms" id="id_buluntuForms">
-  
+                
+                <option selected>---</option>
                 {% for value in form.buluntuForms %}
+              
                 {{value}}
+                
                 {% endfor %}
 
               </select>
