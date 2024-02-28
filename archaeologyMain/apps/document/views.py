@@ -45,13 +45,15 @@ def get_document_list(request):
     page_obj = paginator.get_page(page_number)
 
     updateForms = {document.id: DocumentForm(instance=document) for document in page_obj}
-
+    pdf_name = "document"
     context = {
         "form": document_filter.form,
         "documents": page_obj,
-        "updateForms": updateForms
+        "updateForms": updateForms,
+        "pdf_name":pdf_name,
     }
-
+    
+    
     return render(request, "document/list.html", context)
 
 
