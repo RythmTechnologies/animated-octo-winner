@@ -10,7 +10,7 @@ Evrak Listesi
 <script src="{% static '/js/document.js' %}"></script>
 <div class="container">
 
-
+  <div id="pdfExport" hidden>{{ pdf_name }}</div>
   <!-- Django Filter Start -->
   <form id="filterForm" method="get" action="{% url 'document-liste' %}">
     <div class="card p-5 mt-5">
@@ -46,6 +46,7 @@ Evrak Listesi
   <div class="card mt-5 p-5">
     <div class="table-responsive">
       <table class="table table-striped" id="tablo">
+       
         <!-- Tablo başlıkları -->
         <thead>
           <tr>
@@ -87,7 +88,7 @@ Evrak Listesi
                   <i class="fa-solid fa-magnifying-glass"></i>
                 </a>
                 <a href="#" class="mb-2 me-md-3" data-bs-toggle="modal" data-bs-target="#printalert{{ document.id }}">
-                  <button class="text-success" onclick="downloadOtherHTMLAsPDF({{ document.id }})"><i class="fa-solid fa-file-pdf "></i></button>
+                  <button class="text-success" style="background-color: inherit;" onclick="downloadOtherHTMLAsPDF({{ document.id }})"><i class="fa-solid fa-file-pdf "></i></button>
                 </a>
               </div>
             </td>

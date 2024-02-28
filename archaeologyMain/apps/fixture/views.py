@@ -44,10 +44,12 @@ def fixture_list(request: HttpRequest) -> HttpResponse:
     updateForms = {
         fixture.id: FixtureForm(instance=fixture) for fixture in fixture_filter.qs
     }
+    pdf_name = "fixture"
     context = {
         "form": fixture_filter.form,
         "fixtures": page_obj,
         "updateForms": updateForms,
+        "pdf_name": pdf_name,
     }
 
     return render(request, "fixture/list.html", context)

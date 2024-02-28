@@ -58,10 +58,12 @@ def get_rapor_list(request):
     page_obj = paginator.get_page(page_number)
 
     updateForms = {rapor.id: AcmaRaporForm(instance=rapor) for rapor in rapor_filter.qs}
+    pdf_name = "rapor"
     context = {
         "form": rapor_filter.form,
         "rapors": page_obj,
         "updateForms": updateForms,
+        "pdf_name":pdf_name,
     }
     return render(request, "rapor/list.html", context)
 

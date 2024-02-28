@@ -1,4 +1,5 @@
 function downloadOtherHTMLAsPDF(documentId) {
+    const pdfName = document.getElementById('pdfExport').textContent
     if (confirm('Bu belgeyi PDF olarak indirmek istediğinize emin misiniz?')) {
         
         fetch(`get-html/${documentId}/`) 
@@ -20,7 +21,7 @@ function downloadOtherHTMLAsPDF(documentId) {
                     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
                     
                    
-                    pdf.save("Evrak.pdf");
+                    pdf.save(pdfName+documentId+".pdf");
 
                     // Kullanımdan sonra div'i kaldır
                     document.body.removeChild(div);
